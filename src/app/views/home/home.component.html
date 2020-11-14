@@ -1,1 +1,5 @@
-<p>home works!</p>
+<div *ngFor="let menu of menus">
+  <h1>{{menu.label}}</h1>
+  <p *ngFor="let meal of menu.meals">{{meal.label}}</p>
+  <p>{{menu.priceDF}}</p>
+</div>
