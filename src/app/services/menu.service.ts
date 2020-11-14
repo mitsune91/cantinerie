@@ -28,7 +28,7 @@ export class MenuService {
    */
 
   getMenus(): Observable<any> {
-    return this.http.get(this.url + '/menu/findall');
+    return this.http.get(this.url + 'menu/findall');
   }
 
   putMenu(): Observable<any> {

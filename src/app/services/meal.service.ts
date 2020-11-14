@@ -28,7 +28,7 @@ export class MealService {
    */
 
   getMeals(): Observable<any> {
-    return this.http.get(this.url + '/meal/findall');
+    return this.http.get(this.url + 'meal/findall');
   }
 
   putMeal(): Observable<any> {

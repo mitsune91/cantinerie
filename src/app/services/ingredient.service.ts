@@ -28,7 +28,7 @@ export class IngredientService {
    */
 
   getIngredients(): Observable<any> {
-    return this.http.get(this.url + '/ingredient/findall');
+    return this.http.get(this.url + 'ingredient/findall');
   }
 
   putIngredient(): Observable<any> {

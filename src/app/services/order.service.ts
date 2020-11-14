@@ -28,7 +28,7 @@ export class OrderService {
    */
 
   getOrders(): Observable<any> {
-    return this.http.get(this.url + '/order/findall');
+    return this.http.get(this.url + 'order/findall');
   }
 
   putOrder(): Observable<any> {

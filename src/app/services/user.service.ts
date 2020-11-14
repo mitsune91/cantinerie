@@ -28,7 +28,7 @@ export class UserService {
    */
 
   getUsers(): Observable<any> {
-    return this.http.get(this.url + '/user/findall');
+    return this.http.get(this.url + 'user/findall');
   }
 
   putUser(): Observable<any> {
