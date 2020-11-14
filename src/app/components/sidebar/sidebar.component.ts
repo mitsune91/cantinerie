@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
+  role = null;
+  userMenus = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
+  adminManageMenus = [];
+
   constructor() { }
 
   ngOnInit(): void {

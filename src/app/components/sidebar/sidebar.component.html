@@ -1,7 +1,3 @@
 <div class="sidebar-wrapper">
-  <button>Lundi</button>
-  <button>Mardi</button>
-  <button>Mercredi</button>
-  <button>Jeudi</button>
-  <button>Vendredi</button>
+  <button *ngFor="let menu of userMenus">{{menu}}</button>
 </div>
