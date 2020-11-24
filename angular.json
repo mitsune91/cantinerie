@@ -28,9 +28,10 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.js"]
           },
           "configurations": {
             "production": {
@@ -123,6 +124,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "cantinerie"
+    }
+  },
+  "defaultProject": "cantinerie",
+  "cli": {
+    "analytics": "e6a8c3a9-61ef-437c-939a-0151f6dcbfbf"
+  }
 }
