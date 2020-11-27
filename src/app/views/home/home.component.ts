@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MenuService} from '../../services/menu.service';
-import {takeUntil, tap} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {BaseComponent} from '../../shared/core/base.component';
 import {Menu} from '../../models/Menu';
-import {stringify} from 'querystring';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -13,15 +13,53 @@ import {stringify} from 'querystring';
 export class HomeComponent extends BaseComponent implements OnInit {
 
   weeklyMenus: any = [];
+  selectedMenusFromDay: any[];
   date = new Date();
   days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
+  selectedDay = 'Vendredi';
 
-  constructor(private menuService: MenuService) {
+  constructor(private menuService: MenuService,
+              private user: UserService) {
     super();
   }
 
   ngOnInit(): void {
+    console.log(this.selectedDay);
     this.getWeekMenus();
+    this.initMenusOfTheDay();
+  }
+
+  // TODO A travailler !! Ne fonctionne pas encore
+  initMenusOfTheDay(): void {
+    if (this.weeklyMenus) {
+      let today: string;
+      const day = new Date().getDay().toString();
+      switch (today) {
+        case '1' :
+          today = 'Lundi';
+          break;
+        case '2' :
+          today = 'Mardi';
+          break;
+        case '3' :
+          today = 'Mercredi';
+          break;
+        case '4' :
+          today = 'Jeudi';
+          break;
+        case '5' :
+          today = 'Vendredi';
+          break;
+      }
+      this.selectedMenusFromDay = this.weeklyMenus.filter(w => w.day === today);
+    }
+  }
+
+  loadMenuOfSelectedDay(day: string): void {
+    this.selectedDay = day;
+    console.log(this.selectedDay);
+    this.selectedMenusFromDay = this.weeklyMenus.filter(w => w.day === day);
+    console.log(this.selectedMenusFromDay);
   }
 
   // Méthode pour récupérer les menus de la semaines en cours
@@ -36,25 +74,25 @@ export class HomeComponent extends BaseComponent implements OnInit {
         data.forEach(d => {
           if (d.availableForWeeks.includes(weekNumber)) {
             rawMenus.push(d);
-            // console.log(this.menus);
           }
         });
+        this.dispatchMenus(rawMenus);
       });
-    console.log(rawMenus);
-    this.dispatchMenus(rawMenus);
   }
 
-  // Méthode pour répartir les menus de la semaine sur chaque jour
+  // Méthode pour répartir aléatoirement les menus disponibles de la semaine sur chaque jour
   dispatchMenus(menus: Menu[]): void {
     console.log(menus);
+
+    // Pour chaque jour de la semaine
     this.days.forEach(day => {
       const dailyMenu = {
         day: undefined,
         menus: undefined
       };
       dailyMenu.day = day;
-      dailyMenu.menus = menus.slice(0, 2); // A voir le slice qui ne fonctionne pas
-      console.log(menus.slice(0, 2));
+      dailyMenu.menus = menus.splice(0, 2); // A voir le slice qui ne fonctionne pas
+      // console.log(dailyMenu.menus);
       this.weeklyMenus.push(dailyMenu);
     });
     console.log(this.weeklyMenus);

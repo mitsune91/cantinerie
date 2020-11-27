@@ -1,7 +1,10 @@
 <h1 id="wk">{{ date | date: 'w'}}</h1>
 
-<div *ngFor="let menu of weeklyMenus.menus">
-  <h1>{{menu.label}}</h1>
-  <p *ngFor="let meal of menu.meals">{{meal.label}}</p>
-  <p>{{menu.priceDF}}</p>
-</div>
+<app-sidebar (newItemEvent)="loadMenuOfSelectedDay($event)"></app-sidebar>
+<!--<div *ngIf="!!weeklyMenus"> A travailler pour init menu du jour-->
+  <div *ngFor="let menu of selectedMenusFromDay[0].menus">
+    <h1>{{menu.label}}</h1>
+    <p *ngFor="let meal of menu.meals">{{meal.label}}</p>
+    <p>{{menu.priceDF}}</p>
+  </div>
+<!--</div>-->

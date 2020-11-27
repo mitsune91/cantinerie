@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
+  @Output() newItemEvent = new EventEmitter<string>();
+
   role = null;
   userMenus = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
   adminManageMenus = [];
@@ -14,6 +16,12 @@ export class SidebarComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  // Récupère le jour sélectionner dans la sidebar
+  // pour l'envoyer au composant Home
+  selectDayForMenu(value: string): void {
+    this.newItemEvent.emit(value);
   }
 
 }
