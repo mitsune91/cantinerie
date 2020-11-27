@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core'
+import { Observable } from 'rxjs'
 import { AuthService } from 'src/app/services/auth.service'
 
 @Component({
@@ -7,10 +8,14 @@ import { AuthService } from 'src/app/services/auth.service'
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  logged: boolean
+  isLoggedIn$: Observable<boolean>
   constructor (private authService: AuthService) {}
 
   ngOnInit (): void {
-    this.logged = this.authService.isLoggedIn()
+    this.isLoggedIn$ = this.authService.isLoggedIn
+    console.log(this.isLoggedIn$)
+  }
+  onLogout () {
+    this.authService.logout()
   }
 }

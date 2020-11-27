@@ -1,17 +1,26 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" routerLink="/">
       <img />
       La Cantinère Logo
     </a>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" *ngIf='logged === false'  routerLink="/login"
+        <li class="nav-item" *ngIf="!isLoggedIn$ | async as isLogged">
+          <a
+            class="nav-link"
+            routerLinkActive="active"
+            *ngIf="!isLogged"
+            routerLink="/login"
             >Se connecter</a
           >
-          <a class="nav-link" routerLinkActive="active" *ngIf='logged === true'  routerLink="/login"
-            >Se connecter</a
+          <a
+            *ngIf="isLogged"
+            class="nav-link"
+            routerLinkActive="active"
+            (click)="onLogout()"
+            routerLink="/"
+            >Se deconnecter</a
           >
         </li>
         <li class="nav-item">

@@ -4,7 +4,7 @@ import { Router } from '@angular/router'
 import { User } from 'src/app/models/User'
 import { AuthService } from 'src/app/services/auth.service'
 import { UserService } from 'src/app/services/user.service'
-import _ from 'lodash-es'
+import { isEmpty } from 'lodash-es'
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
@@ -12,7 +12,7 @@ import _ from 'lodash-es'
 })
 export class AuthComponent implements OnInit {
   users: User[]
-  
+
   constructor (
     private authService: AuthService,
     private router: Router,
@@ -27,19 +27,13 @@ export class AuthComponent implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required]
     })
+    this.router
     this.getUsers()
   }
   get formControls () {
     return this.authForm.controls
   }
-  signIn () {
-    this.isSubmitted = true
-    if (this.authForm.invalid) {
-      return
-    }
-    this.authService.signIn(this.authForm.value)
-    this.router.navigateByUrl('/')
-  }
+
   getUsers (): User[] {
     this.usersService.getUsers()
     this.usersService.getUsers().subscribe(data => {
@@ -59,10 +53,10 @@ export class AuthComponent implements OnInit {
     const formValue = this.authForm.value
     const mail = formValue['email']
     const password = formValue['password']
-    if (!_.isEmpty(this.getUserByMail(mail))) {
-      let user = this.getUserByMail(mail)
+    if (!isEmpty(this.getUserByMail(mail))) {
+      let userLogged = this.getUserByMail(mail)
       if (password === 'bonjour') {
-        this.signIn()
+        this.authService.login(userLogged)
       }
     }
   }

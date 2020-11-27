@@ -1,20 +1,29 @@
-import { Injectable } from '@angular/core';
-import { User } from '../models/User';
+import { Injectable } from '@angular/core'
+import { BehaviorSubject, Observable } from 'rxjs'
+import { User } from '../models/User'
+import { isEmpty } from 'lodash-es'
+import { Router } from '@angular/router'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private loggedIn = new BehaviorSubject<boolean>(false)
+  get isLoggedIn () {
+    return this.loggedIn.asObservable()
+  }
+  constructor (private router: Router) {}
 
-  constructor() { }
-  public signIn(user :User){
-    localStorage.setItem('ACCESS_TOKEN', "access_token");
+  login (user: User[]) {
+    if (!isEmpty(user)) {
+      localStorage.setItem('currentUser', JSON.stringify(user))
+      this.loggedIn.next(true)
+      this.router.navigate(['/'])
+    }
   }
-  public isLoggedIn(){
-    return localStorage.getItem('ACCESS_TOKEN') !== null;
+  logout () {
+    this.loggedIn.next(false)
+    localStorage.removeItem('currentUser')
+    this.router.navigate(['/login'])
   }
-  public logout(){
-    localStorage.removeItem('ACCESS_TOKEN');
-  }
-
 }

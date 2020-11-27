@@ -8,7 +8,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component'
 import { HomeComponent } from './views/home/home.component'
 import { HttpClientModule } from '@angular/common/http'
 import { AuthComponent } from './views/auth/auth.component'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ResetPasswordComponent } from './views/reset-password/reset-password.component'
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
     NavbarComponent,
     SidebarComponent,
     HomeComponent,
-    AuthComponent
+    AuthComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
