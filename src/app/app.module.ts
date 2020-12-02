@@ -6,14 +6,18 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HomeComponent } from './views/home/home.component';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { UserComponent } from './views/user/user.component';
+import { CardComponent } from './views/card/card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     SidebarComponent,
-    HomeComponent
+    HomeComponent,
+    UserComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,

@@ -40,8 +40,15 @@ export class MealService {
   deleteMeal(): Observable<any> {
     return;
   }
-  getMeal(): Observable<any> {
-    return;
+  /**
+   * Get Meal by :ID
+   * Recherche un <<meal>> par son numéro d'identifiaction.
+   *
+   * @param [integer] :id
+   * @return [Object] retourne un objet type MEAL
+   */
+  getMeal(id: number): Observable<any> {
+    return this.http.get(this.url + 'meal/find/' + id);
   }
   updateImgMeal(): Observable<any> {
     return;

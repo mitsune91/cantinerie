@@ -2,4 +2,5 @@
   <h1>{{menu.label}}</h1>
   <p *ngFor="let meal of menu.meals">{{meal.label}}</p>
   <p>{{menu.priceDF}}</p>
+  <button (click)="selectMenu(menu.id)">AddTOCard</button>
 </div>

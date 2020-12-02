@@ -40,8 +40,14 @@ export class MenuService {
   deleteMenu(): Observable<any> {
     return;
   }
-  getMenu(): Observable<any> {
-    return;
+  /**
+   * Passage en paramètre d'un identifiant qui retournera un menu specifique
+   *
+   * @param [integer] idMenu
+   * @return [Object] un Menu
+   */
+  getMenu(idMenu: number): Observable<any> {
+    return this.http.get(this.url + 'menu/find/' + idMenu);
   }
   updateImgMenu(): Observable<any> {
     return;

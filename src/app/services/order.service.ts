@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {HOST} from '../../../config/app.config';
 import {Observable} from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
 
 /*
  *
@@ -19,6 +20,17 @@ import {Observable} from 'rxjs';
 })
 export class OrderService {
 
+ headers = new HttpHeaders({
+      'Content-Type':  'application/json',
+      // Authorization: 'my-auth-token'
+    });
+ options = this.headers ?
+    {
+        params: new HttpParams()
+    } : {};
+
+
+
   constructor(private http: HttpClient) { }
 
   private url: string = HOST.apiUrl;
@@ -30,9 +42,13 @@ export class OrderService {
   getOrders(): Observable<any> {
     return this.http.get(this.url + 'order/findall');
   }
-
+  /**
+   * Ajouté une commande dans la BDD
+   *
+   * @param [any] Aucun paramètre
+   */
   putOrder(): Observable<any> {
-    return ;
+    return this.http.put(this.url + 'order/add', this.headers, this.options);
   }
   updateOrder(): Observable<any> {
     return;
