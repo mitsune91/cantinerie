@@ -31,7 +31,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
       .subscribe(data => {
         // on stocke les données dans une variable pour les réutiliser
         this.menus = data;
-        //console.log(this.menus);
+        console.log(this.menus);
     });
   }
 

@@ -25,8 +25,8 @@ export class CardComponent extends BaseComponent implements OnInit {
   menu: Menu;
   meal: Meal;
   cartItems = [];
-  cartTotal: number = 0;
-  mealQuantity: number = 0;
+  cartTotal = 0;
+  mealQuantity = 0;
 
 
   constructor(
@@ -46,7 +46,7 @@ export class CardComponent extends BaseComponent implements OnInit {
      *
      * Passer le paramèttre dans le fontion qui suit
      */
-    const idMenu = parseInt(this.activatedRoute.snapshot.paramMap.get('idMenu'));
+    const idMenu: number = parseInt(this.activatedRoute.snapshot.paramMap.get('idMenu'));
 
 
     // Résupération du menu par le numéro d'identifiant
@@ -62,7 +62,7 @@ export class CardComponent extends BaseComponent implements OnInit {
 
   }
 
-  async getUserConnected(id: number){
+  async getUserConnected(id: number): Promise<void>{
     // Appel au service UserService
     this.userService.getUser(id)
     // Tant que la page n'est pas détruite,
@@ -71,14 +71,14 @@ export class CardComponent extends BaseComponent implements OnInit {
     .subscribe(data => {
       // on stocke les données dans une variable pour les réutiliser
       this.user = data;
-      //console.log(this.user.id);
+      // console.log(this.user.id);
       return this.user.id.toString;
       });
 
 
   }
 
-  getMenuForCard(idMenu: number){
+  getMenuForCard(idMenu: number): void{
     /**
      * Appel su menu pa r le service menuService
      */
@@ -87,27 +87,23 @@ export class CardComponent extends BaseComponent implements OnInit {
     .subscribe(data => {
       this.menu = data;
 
-      /**
-       * Initialization le prix par defaut par le prix du menu
-       */
-      this.cartTotal = this.menu.priceDF; // Prix par default
     });
   }
 
-  getTotalCard(event){
+  getTotalCard(event): number{
      const isChecked = event.target.checked; // Listener des evenement en cliquant sur le boutton validé la commande
      const price = parseFloat(event.target.value); // <<parseFloat>> car le prix est decimal
 
-     let mealid = event.target.id; // Récupération de l'identifiant du meal selectionée.
+     const mealId: number = event.target.id; // Récupération de l'identifiant du meal selectionée.
 
      /**
       * Résupération du MEAL par le mealService
       */
-     this.mealService.getMeal(mealid)
+     this.mealService.getMeal(mealId)
      .pipe(takeUntil(this.ngUnsubscribe))
      .subscribe(data => {
        this.meal = data;
-       //console.log(this.meal);
+       // console.log(this.meal);
      });
 
      if (isChecked){
@@ -121,9 +117,9 @@ export class CardComponent extends BaseComponent implements OnInit {
      return this.cartTotal;
   }
 
-  putCommandeValidation(event){
+  putCommandeValidation(event) {
 
-    // TODO - verfifié le prix par defaut pour le cartTotal
+    // TODO - A faire - une tableau de meal pour le data.mealId - car plusieur meal selectioné et c'est pas géré dans la BDD
     // TODO - retirer le montant de carteTOTAL du userWalet
       console.log(event.target);
 
@@ -143,11 +139,16 @@ export class CardComponent extends BaseComponent implements OnInit {
          */
 
         // Vérifié si l'utilisateur a asseé d'argent dans son walet
-        let userConnected = this.user;
-        let userWalet = this.user.wallet; // Récuperer le Solde de l'utilisateur.
+        const userConnected: User = this.user;
+        const userWalet: number = this.user.wallet; // Récuperer le Solde de l'utilisateur.
         console.log(userWalet);
 
-
+        /**
+         * Initialization le prix par defaut par le prix du menu
+         */
+        if (this.cartTotal === 0) {
+        this.cartTotal = this.menu.priceDF; // Prix par default
+        }
 
         if (userWalet > this.cartTotal) {
             // Faire la derniére verification avant la commande
@@ -160,7 +161,7 @@ export class CardComponent extends BaseComponent implements OnInit {
                 console.log(data);
                 quantity = [
                   data.quantity =  this.mealQuantity, // la quantité de meal selectioné dans le menu
-                  data.mealId = this.meal,
+                  data.mealId = this.meal, // Récupere le dérnier meal selectioné
                   data.menuId = this.menu
                 ];
                 message = 'votre commande est validé';
@@ -170,13 +171,16 @@ export class CardComponent extends BaseComponent implements OnInit {
               error => {
                 console.log('oops', error);
                 message = 'L\'heure authorisée pour passer une commande est dépassée';
-                alert('L\'heure authorisée pour passer une commande est dépassée');
+                alert('L\'heure authorisée pour passer une commande est dépassée.' + '\n' + 'Passé une commande avant 10h30!');
+
+                // Retour a la page d'accueil.
+                this.route.navigate(['/']);
             });
 
           } else {
             // message = pas assez de fond
             // tout annulé
-            message = "Pas assez de fond " + '\n' + "Se renseigné au près de la cantiniere!";
+            message = 'Pas assez de fond ' + '\n' + 'Se renseigné au près de la cantiniere!';
 
             //  this.route.navigate(['/home']);
         }
