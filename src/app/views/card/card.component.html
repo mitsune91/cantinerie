@@ -26,6 +26,6 @@
     </tr>
   </tbody>
 </table>
-<div><strong>TOTAL:</strong>{{ cartTotal || menu?.priceDF }} €</div>
+<div><strong>TOTAL:</strong>{{ cartTotal || menu?.priceDF | number : '1.2-2'}} €</div>
 <div><button mat-raised-button color="primary" (click)="putCommandeValidation($event)">validé !</button></div>
 
