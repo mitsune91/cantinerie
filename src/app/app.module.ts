@@ -23,7 +23,7 @@ import { ResetPasswordComponent } from './views/reset-password/reset-password.co
     SidebarComponent,
     HomeComponent,
     UserComponent,
-    CardComponent
+    CardComponent,
     AuthComponent,
     ResetPasswordComponent
 

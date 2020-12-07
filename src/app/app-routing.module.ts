@@ -1,7 +1,6 @@
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './views/home/home.component';
 import { UserComponent } from './views/user/user.component';
 import { CardComponent } from './views/card/card.component';
 import { ResetPasswordComponent } from './views/reset-password/reset-password.component'
@@ -23,8 +22,7 @@ const routes: Routes = [
     path: 'basket/:idMenu',
     component: CardComponent
   },
-];
-
+{
     path: 'login',
     component: AuthComponent
   },
