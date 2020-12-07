@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { Router } from '@angular/router'
 import { User } from 'src/app/models/User'
 import { AuthService } from 'src/app/services/auth.service'
 import { UserService } from 'src/app/services/user.service'
@@ -15,7 +14,6 @@ export class AuthComponent implements OnInit {
 
   constructor (
     private authService: AuthService,
-    private router: Router,
     private formBuilder: FormBuilder,
     private usersService: UserService
   ) {}
@@ -27,8 +25,7 @@ export class AuthComponent implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required]
     })
-    this.router
-    this.getUsers()
+    
   }
   get formControls () {
     return this.authForm.controls
@@ -53,11 +50,15 @@ export class AuthComponent implements OnInit {
     const formValue = this.authForm.value
     const mail = formValue['email']
     const password = formValue['password']
-    if (!isEmpty(this.getUserByMail(mail))) {
-      let userLogged = this.getUserByMail(mail)
-      if (password === 'bonjour') {
-        this.authService.login(userLogged)
+    if (this.authForm.valid) {
+      if (!isEmpty(this.getUserByMail(mail))) {
+        let userLogged = this.getUserByMail(mail)
+        if (password === 'bonjour') {
+          this.authService.login(userLogged)
+        }
       }
+    } else {
+      return this.authForm.controls
     }
   }
 }

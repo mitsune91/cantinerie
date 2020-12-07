@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
+  <div class="container">
     <a class="navbar-brand" routerLink="/">
       <img />
       La Cantinère Logo
     </a>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li class="nav-item" *ngIf="!isLoggedIn$ | async as isLogged">
+        <li class="nav-item">
           <a
             class="nav-link"
             routerLinkActive="active"
@@ -15,7 +15,6 @@
             >Se connecter</a
           >
           <a
-            *ngIf="isLogged"
             class="nav-link"
             routerLinkActive="active"
             (click)="onLogout()"

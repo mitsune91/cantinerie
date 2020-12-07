@@ -12,10 +12,11 @@ export class NavbarComponent implements OnInit {
   constructor (private authService: AuthService) {}
 
   ngOnInit (): void {
-    this.isLoggedIn$ = this.authService.isLoggedIn
+    this.isLoggedIn$ = this.authService.loggedIn
     console.log(this.isLoggedIn$)
   }
   onLogout () {
+    console.log('click')
     this.authService.logout()
   }
 }
