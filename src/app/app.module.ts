@@ -1,26 +1,33 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser'
+import { NgModule } from '@angular/core'
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { HomeComponent } from './views/home/home.component';
-import {HttpClientModule} from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module'
+import { AppComponent } from './app.component'
+import { NavbarComponent } from './components/navbar/navbar.component'
+import { SidebarComponent } from './components/sidebar/sidebar.component'
+import { HomeComponent } from './views/home/home.component'
+import { HttpClientModule } from '@angular/common/http'
+import { AuthComponent } from './views/auth/auth.component'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ResetPasswordComponent } from './views/reset-password/reset-password.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     SidebarComponent,
-    HomeComponent
+    HomeComponent,
+    AuthComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
