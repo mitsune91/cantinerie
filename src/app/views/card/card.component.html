@@ -1,0 +1,31 @@
+<p>card works!</p>
+<table>
+  <tbody>
+    <tr>
+      <td>Mon du menu: {{ menu?.label }}</td>
+    </tr>
+    <tr>
+      <td> Description: {{ menu?.description }}</td>
+    </tr>
+    <tr class="list-group-item active">
+      <td><strong>Prix : </strong>{{ menu?.priceDF }} €</td>
+    </tr>
+    <tr>
+      <table>
+        <tbody>
+          <tr *ngFor="let meal of menu?.meals; let i = index">
+            <td>
+              <input type="checkbox" ng-model="checked" ng-value="choice_meal" id="{{meal.id}}" (change)="getTotalCard($event)" value="{{ meal.priceDF }}">
+              <label for="choice_meal">{{ i + 1 }}</label>
+            </td>
+            <td>Meal name: {{ meal.label }}</td>
+            <td>Meal Price: {{ meal.priceDF }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </tr>
+  </tbody>
+</table>
+<div><strong>TOTAL:</strong>{{ cartTotal || menu?.priceDF | number : '1.2-2'}} €</div>
+<div><button mat-raised-button color="primary" (click)="putCommandeValidation($event)">validé !</button></div>
+

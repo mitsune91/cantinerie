@@ -42,8 +42,15 @@ export class UserService {
   deleteUser (): Observable<any> {
     return
   }
-  getUser (): Observable<any> {
-    return
+  /**
+   * Recherche une utilisatuer par son numéro d'identifiaction.
+   *
+   * @param [integer] :id
+   * @return [Object] retourne un objet type User
+   */
+  getUser(id: number): Observable<any> {
+    return this.http.get(this.url + 'user/find/' + id);
+
   }
   updateImgUser (): Observable<any> {
     return

@@ -3,6 +3,7 @@ import {MenuService} from '../../services/menu.service';
 import {takeUntil} from 'rxjs/operators';
 import {BaseComponent} from '../../shared/core/base.component';
 import {Menu} from '../../models/Menu';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   menus: Array<Menu> = [];
 
-  constructor(private menuService: MenuService) {
+  constructor(private menuService: MenuService,
+              private route: Router) {
     super();
   }
 
@@ -32,5 +34,25 @@ export class HomeComponent extends BaseComponent implements OnInit {
         console.log(this.menus);
     });
   }
+
+  // selectMenu(idUser: number = 1, id: number) {
+  //   console.log(id);
+  //   if (idUser) {
+  //     this.route.navigate(['home/', idUser, '/basket/', id]);
+  //   } else {
+  //     this.route.navigate(['/404']);
+  //     alert('connecté vous!');
+  //   }
+  // }
+  selectMenu(id: number) {
+    console.log(id);
+    if (id) {
+      this.route.navigate(['/basket/', id]);
+    } else {
+      this.route.navigate(['/404']);
+      alert('panier vide!');
+    }
+  }
+
 
 }
