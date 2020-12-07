@@ -28,10 +28,14 @@
               "src/assets"
             ],
             "styles": [
+
               "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
+
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.js"]
           },
           "configurations": {
             "production": {
@@ -129,6 +133,8 @@
   },
   "defaultProject": "cantinerie",
   "cli": {
-    "analytics": "2b13c1fe-bca2-4209-8c3f-2a3f0fbbc912"
+
+    "analytics": "e6a8c3a9-61ef-437c-939a-0151f6dcbfbf"
+
   }
 }

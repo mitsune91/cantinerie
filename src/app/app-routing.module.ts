@@ -1,8 +1,13 @@
+
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './views/home/home.component';
 import { UserComponent } from './views/user/user.component';
 import { CardComponent } from './views/card/card.component';
+import { ResetPasswordComponent } from './views/reset-password/reset-password.component'
+import { AuthComponent } from './views/auth/auth.component'
+import { HomeComponent } from './views/home/home.component'
+
 
 const routes: Routes = [
   {
@@ -10,6 +15,7 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
+
     path: 'home/:id',
     component: UserComponent
   },
@@ -19,8 +25,18 @@ const routes: Routes = [
   },
 ];
 
+    path: 'login',
+    component: AuthComponent
+  },
+  {
+    path: 'reset_password',
+    component: ResetPasswordComponent
+  }
+]
+
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
