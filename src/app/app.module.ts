@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { UserComponent } from './views/user/user.component';
 import { CardComponent } from './views/card/card.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule } from '@angular/material/button';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -33,7 +32,6 @@ import { ResetPasswordComponent } from './views/reset-password/reset-password.co
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatButtonModule,
     FormsModule,
     ReactiveFormsModule
 
