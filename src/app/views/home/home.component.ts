@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {MenuService} from '../../services/menu.service';
 import {takeUntil} from 'rxjs/operators';
+
 import {BaseComponent} from '../../shared/core/base.component';
 import {Menu} from '../../models/Menu';
-import {UserService} from '../../services/user.service';
+import {MenuService} from '../../services/menu.service';
+import {MealService} from '../../services/meal.service';
+import {HOST} from '../../../../config/app.config';
 
 @Component({
   selector: 'app-home',
@@ -12,29 +14,26 @@ import {UserService} from '../../services/user.service';
 })
 export class HomeComponent extends BaseComponent implements OnInit {
 
-  weeklyMenus: any = [];
+  weeklyMenus: any[] = [];
   selectedMenusFromDay: any[];
   date = new Date();
   days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
-  selectedDay = 'Vendredi';
+  selectedDay = '';
 
-  constructor(private menuService: MenuService,
-              private user: UserService) {
+  constructor(private menuService: MenuService, private mealService: MealService) {
     super();
   }
 
   ngOnInit(): void {
-    console.log(this.selectedDay);
     this.getWeekMenus();
-    this.initMenusOfTheDay();
   }
 
-  // TODO A travailler !! Ne fonctionne pas encore
+  // Initialise le menu du jour
   initMenusOfTheDay(): void {
     if (this.weeklyMenus) {
       let today: string;
       const day = new Date().getDay().toString();
-      switch (today) {
+      switch (day) {
         case '1' :
           today = 'Lundi';
           break;
@@ -55,11 +54,10 @@ export class HomeComponent extends BaseComponent implements OnInit {
     }
   }
 
+  // Méthode pour afficher le menu en fonction du jour choisi
   loadMenuOfSelectedDay(day: string): void {
     this.selectedDay = day;
-    console.log(this.selectedDay);
     this.selectedMenusFromDay = this.weeklyMenus.filter(w => w.day === day);
-    console.log(this.selectedMenusFromDay);
   }
 
   // Méthode pour récupérer les menus de la semaines en cours
@@ -76,26 +74,39 @@ export class HomeComponent extends BaseComponent implements OnInit {
             rawMenus.push(d);
           }
         });
+        console.log(rawMenus);
+        // rawMenus.forEach(menu => {
+        //   // if (menu.length) {
+        //     menu.meals.forEach(meal => {
+        //       // this.loadMealImg(meal.imageId);
+        //     });
+        //   // }
+        // });
+        // On répartit les menus pour chaque jour de la semaine
         this.dispatchMenus(rawMenus);
+        // Après avoir récupérer tous les menus de la semaine
+        // on affiche par défaut les menus du jour
+        this.initMenusOfTheDay();
       });
   }
 
-  // Méthode pour répartir aléatoirement les menus disponibles de la semaine sur chaque jour
+  // Méthode pour répartir les menus disponibles de la semaine sur chaque jour
   dispatchMenus(menus: Menu[]): void {
-    console.log(menus);
-
-    // Pour chaque jour de la semaine
-    this.days.forEach(day => {
-      const dailyMenu = {
-        day: undefined,
-        menus: undefined
-      };
-      dailyMenu.day = day;
-      dailyMenu.menus = menus.splice(0, 2); // A voir le slice qui ne fonctionne pas
-      // console.log(dailyMenu.menus);
-      this.weeklyMenus.push(dailyMenu);
-    });
-    console.log(this.weeklyMenus);
+    for (let i = 0; i < menus.length; i++) {
+      let day = i;
+      if (day < this.days.length) {
+        const menu = {
+          day: '',
+          menus: []
+        };
+        menu.day = this.days[day];
+        menu.menus.push(menus[i]);
+        this.weeklyMenus.push(menu);
+      } else {
+        day = 0;
+        this.weeklyMenus[day].menus.push(menus[i]);
+      }
+    }
   }
 
   // Méthode pour récupérer le numéro de la semaine en cours
@@ -105,6 +116,25 @@ export class HomeComponent extends BaseComponent implements OnInit {
     const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
     const weekNo = Math.ceil((((date - Number(yearStart)) / 86400000) + 1) / 7);
     return weekNo;
+  }
+
+  // TODO Récupérer les images des meals
+  loadMealImg(id: number): string {
+    console.log(id);
+    let pathImg = '';
+
+    this.mealService.getMealImg(id)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(data => {
+        const mealUrl = HOST.mealUrl;
+        console.log(data.id);
+        console.log(data.imagePath);
+        const path = data.imagePath.replace('', '%20');
+        console.log(path);
+        pathImg = mealUrl + data.imagePath;
+        console.log(pathImg);
+      });
+    return pathImg;
   }
 
 }
