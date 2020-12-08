@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { MealService } from './../../services/meal.service';
 import { MenuService } from './../../services/menu.service';
 import { Menu } from './../../models/Menu';
@@ -10,6 +11,7 @@ import { takeUntil } from 'rxjs/operators';
 import { OrderService } from 'src/app/services/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Meal } from '../../models/Meal';
+import { JsonPipe } from '@angular/common';
 
 
 
@@ -34,6 +36,7 @@ export class CardComponent extends BaseComponent implements OnInit {
     private oderService: OrderService,
     private menuService: MenuService,
     private mealService: MealService,
+    private authService: AuthService,
     private route: Router,
     private activatedRoute: ActivatedRoute) {
       super();
@@ -51,6 +54,11 @@ export class CardComponent extends BaseComponent implements OnInit {
 
     // Résupération du menu par le numéro d'identifiant
     this.getMenuForCard(idMenu);
+
+    console.log(this.authService.getToken());
+
+    console.log(JSON.parse(this.authService.getToken()));
+
 
     /**
      * Recuperation de l'identidiant de L'utilisateur connecté
