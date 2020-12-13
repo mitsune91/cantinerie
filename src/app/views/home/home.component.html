@@ -6,6 +6,7 @@
     <h1>{{menu.label}}</h1>
     <div *ngFor="let meal of menu.meals">
       <p>{{meal.label}}</p>
+      <img [src]="meal.pathImg">
       <p>{{meal.priceDF}}</p>
     </div>
   </div>

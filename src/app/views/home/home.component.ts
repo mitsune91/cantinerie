@@ -25,67 +25,31 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getWeekMenus();
+    this.getMenusOfTheWeek(this.getWeekNumber(this.date));
   }
 
-  // Initialise le menu du jour
-  initMenusOfTheDay(): void {
-    if (this.weeklyMenus) {
-      let today: string;
-      const day = new Date().getDay().toString();
-      switch (day) {
-        case '1' :
-          today = 'Lundi';
-          break;
-        case '2' :
-          today = 'Mardi';
-          break;
-        case '3' :
-          today = 'Mercredi';
-          break;
-        case '4' :
-          today = 'Jeudi';
-          break;
-        case '5' :
-          today = 'Vendredi';
-          break;
-      }
-      this.selectedMenusFromDay = this.weeklyMenus.filter(w => w.day === today);
-    }
+  // Méthode pour récupérer le numéro de la semaine en cours
+  getWeekNumber(date: any): any {
+    date = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
+    const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+    const weekNo = Math.ceil((((date - Number(yearStart)) / 86400000) + 1) / 7);
+    return weekNo;
   }
 
-  // Méthode pour afficher le menu en fonction du jour choisi
-  loadMenuOfSelectedDay(day: string): void {
-    this.selectedDay = day;
-    this.selectedMenusFromDay = this.weeklyMenus.filter(w => w.day === day);
-  }
-
-  // Méthode pour récupérer les menus de la semaines en cours
-  getWeekMenus(): void {
-
-    const rawMenus = [];
-    const weekNumber = this.getWeekNumber(this.date);
-
-    this.menuService.getMenus()
+  // Récupère tous les menus disponibles de la semaine courante
+  getMenusOfTheWeek(weekNumber: number): void {
+    let rawMenus;
+    this.menuService.getMenuOfTheWeek(weekNumber)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
-        data.forEach(d => {
-          if (d.availableForWeeks.includes(weekNumber)) {
-            rawMenus.push(d);
-          }
-        });
-        console.log(rawMenus);
-        // rawMenus.forEach(menu => {
-        //   // if (menu.length) {
-        //     menu.meals.forEach(meal => {
-        //       // this.loadMealImg(meal.imageId);
-        //     });
-        //   // }
-        // });
-        // On répartit les menus pour chaque jour de la semaine
+        rawMenus = data;
+        console.log(this.weeklyMenus);
+        // Récupère les images des meals
+        this.loadMealsImgFromMenu(rawMenus);
+        // Répartit les meals pour chaque jour de la semaine
         this.dispatchMenus(rawMenus);
-        // Après avoir récupérer tous les menus de la semaine
-        // on affiche par défaut les menus du jour
+        // Affiche par défaut les menus du jour
         this.initMenusOfTheDay();
       });
   }
@@ -109,32 +73,57 @@ export class HomeComponent extends BaseComponent implements OnInit {
     }
   }
 
-  // Méthode pour récupérer le numéro de la semaine en cours
-  getWeekNumber(date: any): any {
-    date = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
-    const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
-    const weekNo = Math.ceil((((date - Number(yearStart)) / 86400000) + 1) / 7);
-    return weekNo;
+  // Initialise le menu du jour
+  initMenusOfTheDay(): void {
+    if (this.weeklyMenus.length) {
+      let today: string;
+      const day = new Date().getDay().toString();
+      switch (day) {
+        case '1' :
+          today = 'Lundi';
+          break;
+        case '2' :
+          today = 'Mardi';
+          break;
+        case '3' :
+          today = 'Mercredi';
+          break;
+        case '4' :
+          today = 'Jeudi';
+          break;
+        case '5' :
+          today = 'Vendredi';
+          break;
+      }
+      this.selectedMenusFromDay = this.weeklyMenus.filter(w => w.day === today);
+      console.log(this.selectedMenusFromDay);
+    }
   }
 
-  // TODO Récupérer les images des meals
-  loadMealImg(id: number): string {
-    console.log(id);
-    let pathImg = '';
+  // Méthode pour afficher le menu en fonction du jour choisi
+  loadMenuOfSelectedDay(day: string): void {
+    this.selectedDay = day;
+    this.selectedMenusFromDay = this.weeklyMenus.filter(w => w.day === day);
+  }
 
-    this.mealService.getMealImg(id)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(data => {
-        const mealUrl = HOST.mealUrl;
-        console.log(data.id);
-        console.log(data.imagePath);
-        const path = data.imagePath.replace('', '%20');
-        console.log(path);
-        pathImg = mealUrl + data.imagePath;
-        console.log(pathImg);
-      });
-    return pathImg;
+  // Récupère les images d'un menu
+  loadMealsImgFromMenu(menus: any): void {
+    menus.forEach(menu => {
+      if (menu.hasOwnProperty('meals')) {
+        menu.meals.forEach(meal => {
+          console.log(meal.imageId);
+          this.mealService.getMealImg(meal.imageId)
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(data => {
+              console.log(data);
+              const mealUrl = HOST.mealUrl;
+              console.log(data.id);
+              meal.pathImg = mealUrl + data.imagePath.split(' ').join('%20');
+              console.log(meal);
+            });
+        });
+      }
+    });
   }
 
 }
