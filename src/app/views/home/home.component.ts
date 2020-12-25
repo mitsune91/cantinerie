@@ -19,13 +19,16 @@ export class HomeComponent extends BaseComponent implements OnInit {
   date = new Date();
   days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
   selectedDay = '';
+  weekNumber: number;
 
   constructor(private menuService: MenuService, private mealService: MealService) {
     super();
   }
 
   ngOnInit(): void {
+    this.weekNumber = this.getWeekNumber(this.date);
     this.getMenusOfTheWeek(this.getWeekNumber(this.date));
+    console.log(this.weekNumber);
   }
 
   // Méthode pour récupérer le numéro de la semaine en cours
@@ -79,6 +82,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
     if (this.weeklyMenus.length) {
       let today: string;
       const day = new Date().getDay().toString();
+      console.log(day);
       switch (day) {
         case '1' :
           today = 'Lundi';
@@ -116,10 +120,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
           this.mealService.getMealImg(meal.id)
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(data => {
-              console.log(data);
               const apiUrl = HOST.apiUrl;
               meal.pathImg = apiUrl + data.imagePath.split(' ').join('%20');
-              console.log(meal);
             });
         });
       }

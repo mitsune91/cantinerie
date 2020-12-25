@@ -1,6 +1,7 @@
 <!--<h1 id="wk">{{ date | date: 'w'}}</h1>-->
 
 <app-sidebar (newItemEvent)="loadMenuOfSelectedDay($event)"></app-sidebar>
+<div>Semaine {{ weekNumber }}</div>
 <div class="wrapper" *ngIf="selectedMenusFromDay?.length">
   <div *ngFor="let menu of selectedMenusFromDay[0]?.menus">
     <h1>{{menu.label}}</h1>

@@ -7,6 +7,10 @@ const routes: Routes = [
     path: '',
     component: HomeComponent
   },
+  {
+    path: 'cantiniere',
+    loadChildren: () => import('./views/canteen/canteen.module').then(m => m.CanteenModule),
+  },
 ];
 
 @NgModule({
