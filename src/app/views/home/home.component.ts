@@ -22,7 +22,10 @@ export class HomeComponent extends BaseComponent implements OnInit {
   selectedDay = '';
   weekNumber: number;
 
-  constructor(private menuService: MenuService, private mealService: MealService) {
+  constructor(
+    private menuService: MenuService,
+    private mealService: MealService,
+    public route: Router) {
     super();
   }
 
@@ -138,7 +141,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   //     alert('connecté vous!');
   //   }
   // }
-  selectMenu(id: number) {
+  selectMenu(id: number): void {
     console.log(id);
     if (id) {
       this.route.navigate(['/basket/', id]);

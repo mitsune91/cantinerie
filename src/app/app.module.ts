@@ -18,7 +18,6 @@ import { ResetPasswordComponent } from './views/reset-password/reset-password.co
   declarations: [
     AppComponent,
     NavbarComponent,
-    SidebarComponent,
     HomeComponent,
     UserComponent,
     CardComponent,
@@ -29,7 +28,7 @@ import { ResetPasswordComponent } from './views/reset-password/reset-password.co
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    AppSidebarModule
+    AppSidebarModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule
