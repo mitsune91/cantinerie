@@ -3,14 +3,16 @@ import { CommonModule } from '@angular/common';
 
 import { CanteenSummaryComponent } from './canteen-summary/canteen-summary.component';
 import {CanteenRoutingModule} from './canteen-routing.module';
+import {AppSidebarModule} from '../../app.sidebar.module';
 
 @NgModule({
   declarations: [
-    CanteenSummaryComponent
+    CanteenSummaryComponent,
   ],
   imports: [
     CommonModule,
-    CanteenRoutingModule
+    CanteenRoutingModule,
+    AppSidebarModule
   ]
 })
 export class CanteenModule { }

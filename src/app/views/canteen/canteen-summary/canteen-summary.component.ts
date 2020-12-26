@@ -10,6 +10,7 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class CanteenSummaryComponent extends BaseComponent implements OnInit {
 
+  canteenMenus = ['Gestion des plats', 'Gestion des commandes', 'Gestion des utilisateurs'];
   orderOfTheDay: any;
   day = new Date();
 
@@ -38,6 +39,10 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
         this.orderOfTheDay = data.filter(d => d.creationDate === date);
         console.log(this.orderOfTheDay);
       });
+  }
+
+  onSelectedMenu(section: string): void {
+    console.log(section);
   }
 
 }

@@ -1,1 +1,6 @@
 <p>canteen-summary works!</p>
+
+<app-sidebar
+  [buttonsMenu]="canteenMenus"
+  (btnEvent)="onSelectedMenu($event)"
+></app-sidebar>
