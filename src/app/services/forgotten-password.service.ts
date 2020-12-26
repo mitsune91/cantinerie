@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
-import {HOST} from '../../../config/app.config';
+import { Injectable } from '@angular/core'
+import { Observable, throwError } from 'rxjs'
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
+import { HOST } from '../../../config/app.config'
+import { catchError } from 'rxjs/operators'
 
 /*
  *
@@ -18,16 +19,17 @@ import {HOST} from '../../../config/app.config';
   providedIn: 'root'
 })
 export class ForgottenPasswordService {
+  constructor (private http: HttpClient) {}
 
-  constructor(private http: HttpClient) {}
-
-  private url: string = HOST.apiUrl;
+  private url: string = HOST.apiUrl
 
   /*
    *                        Mot de passe oublié
    */
 
-  sendMailForPassword(): Observable<any> {
-    return;
+  sendMailForPassword (mail: string): Promise<any> {
+    let params = new HttpParams().set('email', mail)
+
+    return this.http.post(this.url + 'forgotpassword', params).toPromise()
   }
 }

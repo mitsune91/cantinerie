@@ -1,8 +1,38 @@
-<div class="navbar-wrapper">
-  <div class="logo-wrapper">La Cantinière Logo</div>
-  <div class="links-wrapper">
-    <a class="nav-link" routerLink="/login">Se connecter</a>
-    <a class="nav-link" routerLink="/signup">S'inscrire</a>
-    <a class="nav-link" routerLink="/basket">Panier</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">
+      <img />
+      La Cantinère Logo
+    </a>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive="active"
+            *ngIf="!isLogged"
+            routerLink="/login"
+            >Se connecter</a
+          >
+          <a
+            class="nav-link"
+            routerLinkActive="active"
+            (click)="onLogout()"
+            routerLink="/"
+            >Se deconnecter</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/signup"
+            >S'inscrire</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/basket"
+            >Panier</a
+          >
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
+</nav>
