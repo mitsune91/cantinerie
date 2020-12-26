@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {OrderService} from '../../../services/order.service';
 import {BaseComponent} from '../../../shared/core/base.component';
 import {takeUntil} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-canteen-summary',
@@ -14,7 +15,10 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
   orderOfTheDay: any;
   day = new Date();
 
-  constructor(private orderService: OrderService) {
+  constructor(
+    private orderService: OrderService,
+    public router: Router
+    ) {
     super();
   }
 
@@ -43,6 +47,17 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
 
   onSelectedMenu(section: string): void {
     console.log(section);
+    switch (section) {
+      case 'Gestion des plats':
+        this.router.navigate(['meals']);
+        break;
+      case '"Gestion des commandes"':
+        this.router.navigate(['orders']);
+        break;
+      case 'Gestion des utilisateurs':
+        this.router.navigate(['users']);
+        break;
+    }
   }
 
 }
