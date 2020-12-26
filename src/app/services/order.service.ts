@@ -59,8 +59,8 @@ export class OrderService {
   computePricesOrder(): Observable<any> {
     return;
   }
-  getOrderByCriteria(): Observable<any> {
-    return;
+  getOrderByCriteria(params: any): Observable<any> {
+    return this.http.get(this.url + 'order/findallbetweendateinstatus?status=' + params.status + '&beginDate=' + params.beginDate + '&endDate=' + params.endDate);
   }
   getOrdersByUserId(): Observable<any> {
     return;

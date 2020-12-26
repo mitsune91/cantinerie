@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
@@ -15,7 +16,7 @@ export class NavbarComponent implements OnInit {
     this.isLoggedIn$ = this.authService.loggedIn;
     console.log(this.isLoggedIn$);
   }
-  onLogout() {
+  onLogout(): void {
     console.log('click');
     this.authService.logout();
   }

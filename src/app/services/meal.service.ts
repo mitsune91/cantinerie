@@ -59,7 +59,7 @@ export class MealService {
   getMealOfTheWeek(): Observable<any> {
     return;
   }
-  getImgMeal(): Observable<any> {
-    return;
+  getMealImg(id: number): Observable<any> {
+    return this.http.get(this.url + 'meal/findimg/' + id);
   }
 }

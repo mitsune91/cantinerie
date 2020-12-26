@@ -1,3 +1,20 @@
+
+<!--<h1 id="wk">{{ date | date: 'w'}}</h1>-->
+
+<app-sidebar
+  (btnEvent)="loadMenuOfSelectedDay($event)"
+  [buttonsMenu]="days"
+></app-sidebar>
+<div>Semaine {{ weekNumber }}</div>
+<div class="wrapper" *ngIf="selectedMenusFromDay?.length">
+  <div *ngFor="let menu of selectedMenusFromDay[0]?.menus">
+    <h1>{{menu.label}}</h1>
+    <div *ngFor="let meal of menu.meals">
+      <p>{{meal.label}}</p>
+      <img [src]="meal.pathImg">
+      <p>{{meal.priceDF}} €</p>
+    </div>
+  </div>
 <div *ngFor="let menu of menus">
   <h1>{{menu.label}}</h1>
   <p *ngFor="let meal of menu.meals">{{meal.label}}</p>
