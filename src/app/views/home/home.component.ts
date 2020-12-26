@@ -71,6 +71,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.weeklyMenus[day].menus.push(menus[i]);
       }
     }
+    console.log(this.weeklyMenus);
   }
 
   // Initialise le menu du jour
@@ -109,16 +110,15 @@ export class HomeComponent extends BaseComponent implements OnInit {
   // Récupère les images d'un menu
   loadMealsImgFromMenu(menus: any): void {
     menus.forEach(menu => {
+      // On vérifie que le menu contient bien des meals
       if (menu.hasOwnProperty('meals')) {
         menu.meals.forEach(meal => {
-          console.log(meal.imageId);
-          this.mealService.getMealImg(meal.imageId)
+          this.mealService.getMealImg(meal.id)
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(data => {
               console.log(data);
-              const mealUrl = HOST.mealUrl;
-              console.log(data.id);
-              meal.pathImg = mealUrl + data.imagePath.split(' ').join('%20');
+              const apiUrl = HOST.apiUrl;
+              meal.pathImg = apiUrl + data.imagePath.split(' ').join('%20');
               console.log(meal);
             });
         });
