@@ -12,8 +12,9 @@ import {Router} from '@angular/router';
 export class CanteenSummaryComponent extends BaseComponent implements OnInit {
 
   canteenMenus = ['Gestion des plats', 'Gestion des commandes', 'Gestion des utilisateurs'];
-  orderOfTheDay: any;
-  day = new Date();
+  ordersOfTheDay: any;
+  day = new Date(2020, 9, 2);
+  isMealSummaryDisplayed = true;
 
   constructor(
     private orderService: OrderService,
@@ -26,6 +27,7 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
     this.getOrdersOfTheDay();
   }
 
+  // Récupère les commandes du jour
   getOrdersOfTheDay(): void {
     this.orderService.getOrders()
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -40,24 +42,30 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
         const mois = this.day.getMonth() + 1;
         // On créé un string de la date du jour pour récupérer les commandes du jour
         const date = this.day.getFullYear() + '-' + mois + '-' + numberDay;
-        this.orderOfTheDay = data.filter(d => d.creationDate === date);
-        console.log(this.orderOfTheDay);
+        this.ordersOfTheDay = data.filter(d => d.creationDate === date);
+        console.log(this.ordersOfTheDay);
       });
   }
 
+  // Naviguer entre les différents menus
   onSelectedMenu(section: string): void {
     console.log(section);
     switch (section) {
       case 'Gestion des plats':
-        this.router.navigate(['meals']);
+        this.router.navigate(['canteen/meals']);
         break;
       case '"Gestion des commandes"':
-        this.router.navigate(['orders']);
+        this.router.navigate(['canteen/orders']);
         break;
       case 'Gestion des utilisateurs':
-        this.router.navigate(['users']);
+        this.router.navigate(['canteen/users']);
         break;
     }
+  }
+
+  summaryToggle(): void {
+    this.isMealSummaryDisplayed = !this.isMealSummaryDisplayed;
+    console.log(this.isMealSummaryDisplayed);
   }
 
 }

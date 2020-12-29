@@ -1,6 +1,46 @@
-<p>canteen-summary works!</p>
+<div class="summary-wrapper row">
+  <div class="col-1">
+    <app-sidebar
+      [buttonsMenu]="canteenMenus"
+      (btnEvent)="onSelectedMenu($event)"
+    ></app-sidebar>
+  </div>
 
-<app-sidebar
-  [buttonsMenu]="canteenMenus"
-  (btnEvent)="onSelectedMenu($event)"
-></app-sidebar>
+  <div class="summaries-wrapper col-11">
+    <div class="row meals-summary">
+      Récapitulatif des commandes
+      <button (click)="summaryToggle()">Toggle</button>
+      <div class="meals-summary-details" *ngIf="isMealSummaryDisplayed">
+
+      </div>
+    </div>
+    <div [ngClass]="isMealSummaryDisplayed ? 'row table-summary':'row table-summary-without-toggle'">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">Plat commandé</th>
+          <th scope="col">Quantité</th>
+          <th scope="col">Utilisateur</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let order of ordersOfTheDay; index as i">
+          <th>{{ order.id }}</th>
+          <td *ngIf="order?.quantity">
+            <div *ngFor="let meal of order.quantity">
+              {{ meal.meal.label }}
+            </div>
+          </td>
+          <td *ngIf="!order?.quantity"></td>
+          <td *ngIf="order?.quantity">
+            {{ order.quantity.length }}
+          </td>
+          <td *ngIf="!order?.quantity"></td>
+          <td>{{ order.user.firstname }} {{ order.user.name }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
