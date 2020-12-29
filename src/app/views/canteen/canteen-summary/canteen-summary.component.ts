@@ -15,6 +15,8 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
   ordersOfTheDay: any;
   day = new Date(2020, 9, 2);
   isMealSummaryDisplayed = true;
+  totalOrders: number;
+  numberOfMeals: any[] = [];
 
   constructor(
     private orderService: OrderService,
@@ -44,8 +46,52 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
         const date = this.day.getFullYear() + '-' + mois + '-' + numberDay;
         this.ordersOfTheDay = data.filter(d => d.creationDate === date);
         console.log(this.ordersOfTheDay);
+        // this.getOrdersSummary(this.ordersOfTheDay);
       });
   }
+
+  // getOrdersSummary(orders: any): void {
+  //   console.log(orders);
+  //   this.totalOrders = orders.length;
+  //   orders.forEach(order => {
+  //     if (order.hasOwnProperty('quantity')) {
+  //       order.quantity.forEach(mealData => {
+  //         const mealOrdered: any = {};
+  //         // console.log(mealData);
+  //         if (this.numberOfMeals.length) {
+  //           this.numberOfMeals.forEach(n => {
+  //             if (n.meal !== mealData.meal.label) {
+  //               mealOrdered.meal = mealData.meal.label;
+  //               mealOrdered.quantity = 1;
+  //               this.numberOfMeals.push(mealOrdered);
+  //               // n.quantity++;
+  //             } else {
+  //               // mealOrdered.meal = mealData.meal.label;
+  //               // mealOrdered.quantity = 1;
+  //               // this.numberOfMeals.push(mealOrdered);
+  //             }
+  //           });
+  //         } else {
+  //           mealOrdered.meal = mealData.meal.label;
+  //           mealOrdered.quantity = 1;
+  //           this.numberOfMeals.push(mealOrdered);
+  //         }
+  //         // if (!this.numberOfMeals.includes(mealData.meal.label)) {
+  //         //   mealOrdered.meal = mealData.meal.label;
+  //         //   mealOrdered.quantity = 1;
+  //         //   this.numberOfMeals.push(mealOrdered);
+  //         // } else {
+  //         //   this.numberOfMeals.forEach(searchedMeal => {
+  //         //     if (searchedMeal.meal === mealData.meal.label) {
+  //         //       searchedMeal.quantity++;
+  //         //     }
+  //         //   });
+  //         // }
+  //       });
+  //     }
+  //   });
+  //   console.log(this.numberOfMeals);
+  // }
 
   // Naviguer entre les différents menus
   onSelectedMenu(section: string): void {

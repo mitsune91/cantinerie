@@ -9,7 +9,10 @@
   <div class="summaries-wrapper col-11">
     <div class="row meals-summary">
       Récapitulatif des commandes
-      <button (click)="summaryToggle()">Toggle</button>
+      <button (click)="summaryToggle()" [ngSwitch]="isMealSummaryDisplayed">
+        <img *ngSwitchCase="true" src="assets/Icons/keyboard-arrow-up.svg">
+        <img *ngSwitchCase="false" src="assets/Icons/keyboard-arrow-down.svg">
+      </button>
       <div class="meals-summary-details" *ngIf="isMealSummaryDisplayed">
 
       </div>
