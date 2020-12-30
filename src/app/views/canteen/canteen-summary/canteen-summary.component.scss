@@ -36,3 +36,35 @@
   overflow-x: hidden;
   height: calc(100vh - 165px);
 }
+
+.meals-summary-details-total-meals {
+  font-weight: bold;
+}
+
+.meals-summary-details-per-meal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.meal-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: darkslategrey;
+  height: 30px;
+  border: 1px solid mediumaquamarine;
+  border-radius: 15px;
+  margin: 5px;
+  padding: 0 5px;
+
+  span {
+    background-color: aquamarine;
+    border-radius: 15px;
+    padding: 2px 5px;
+    font-weight: 600;
+  }
+}

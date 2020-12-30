@@ -15,13 +15,13 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
   ordersOfTheDay: any;
   day = new Date(2020, 9, 2);
   isMealSummaryDisplayed = true;
-  totalOrders: number;
+  totalOrders = 0;
   numberOfMeals: any[] = [];
 
   constructor(
     private orderService: OrderService,
     public router: Router
-    ) {
+  ) {
     super();
   }
 
@@ -45,53 +45,47 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
         // On créé un string de la date du jour pour récupérer les commandes du jour
         const date = this.day.getFullYear() + '-' + mois + '-' + numberDay;
         this.ordersOfTheDay = data.filter(d => d.creationDate === date);
-        console.log(this.ordersOfTheDay);
-        // this.getOrdersSummary(this.ordersOfTheDay);
+        this.getOrdersSummary(this.ordersOfTheDay);
       });
   }
 
-  // getOrdersSummary(orders: any): void {
-  //   console.log(orders);
-  //   this.totalOrders = orders.length;
-  //   orders.forEach(order => {
-  //     if (order.hasOwnProperty('quantity')) {
-  //       order.quantity.forEach(mealData => {
-  //         const mealOrdered: any = {};
-  //         // console.log(mealData);
-  //         if (this.numberOfMeals.length) {
-  //           this.numberOfMeals.forEach(n => {
-  //             if (n.meal !== mealData.meal.label) {
-  //               mealOrdered.meal = mealData.meal.label;
-  //               mealOrdered.quantity = 1;
-  //               this.numberOfMeals.push(mealOrdered);
-  //               // n.quantity++;
-  //             } else {
-  //               // mealOrdered.meal = mealData.meal.label;
-  //               // mealOrdered.quantity = 1;
-  //               // this.numberOfMeals.push(mealOrdered);
-  //             }
-  //           });
-  //         } else {
-  //           mealOrdered.meal = mealData.meal.label;
-  //           mealOrdered.quantity = 1;
-  //           this.numberOfMeals.push(mealOrdered);
-  //         }
-  //         // if (!this.numberOfMeals.includes(mealData.meal.label)) {
-  //         //   mealOrdered.meal = mealData.meal.label;
-  //         //   mealOrdered.quantity = 1;
-  //         //   this.numberOfMeals.push(mealOrdered);
-  //         // } else {
-  //         //   this.numberOfMeals.forEach(searchedMeal => {
-  //         //     if (searchedMeal.meal === mealData.meal.label) {
-  //         //       searchedMeal.quantity++;
-  //         //     }
-  //         //   });
-  //         // }
-  //       });
-  //     }
-  //   });
-  //   console.log(this.numberOfMeals);
-  // }
+  getOrdersSummary(orders: any): void {
+    console.log(orders);
+    const ordersAndQuantities: any = [];
+    orders.forEach(order => {
+      if (order.hasOwnProperty('quantity')) {
+        const mealOrdered: any = {};
+        mealOrdered.meal = order.quantity[0].meal.label;
+        mealOrdered.quantity = order.quantity[0].quantity;
+        ordersAndQuantities.push(mealOrdered);
+      }
+    });
+    this.numberOfMeals = ordersAndQuantities;
+    console.log(this.numberOfMeals);
+    // console.log(ordersAndQuantities);
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < ordersAndQuantities.length; i++) {
+      // tslint:disable-next-line:prefer-for-of
+      for (let j = i + 1; j < ordersAndQuantities.length; j++) {
+        if (ordersAndQuantities[i].meal === ordersAndQuantities[j].meal) {
+          ordersAndQuantities[i].meal = ordersAndQuantities[j].meal;
+          ordersAndQuantities[i].quantity = ordersAndQuantities[i].quantity + ordersAndQuantities[j].quantity;
+          ordersAndQuantities.splice(j, 1);
+        }
+      }
+    }
+    this.getTotalMealsPerDay(this.numberOfMeals);
+    console.log('Il y a ' + this.totalOrders + ' commandes.');
+    console.log(ordersAndQuantities);
+  }
+
+  getTotalMealsPerDay(orders: any): void {
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < orders.length; i++) {
+      this.totalOrders += orders[i].quantity;
+      console.log(this.totalOrders);
+    }
+  }
 
   // Naviguer entre les différents menus
   onSelectedMenu(section: string): void {
