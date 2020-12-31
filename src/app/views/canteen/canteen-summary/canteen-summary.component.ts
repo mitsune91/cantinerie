@@ -49,8 +49,8 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
       });
   }
 
+  // Récupère le détail des quantité par plats
   getOrdersSummary(orders: any): void {
-    console.log(orders);
     const ordersAndQuantities: any = [];
     orders.forEach(order => {
       if (order.hasOwnProperty('quantity')) {
@@ -60,9 +60,6 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
         ordersAndQuantities.push(mealOrdered);
       }
     });
-    this.numberOfMeals = ordersAndQuantities;
-    console.log(this.numberOfMeals);
-    // console.log(ordersAndQuantities);
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < ordersAndQuantities.length; i++) {
       // tslint:disable-next-line:prefer-for-of
@@ -74,27 +71,25 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
         }
       }
     }
+    this.numberOfMeals = ordersAndQuantities;
     this.getTotalMealsPerDay(this.numberOfMeals);
-    console.log('Il y a ' + this.totalOrders + ' commandes.');
-    console.log(ordersAndQuantities);
   }
 
+  // Récupère le nombre total de plats commandé ce jour
   getTotalMealsPerDay(orders: any): void {
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < orders.length; i++) {
       this.totalOrders += orders[i].quantity;
-      console.log(this.totalOrders);
     }
   }
 
   // Naviguer entre les différents menus
   onSelectedMenu(section: string): void {
-    console.log(section);
     switch (section) {
       case 'Gestion des plats':
         this.router.navigate(['canteen/meals']);
         break;
-      case '"Gestion des commandes"':
+      case 'Gestion des commandes':
         this.router.navigate(['canteen/orders']);
         break;
       case 'Gestion des utilisateurs':
@@ -103,9 +98,9 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
     }
   }
 
+  // Permet de cacher la partie récapitulatif de commande
   summaryToggle(): void {
     this.isMealSummaryDisplayed = !this.isMealSummaryDisplayed;
-    console.log(this.isMealSummaryDisplayed);
   }
 
 }
