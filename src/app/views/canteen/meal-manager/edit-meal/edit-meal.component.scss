@@ -1,0 +1,31 @@
+$bc: #f8f9fa;
+
+.canteen-meal-edit-container {
+  height: calc(100vh - 90px);
+  background-color: $bc;
+  padding-top: 30px;
+}
+
+.canteen-meal-edit-form-wrapper {
+  margin: 50px 20px;
+  padding: 20px;
+  border: 1px solid lightgrey;
+  border-radius: 25px;
+  background-color: #fff;
+  text-align: center;
+}
+
+.canteen-meal-edit-img-wrapper {
+  margin-bottom: 20px;
+
+  img {
+    width: 150px;
+    height: auto;
+    border-radius: 10px;
+  }
+}
+
+.label-title {
+  flex: 0 0 100%;
+  max-width: 100%;
+}

@@ -107,7 +107,7 @@ export class CardComponent extends BaseComponent implements OnInit {
      /**
       * Résupération du MEAL par le mealService
       */
-     this.mealService.getMeal(mealId)
+     this.mealService.getMealById(mealId)
      .pipe(takeUntil(this.ngUnsubscribe))
      .subscribe(data => {
        this.meal = data;
@@ -125,7 +125,7 @@ export class CardComponent extends BaseComponent implements OnInit {
      return this.cartTotal;
   }
 
-  putCommandeValidation(event) {
+  putCommandeValidation(event): void {
 
     // TODO - A faire - une tableau de meal pour le data.mealId - car plusieur meal selectioné et c'est pas géré dans la BDD
     // TODO - retirer le montant de carteTOTAL du userWalet
