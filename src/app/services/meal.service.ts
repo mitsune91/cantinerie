@@ -30,6 +30,9 @@ export class MealService {
   getMeals(): Observable<any> {
     return this.http.get(this.url + 'meal/findall');
   }
+  addMeal(body: any): Observable<any> {
+    return this.http.put(this.url + 'meal/add', body);
+  }
   updateMealById(mealId: number, body: any): Observable<any> {
     return this.http.patch(this.url + 'meal/update/' + mealId, body);
   }

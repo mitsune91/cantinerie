@@ -9,6 +9,7 @@ import {OrderManagerComponent} from './order-manager/order-manager.component';
 import {UsersManagerComponent} from './users-manager/users-manager.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { EditMealComponent } from './meal-manager/edit-meal/edit-meal.component';
+import { AddMealComponent } from './meal-manager/add-meal/add-meal.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { EditMealComponent } from './meal-manager/edit-meal/edit-meal.component'
     OrderManagerComponent,
     UsersManagerComponent,
     EditMealComponent,
+    AddMealComponent,
   ],
   imports: [
     CommonModule,

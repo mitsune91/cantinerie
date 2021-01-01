@@ -74,6 +74,10 @@ export class MealManagerComponent extends BaseComponent implements OnInit {
       .subscribe();
   }
 
+  onAddMeal(): void {
+    this.router.navigate(['canteen/meals/add']);
+  }
+
   // Naviguer entre les différents menus
   onSelectedMenu(section: string): void {
     console.log(section);

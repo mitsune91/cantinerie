@@ -6,11 +6,19 @@
     ></app-sidebar>
   </div>
   <div class="meals-manager-table-wrapper col-10 my-3">
-    <form>
-      <div class="form-group form-inline">
-        Rechercher : <input class="form-control ml-2" type="text" [formControl]="mealFilter"/>
+    <div class="meals-manager-table-section-top">
+      <form>
+        <div class="form-group form-inline">
+          Rechercher : <input class="form-control ml-2" type="text" [formControl]="mealFilter"/>
+        </div>
+      </form>
+      <div class="meals-manager-table-section-top-add">
+        <button (click)="onAddMeal()">
+          <img src="assets/Icons/add-icon.svg">
+          Ajouter un plat
+        </button>
       </div>
-    </form>
+    </div>
 
     <table class="table table-striped">
       <thead>

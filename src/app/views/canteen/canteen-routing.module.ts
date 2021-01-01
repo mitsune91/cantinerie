@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import {CanteenSummaryComponent} from './canteen-summary/canteen-summary.component';
 import {MealManagerComponent} from './meal-manager/meal-manager.component';
 import {OrderManagerComponent} from './order-manager/order-manager.component';
 import {UsersManagerComponent} from './users-manager/users-manager.component';
 import {EditMealComponent} from './meal-manager/edit-meal/edit-meal.component';
+import {AddMealComponent} from './meal-manager/add-meal/add-meal.component';
 
 const routes: Routes = [
   {
@@ -14,6 +16,13 @@ const routes: Routes = [
   {
     path: 'meals',
     component: MealManagerComponent,
+    data: {
+      navigateBackRoute: 'canteen'
+    }
+  },
+  {
+    path: 'meals/add',
+    component: AddMealComponent,
     data: {
       navigateBackRoute: 'canteen'
     }

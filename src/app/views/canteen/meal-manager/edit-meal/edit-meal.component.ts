@@ -90,7 +90,6 @@ export class EditMealComponent extends BaseComponent implements OnInit {
     this.mealCategories.forEach(cat => {
       if (cat.code === meal.category) {
         this.editedMealCategory = cat.label;
-        console.log(this.editedMealCategory);
       }
     });
   }
@@ -100,7 +99,6 @@ export class EditMealComponent extends BaseComponent implements OnInit {
     this.ingredientService.status.forEach(status => {
       if (status.code === meal.status) {
         this.editedMealStatus = status.label;
-        console.log(this.editedMealStatus);
       }
     });
   }
