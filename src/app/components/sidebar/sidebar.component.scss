@@ -4,8 +4,26 @@
   flex-direction: column;
   justify-content: space-around;
   float: left;
-  width: 150px;
   min-height: calc(100vh - 100px);
   border-right: 1px solid #6d6c6c;
   position: fixed;
+
+  button {
+    border: none;
+    border-radius: 20px;
+    background-color: transparent;
+    font-size: 18px;
+    font-style: italic;
+    text-transform: uppercase;
+    font-weight: bold;
+    box-shadow: 5px 6px 5px 0px rgba(0,0,0,0.75);
+
+    &:hover,
+    &:focus,
+    &:active {
+      border: none;
+      box-shadow: 5px 6px 5px 0px rgba(35,146,148,0.75);
+      outline: none;
+    }
+  }
 }
