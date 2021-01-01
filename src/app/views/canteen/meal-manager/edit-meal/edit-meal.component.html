@@ -1,73 +1,119 @@
 <div class="canteen-meal-edit-container">
   <div class="canteen-meal-edit-form-wrapper">
-    <div class="canteen-meal-edit-img-wrapper">
-      <img [src]="mealPathImg">
+    <div class="canteen-meal-edit-form-section-top">
+      <div class="canteen-meal-edit-btn-back-wrapper">
+        <button (click)="onNavigateBack()">
+          <img src="assets/Icons/back-icon.svg">
+          Retour
+        </button>
+      </div>
+      <div class="canteen-meal-edit-img-wrapper">
+        <img [src]="mealPathImg">
+      </div>
+      <div class="canteen-meal-edit-btn-wrapper">
+        <button (click)="displayForm()">
+          <img src="assets/Icons/edit-icon.svg">
+        </button>
+      </div>
     </div>
     <form [formGroup]="form">
-      <div class="row">
+      <div class="canteen-meal-edit-form-body row">
         <div class="form-group col-3 px-5">
           <label for="id">Id</label>
-          <input type="text" class="form-control" id="id" [placeholder]="form.value.id" disabled>
+          <div class="meal-detail" *ngIf="!isFormDisplayed">{{ editedMeal.id }}</div>
+          <input type="text" class="form-control" id="id"
+                 *ngIf="isFormDisplayed"
+                 [placeholder]="form.value.id" disabled>
         </div>
         <div class="form-group col-3 px-5">
           <label for="label">Nom du plat</label>
-          <input type="text" class="form-control" id="label" [placeholder]="form.value.label">
-          <small id="labelHelp" class="form-text text-muted">Saisissez le nom du plat.</small>
+          <div class="meal-detail" *ngIf="!isFormDisplayed">{{ editedMeal.label }}</div>
+          <input type="text" class="form-control" id="label"
+                 [placeholder]="form.value.label"
+                 *ngIf="isFormDisplayed"
+                 formControlName="label">
+          <small id="labelHelp" class="form-text text-muted" *ngIf="isFormDisplayed">Saisissez le nom du plat.</small>
         </div>
         <div class="form-group col-3 px-5">
           <label for="priceDF">Prix</label>
-          <input type="number" step="0.01" class="form-control" id="priceDF" [placeholder]="form.value.priceDF">
-          <small id="priceHelp" class="form-text text-muted">Saisissez le prix de vente du plat au centime près.</small>
+          <div class="meal-detail" *ngIf="!isFormDisplayed">{{ editedMeal.priceDF }}</div>
+          <input type="number" step="0.01" class="form-control" id="priceDF"
+                 [placeholder]="form.value.priceDF"
+                 *ngIf="isFormDisplayed"
+                 formControlName="priceDF">
+          <small id="priceHelp" class="form-text text-muted" *ngIf="isFormDisplayed">Saisissez le prix de vente du plat
+            au centime près.</small>
         </div>
-        <div class="form-group col-3 px-5">
+
+        <!-- TODO Need to work on select, add checkboxes for multiple select -->
+
+        <div class="form-group col-3 px-5 canteen-meal-edit-form-ingredients">
           <label for="ingredients">Ingrédients</label>
-          <input type="text" class="form-control" id="ingredients" [placeholder]="form.value.ingredients">
-          <small id="ingredientsHelp" class="form-text text-muted">Précisez les ingrédients du plat.</small>
+          <div class="meal-detail-wrapper" *ngIf="!isFormDisplayed">
+            <div class="meal-detail" *ngFor="let ingredient of editedMeal.ingredients">{{ ingredient.label }}</div>
+          </div>
+          <select class="form-control" id="ingredients"
+                  formControlName="ingredients"
+                  *ngIf="isFormDisplayed"
+                  multiple>
+            <option *ngFor="let ingredient of ingredients" [value]="ingredient">{{ ingredient.label }}</option>
+          </select>
+          <small id="ingredientsHelp" class="form-text text-muted" *ngIf="isFormDisplayed">Précisez quels ingrédients
+            sont utilisés.</small>
         </div>
         <div class="form-group col-3 px-5">
           <label for="category">Catégorie</label>
-          <input type="text" class="form-control" id="category" [placeholder]="form.value.category">
-          <small id="categoryHelp" class="form-text text-muted">Choisissez la catégorie du plat.</small>
+          <div class="meal-detail" *ngIf="!isFormDisplayed">{{ editedMealCategory }}</div>
+          <select class="form-control" id="category"
+                  *ngIf="isFormDisplayed"
+                  formControlName="ingredients">
+            <option *ngFor="let category of mealCategories" [value]="category.code">{{ category.label }}</option>
+          </select>
+          <small id="categoryHelp" class="form-text text-muted" *ngIf="isFormDisplayed">Choisissez la catégorie du
+            plat.</small>
         </div>
         <div class="form-group col-3 px-5">
           <label for="availableForWeeks">Disponibilités</label>
-          <input type="text" class="form-control" id="availableForWeeks" [placeholder]="form.value.availableForWeeks">
-          <small id="availablesHelp" class="form-text text-muted">Choisissez les semaines disponibles de ce plat.</small>
+          <div class="meal-detail" *ngIf="!isFormDisplayed">{{ editedMeal.availableForWeeks }}</div>
+          <input type="text" class="form-control" id="availableForWeeks"
+                 formControlName="availableForWeeks"
+                 *ngIf="isFormDisplayed"
+                 [placeholder]="form.value.availableForWeeks">
+          <small id="availablesHelp" class="form-text text-muted" *ngIf="isFormDisplayed">Choisissez les semaines
+            disponibles de ce plat.</small>
         </div>
 
-<!--        <div class="form-group col-3 px-5">-->
-<!--          <label for="status">Status</label>-->
-<!--          <input type="text" class="form-control" id="status" [placeholder]="form.value.status">-->
-<!--          <small id="statusHelp" class="form-text text-muted">Choisissez le status du plat.</small>-->
-<!--        </div>-->
+        <div role="radiogroup">
+          <label class="label-title col-12">Status</label>
+          <div class="meal-detail" *ngIf="!isFormDisplayed">{{ editedMealStatus }}</div>
+          <div class="form-check form-check-inline" *ngIf="isFormDisplayed">
+            <input class="form-check-input" type="radio" value="0"
+                   name="inlineRadioOptions" id="status0"
+                   (click)="editMealStatus('0')">
+            <label class="form-check-label" for="status0">Actif</label>
+          </div>
+          <div class="form-check form-check-inline" *ngIf="isFormDisplayed">
+            <input class="form-check-input" type="radio" value="1"
+                   name="inlineRadioOptions" id="status1"
+                   (click)="editMealStatus('1')">
+            <label class="form-check-label" for="status1">Inactif</label>
+          </div>
+          <div class="form-check form-check-inline" *ngIf="isFormDisplayed">
+            <input class="form-check-input" type="radio" value="2"
+                   name="inlineRadioOptions" id="status2"
+                   (click)="editMealStatus('2')">
+            <label class="form-check-label" for="status2">Effacé</label>
+          </div>
+        </div>
 
-<!--        <div class="form-group col-3 px-5">-->
-<!--          <label class="label-title col-12">Status</label>-->
-<!--          <div class="form-check form-check-inline">-->
-<!--            <input class="form-check-input" type="radio"-->
-<!--                   name="inlineRadioOptions" id="status0" value="0"-->
-<!--                   (click)="getValue('0')"-->
-<!--                   formControlName="status">-->
-<!--            <label class="form-check-label" for="status0">Actif</label>-->
-<!--          </div>-->
-<!--          <div class="form-check form-check-inline">-->
-<!--            <input class="form-check-input" type="radio"-->
-<!--                   name="inlineRadioOptions" id="status1" value="1"-->
-<!--                   (click)="getValue('1')"-->
-<!--                   formControlName="status">-->
-<!--            <label class="form-check-label" for="status1">Désactivé</label>-->
-<!--          </div>-->
-<!--          <div class="form-check form-check-inline">-->
-<!--            <input class="form-check-input" type="radio"-->
-<!--                   name="inlineRadioOptions" id="status2" value="2"-->
-<!--                   (click)="getValue('2')"-->
-<!--                   formControlName="status">-->
-<!--            <label class="form-check-label" for="status2">Effacé</label>-->
-<!--          </div>-->
-<!--        </div>-->
-
+        <div class="btn-submit col-12">
+          <button type="submit" class="btn btn-primary"
+                  *ngIf="isFormDisplayed"
+                  (click)="submitEditedMeal()">
+            Modifier
+          </button>
+        </div>
       </div>
-      <button type="submit" class="btn btn-primary">Modifier</button>
     </form>
   </div>
 </div>
