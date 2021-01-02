@@ -3,6 +3,8 @@
 }
 
 .meals-summary {
+  overflow: scroll;
+  overflow-x: hidden;
   padding: 20px 10px;
 
   button {

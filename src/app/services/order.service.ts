@@ -20,17 +20,6 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class OrderService {
 
- headers = new HttpHeaders({
-      'Content-Type':  'application/json',
-      // Authorization: 'my-auth-token'
-    });
- options = this.headers ?
-    {
-        params: new HttpParams()
-    } : {};
-
-
-
   constructor(private http: HttpClient) { }
 
   private url: string = HOST.apiUrl;
@@ -42,19 +31,14 @@ export class OrderService {
   getOrders(): Observable<any> {
     return this.http.get(this.url + 'order/findall');
   }
-  /**
-   * Ajouté une commande dans la BDD
-   *
-   * @param [any] Aucun paramètre
-   */
-  putOrder(): Observable<any> {
-    return this.http.put(this.url + 'order/add', this.headers, this.options);
+  addOrder(body: any): Observable<any> {
+    return this.http.put(this.url + 'order/add', body);
   }
-  updateOrder(): Observable<any> {
-    return;
+  updateOrderById(orderId: number, body: any): Observable<any> {
+    return this.http.patch(this.url + 'order/update/' + orderId, body);
   }
-  cancelOrder(): Observable<any> {
-    return;
+  cancelOrderById(orderId: number): Observable<any> {
+    return this.http.delete(this.url + 'order/cancel/' + orderId);
   }
   computePricesOrder(): Observable<any> {
     return;
