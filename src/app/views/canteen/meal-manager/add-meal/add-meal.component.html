@@ -1,0 +1,94 @@
+<div class="canteen-meal-add-container">
+  <div class="canteen-meal-add-form-wrapper">
+    <div class="canteen-meal-add-form-section-top">
+      <div class="canteen-meal-add-btn-back-wrapper">
+        <button (click)="onNavigateBack()">
+          <img src="assets/Icons/back-icon.svg">
+          Retour
+        </button>
+      </div>
+      <div class="canteen-meal-add-img-wrapper">
+<!--        <img [src]="mealPathImg">-->
+      </div>
+    </div>
+    <form [formGroup]="form">
+      <div class="canteen-meal-add-form-body row">
+        <div class="form-group col-3 px-5">
+          <label for="label">Nom du plat</label>
+          <input type="text" class="form-control" id="label"
+                 [placeholder]="form.value.label"
+                 formControlName="label">
+          <small id="labelHelp" class="form-text text-muted">Saisissez le nom du plat.</small>
+        </div>
+        <div class="form-group col-3 px-5">
+          <label for="priceDF">Prix</label>
+          <input type="number" step="0.01" class="form-control" id="priceDF"
+                 [placeholder]="form.value.priceDF"
+                 formControlName="priceDF">
+          <small id="priceHelp" class="form-text text-muted">Saisissez le prix de vente du plat
+            au centime près.</small>
+        </div>
+
+        <!-- TODO Need to work on select, add checkboxes for multiple select -->
+
+        <div class="form-group col-3 px-5 canteen-meal-add-form-ingredients">
+          <label for="ingredients">Ingrédients</label>
+          <select class="form-control" id="ingredients"
+                  formControlName="ingredients"
+                  multiple>
+            <option *ngFor="let ingredient of ingredients" [value]="ingredient.id">{{ ingredient.label }}</option>
+          </select>
+          <small id="ingredientsHelp" class="form-text text-muted">Précisez quels ingrédients
+            sont utilisés.</small>
+        </div>
+        <div class="form-group col-3 px-5">
+          <label for="category">Catégorie</label>
+          <select class="form-control" id="category"
+                  formControlName="category">
+            <option *ngFor="let category of mealCategories" [value]="category.code">{{ category.label }}</option>
+          </select>
+          <small id="categoryHelp" class="form-text text-muted">Choisissez la catégorie du
+            plat.</small>
+        </div>
+        <div class="form-group col-3 px-5">
+          <label for="availableForWeeks">Disponibilités</label>
+          <input type="text" class="form-control" id="availableForWeeks"
+                 formControlName="availableForWeeks"
+                 [placeholder]="form.value.availableForWeeks">
+          <small id="availablesHelp" class="form-text text-muted">Choisissez les semaines
+            disponibles de ce plat.</small>
+        </div>
+
+        <div role="radiogroup">
+          <label class="label-title col-12">Status</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" value="0"
+                   name="inlineRadioOptions" id="status0"
+                   (click)="addMealStatus('0')">
+            <label class="form-check-label" for="status0">Actif</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" value="1"
+                   name="inlineRadioOptions" id="status1"
+                   (click)="addMealStatus('1')">
+            <label class="form-check-label" for="status1">Inactif</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" value="2"
+                   name="inlineRadioOptions" id="status2"
+                   (click)="addMealStatus('2')">
+            <label class="form-check-label" for="status2">Effacé</label>
+          </div>
+        </div>
+
+        <div class="btn-submit col-12">
+          <button type="submit" class="btn btn-primary"
+                  (click)="submitAddedMeal()">
+            Ajouter
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+

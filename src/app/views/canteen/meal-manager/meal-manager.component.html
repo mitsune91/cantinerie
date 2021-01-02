@@ -1,0 +1,53 @@
+<div class="meals-manager-container row">
+  <div class="col-2">
+    <app-sidebar
+      [buttonsMenu]="canteenMenus"
+      (btnEvent)="onSelectedMenu($event)"
+    ></app-sidebar>
+  </div>
+  <div class="meals-manager-table-wrapper col-10 my-3">
+    <div class="meals-manager-table-section-top">
+      <form>
+        <div class="form-group form-inline">
+          Rechercher : <input class="form-control ml-2" type="text" [formControl]="mealFilter"/>
+        </div>
+      </form>
+      <div class="meals-manager-table-section-top-add">
+        <button (click)="onAddMeal()">
+          <img src="assets/Icons/add-icon.svg">
+          Ajouter un plat
+        </button>
+      </div>
+    </div>
+
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Plat</th>
+        <th scope="col">Prix</th>
+        <th scope="col">Catégorie</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let meal of filteredMeals; index as i">
+        <th scope="row">{{ meal.id }}</th>
+        <td>{{ meal.label }}</td>
+        <td>{{ meal.priceDF }}</td>
+        <td>{{ meal.category }}</td>
+        <td>
+          <button class="meals-manager-table-btn" (click)="onEditMeal(meal.id)"
+                  data-toggle="tooltip" data-placement="top" title="Edit">
+            <img src="assets/Icons/edit-icon.svg">
+          </button>
+          <button class="meals-manager-table-btn" (click)="deleteMeal(meal.id)"
+                  data-toggle="tooltip" data-placement="top" title="Delete">
+            <img src="assets/Icons/trash-icon.svg">
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

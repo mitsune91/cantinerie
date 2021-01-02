@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
+import { Router } from '@angular/router';
+
 import {BaseComponent} from '../../shared/core/base.component';
 import {Menu} from '../../models/Menu';
 import {MenuService} from '../../services/menu.service';
 import {MealService} from '../../services/meal.service';
 import {HOST} from '../../../../config/app.config';
-import { Router } from '@angular/router';
 
 
 @Component({

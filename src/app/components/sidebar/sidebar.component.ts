@@ -14,7 +14,6 @@ export class SidebarComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.buttonsMenu);
   }
 
   // Récupère le jour sélectionner dans la sidebar
