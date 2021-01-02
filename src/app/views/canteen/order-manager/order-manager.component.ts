@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl} from '@angular/forms';
+import {Router} from '@angular/router';
+import {debounceTime, takeUntil} from 'rxjs/operators';
+
 import {BaseComponent} from '../../../shared/core/base.component';
 import {OrderService} from '../../../services/order.service';
-import {Router} from '@angular/router';
-import {debounceTime, takeUntil} from "rxjs/operators";
 
 @Component({
   selector: 'app-order-manager',
@@ -36,7 +37,7 @@ export class OrderManagerComponent extends BaseComponent implements OnInit {
         this.orders = orders;
         this.filteredOrders = this.orders;
         console.log(this.orders);
-        // this.filterOrders(this.orders);
+        this.filterOrders(this.orders);
       });
   }
 
@@ -49,6 +50,8 @@ export class OrderManagerComponent extends BaseComponent implements OnInit {
         if (key) {
           console.log(key);
           this.getFilterMealsData(meals, key);
+        } else {
+          this.filteredOrders = this.orders;
         }
       });
   }
@@ -59,5 +62,49 @@ export class OrderManagerComponent extends BaseComponent implements OnInit {
     this.filteredOrders = orders.filter(o => o.user.firstname.toLowerCase().includes(key) || o.user.name.toLowerCase().includes(key));
     console.log(this.filteredOrders);
   }
+
+  // Envoie vers la page de prise de commande
+  onAddOrder(): void {
+    this.router.navigate(['canteen/orders/add']);
+  }
+
+  // Envoie vers la page d'édition d'une commande
+  onEditOrder(orderId: number): void {
+    console.log(orderId);
+    this.router.navigate(['canteen/orders/edit', orderId]);
+  }
+
+  // TODO Méthode ne fonctionne pas encore... A travailler
+  // TODO Ajouter modal pour confirmer l'annulation
+  // Annule une commande
+  cancelOrder(order: any): void {
+    this.orderService.cancelOrderById(order.id)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(canceledOrder => {
+        console.log(canceledOrder);
+      });
+  }
+
+  // Naviguer entre les différents menus
+  onSelectedMenu(section: string): void {
+    console.log(section);
+    switch (section) {
+      case 'Gestion des plats':
+        this.router.navigate(['canteen/meals']);
+        break;
+      case 'Gestion des commandes':
+        this.router.navigate(['canteen/orders']);
+        break;
+      case 'Gestion des utilisateurs':
+        this.router.navigate(['canteen/users']);
+        break;
+    }
+  }
+
+  // TODO Ajouter un filtre date
+  // TODO Ajouter filtre status avec un select
+  //  (0: Created, 1: Delivered, 2: Canceled)
+  // TODO Afficher dans le tableau si la commande a été payée ou non
+  // TODO Ajouter une checkbox pour notifier si la commande est livrée ou non
 
 }

@@ -94,7 +94,7 @@ export class EditMealComponent extends BaseComponent implements OnInit {
     });
   }
 
-  // Récupère la catégorie d'un plat
+  // Récupère len,,n, status d'un plat
   getMealStatus(meal: any): void {
     this.ingredientService.status.forEach(status => {
       if (status.code === meal.status) {

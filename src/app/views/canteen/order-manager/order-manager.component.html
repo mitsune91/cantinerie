@@ -9,13 +9,13 @@
     <div class="orders-manager-table-section-top">
       <form>
         <div class="form-group form-inline">
-          Rechercher : <input class="form-control ml-2" type="text" [formControl]="orderFilter"/>
+          Rechercher par client : <input class="form-control ml-2" type="text" [formControl]="orderFilter"/>
         </div>
       </form>
       <div class="orders-manager-table-section-top-add">
         <button (click)="onAddOrder()">
           <img src="assets/Icons/add-icon.svg">
-          Ajouter un plat
+          Prendre une commande
         </button>
       </div>
     </div>
@@ -24,7 +24,7 @@
       <thead>
       <tr>
         <th scope="col">Id</th>
-        <th scope="col">Utilisateur</th>
+        <th scope="col">Client</th>
         <th scope="col">Portefeuille</th>
         <th scope="col">Plat commandé(s)</th>
         <th scope="col">Quantité</th>
@@ -52,7 +52,7 @@
                   data-toggle="tooltip" data-placement="top" title="Edit">
             <img src="assets/Icons/edit-icon.svg">
           </button>
-          <button class="orders-manager-table-btn" (click)="deleteOrder(order.id)"
+          <button class="orders-manager-table-btn" (click)="cancelOrder(order)"
                   data-toggle="tooltip" data-placement="top" title="Delete">
             <img src="assets/Icons/trash-icon.svg">
           </button>

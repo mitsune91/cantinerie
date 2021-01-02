@@ -10,6 +10,8 @@ import {UsersManagerComponent} from './users-manager/users-manager.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { EditMealComponent } from './meal-manager/edit-meal/edit-meal.component';
 import { AddMealComponent } from './meal-manager/add-meal/add-meal.component';
+import { EditOrderComponent } from './order-manager/edit-order/edit-order.component';
+import { AddOrderComponent } from './order-manager/add-order/add-order.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { AddMealComponent } from './meal-manager/add-meal/add-meal.component';
     UsersManagerComponent,
     EditMealComponent,
     AddMealComponent,
+    EditOrderComponent,
+    AddOrderComponent,
   ],
   imports: [
     CommonModule,

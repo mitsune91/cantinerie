@@ -14,7 +14,6 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.loggedIn;
-    console.log(this.isLoggedIn$);
   }
   onLogout(): void {
     console.log('click');

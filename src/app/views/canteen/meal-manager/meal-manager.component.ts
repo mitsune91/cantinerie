@@ -49,6 +49,8 @@ export class MealManagerComponent extends BaseComponent implements OnInit {
         if (key) {
           console.log(key);
           this.getFilterMealsData(meals, key);
+        } else {
+          this.filteredMeals = this.meals;
         }
       });
   }
@@ -93,5 +95,7 @@ export class MealManagerComponent extends BaseComponent implements OnInit {
         break;
     }
   }
+
+  // TODO Ajouter un filtre date
 
 }

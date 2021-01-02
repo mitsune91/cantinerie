@@ -7,6 +7,8 @@ import {OrderManagerComponent} from './order-manager/order-manager.component';
 import {UsersManagerComponent} from './users-manager/users-manager.component';
 import {EditMealComponent} from './meal-manager/edit-meal/edit-meal.component';
 import {AddMealComponent} from './meal-manager/add-meal/add-meal.component';
+import {AddOrderComponent} from './order-manager/add-order/add-order.component';
+import {EditOrderComponent} from './order-manager/edit-order/edit-order.component';
 
 const routes: Routes = [
   {
@@ -37,6 +39,20 @@ const routes: Routes = [
   {
     path: 'orders',
     component: OrderManagerComponent,
+    data: {
+      navigateBackRoute: 'canteen'
+    }
+  },
+  {
+    path: 'orders/add',
+    component: AddOrderComponent,
+    data: {
+      navigateBackRoute: 'canteen'
+    }
+  },
+  {
+    path: 'orders/edit/:id',
+    component: EditOrderComponent,
     data: {
       navigateBackRoute: 'canteen'
     }

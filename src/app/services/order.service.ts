@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {HOST} from '../../../config/app.config';
 import {Observable} from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
+
+import {HOST} from '../../../config/app.config';
 
 /*
  *
@@ -20,6 +21,21 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class OrderService {
 
+  headers = new HttpHeaders({
+    'Content-Type':  'application/json',
+    // Authorization: 'my-auth-token'
+  });
+  options = this.headers ?
+    {
+      params: new HttpParams()
+    } : {};
+
+  status = [
+    { code: 0, label: 'Créée' },
+    { code: 1, label: 'Délivrée' },
+    { code: 2, label: 'Annulée' },
+  ];
+
   constructor(private http: HttpClient) { }
 
   private url: string = HOST.apiUrl;
@@ -34,11 +50,14 @@ export class OrderService {
   addOrder(body: any): Observable<any> {
     return this.http.put(this.url + 'order/add', body);
   }
+  putOrder(): Observable<any> {
+    return this.http.put(this.url + 'order/add', this.headers, this.options);
+  }
   updateOrderById(orderId: number, body: any): Observable<any> {
     return this.http.patch(this.url + 'order/update/' + orderId, body);
   }
   cancelOrderById(orderId: number): Observable<any> {
-    return this.http.delete(this.url + 'order/cancel/' + orderId);
+    return this.http.patch(this.url + 'order/cancel/', orderId);
   }
   computePricesOrder(): Observable<any> {
     return;
@@ -46,8 +65,8 @@ export class OrderService {
   getOrderByCriteria(params: any): Observable<any> {
     return this.http.get(this.url + 'order/findallbetweendateinstatus?status=' + params.status + '&beginDate=' + params.beginDate + '&endDate=' + params.endDate);
   }
-  getOrdersByUserId(): Observable<any> {
-    return;
+  getOrderById(orderId: number): Observable<any> {
+    return this.http.get(this.url + 'order/find/' + orderId);
   }
   payAndDeliverOrder(): Observable<any> {
     return;
