@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {take, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 
 import {BaseComponent} from '../../../../shared/core/base.component';
 import {OrderService} from '../../../../services/order.service';
@@ -50,7 +50,6 @@ export class EditOrderComponent extends BaseComponent implements OnInit {
         this.getOrderById(this.orderId);
       });
     this.getAllMeals();
-    console.log(this.editedOrder);
   }
 
   // Permet d'afficher le formulaire permettant de modifier un plat
@@ -76,7 +75,6 @@ export class EditOrderComponent extends BaseComponent implements OnInit {
         }
       ]
     };
-    console.log(body);
     this.orderService.updateOrderById(this.editedOrder.id, body)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe();
@@ -88,8 +86,6 @@ export class EditOrderComponent extends BaseComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(order => {
         this.editedOrder = order;
-        console.log(this.editedOrder);
-        console.log(this.editedOrder.quantity[0].quantity);
         this.getOrderStatus(this.editedOrder);
       });
   }
@@ -97,7 +93,6 @@ export class EditOrderComponent extends BaseComponent implements OnInit {
   // Modifie le status via le formulaire
   editOrderStatus(status: any): void {
     this.form.value.status = status;
-    console.log(this.form.value.status);
   }
 
   // Récupère le status de la commande
@@ -105,7 +100,6 @@ export class EditOrderComponent extends BaseComponent implements OnInit {
     this.orderService.status.forEach(s => {
       if (s.code === order.status) {
         this.editedOrderStatus = s.label;
-        console.log(this.editedOrderStatus);
       }
     });
   }
@@ -116,7 +110,6 @@ export class EditOrderComponent extends BaseComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(meals => {
         this.meals = meals;
-        console.log(this.meals);
       });
   }
 

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {debounceTime, takeUntil} from 'rxjs/operators';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {takeUntil} from 'rxjs/operators';
 
 import {BaseComponent} from '../../../../shared/core/base.component';
 import {UserService} from '../../../../services/user.service';
@@ -42,36 +42,32 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
     this.getAllMeals();
   }
 
+  // Récupère tous les utilisateurs
   getAllUsers(): void {
     this.userService.getUsers()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(users => {
         this.users = users;
-        console.log(this.users);
       });
   }
 
+  // Récupère tous les menus
   getAllMeals(): void {
     this.mealService.getMeals()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(meals => {
         this.meals = meals;
-        console.log(this.meals);
       });
   }
 
   // Récupère des users en fonction des lettres tapées dans le filtre
   getFilterUsersData(users: any, ev: any): void {
-    console.log(ev);
     this.filteredUsers = users.filter(u => u.firstname.toLowerCase().includes(ev.key) || u.name.toLowerCase().includes(ev.key));
-    console.log(this.filteredUsers);
   }
 
   // Récupère des plats en fonction des lettres tapées dans le filtre
   getFilterMealsData(meals: any, ev: any): void {
-    console.log(ev);
     this.filteredMeals = meals.filter(m => m.label.toLowerCase().includes(ev.key));
-    console.log(this.filteredMeals);
   }
 
   // Permet de revenir à la page de gestion des plats
@@ -79,6 +75,7 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
     this.router.navigate(['canteen/meals']);
   }
 
+  // Envoie le formulaire
   submitAddedOrder(): void {
     const selectedUser = this.getUserByName(this.form.value.user);
     const selectedMeal = this.getMealByLabel(this.form.value.meal);
@@ -92,7 +89,6 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
         }
       ]
     };
-    console.log(body);
     if (selectedUser.wallet > this.simulatePriceDF(this.form.value.meal, this.form.value.quantity)) {
       this.orderService.addOrder(body)
         .pipe(takeUntil(this.ngUnsubscribe))
@@ -110,6 +106,7 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
     return user[0];
   }
 
+  // Récupère le portefeuille d'un utilisateur
   getUserWallet(userFullname: string): number {
     if (userFullname) {
       const user = this.getUserByName(userFullname);

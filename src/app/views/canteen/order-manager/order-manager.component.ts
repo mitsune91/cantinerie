@@ -36,19 +36,16 @@ export class OrderManagerComponent extends BaseComponent implements OnInit {
       .subscribe(orders => {
         this.orders = orders;
         this.filteredOrders = this.orders;
-        console.log(this.orders);
         this.filterOrders(this.orders);
       });
   }
 
   // Filtre grâce à la Subscription (Observalble)
   filterOrders(meals: any): void {
-    console.log(meals);
     this.orderFilter.valueChanges
       .pipe(takeUntil(this.ngUnsubscribe), debounceTime(700))
       .subscribe(key => {
         if (key) {
-          console.log(key);
           this.getFilterMealsData(meals, key);
         } else {
           this.filteredOrders = this.orders;
@@ -58,9 +55,7 @@ export class OrderManagerComponent extends BaseComponent implements OnInit {
 
   // Récupère des plats en fonction des lettres tapées dans le filtre
   getFilterMealsData(orders: any, key: string): void {
-    console.log(key);
     this.filteredOrders = orders.filter(o => o.user.firstname.toLowerCase().includes(key) || o.user.name.toLowerCase().includes(key));
-    console.log(this.filteredOrders);
   }
 
   // Envoie vers la page de prise de commande
@@ -70,7 +65,6 @@ export class OrderManagerComponent extends BaseComponent implements OnInit {
 
   // Envoie vers la page d'édition d'une commande
   onEditOrder(orderId: number): void {
-    console.log(orderId);
     this.router.navigate(['canteen/orders/edit', orderId]);
   }
 
@@ -80,14 +74,11 @@ export class OrderManagerComponent extends BaseComponent implements OnInit {
   cancelOrder(order: any): void {
     this.orderService.cancelOrderById(order.id)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(canceledOrder => {
-        console.log(canceledOrder);
-      });
+      .subscribe();
   }
 
   // Naviguer entre les différents menus
   onSelectedMenu(section: string): void {
-    console.log(section);
     switch (section) {
       case 'Gestion des plats':
         this.router.navigate(['canteen/meals']);

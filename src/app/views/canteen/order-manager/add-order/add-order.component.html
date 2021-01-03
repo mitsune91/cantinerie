@@ -52,58 +52,6 @@
                  [placeholder]="simulatePriceDF(this.form.value.meal, this.form.value.quantity) || '0'" disabled>
         </div>
 
-        <!-- TODO Need to work on select, add checkboxes for multiple select -->
-
-<!--        <div class="form-group col-3 px-5 canteen-order-add-form-ingredients">-->
-<!--          <label for="ingredients">Ingrédients</label>-->
-<!--          <select class="form-control" id="ingredients"-->
-<!--                  formControlName="ingredients"-->
-<!--                  multiple>-->
-<!--            <option *ngFor="let ingredient of ingredients" [value]="ingredient.id">{{ ingredient.label }}</option>-->
-<!--          </select>-->
-<!--          <small id="ingredientsHelp" class="form-text text-muted">Précisez quels ingrédients-->
-<!--            sont utilisés.</small>-->
-<!--        </div>-->
-<!--        <div class="form-group col-3 px-5">-->
-<!--          <label for="category">Catégorie</label>-->
-<!--          <select class="form-control" id="category"-->
-<!--                  formControlName="category">-->
-<!--            <option *ngFor="let category of orderCategories" [value]="category.code">{{ category.label }}</option>-->
-<!--          </select>-->
-<!--          <small id="categoryHelp" class="form-text text-muted">Choisissez la catégorie du-->
-<!--            plat.</small>-->
-<!--        </div>-->
-<!--        <div class="form-group col-3 px-5">-->
-<!--          <label for="availableForWeeks">Disponibilités</label>-->
-<!--          <input type="text" class="form-control" id="availableForWeeks"-->
-<!--                 formControlName="availableForWeeks"-->
-<!--                 [placeholder]="form.value.availableForWeeks">-->
-<!--          <small id="availablesHelp" class="form-text text-muted">Choisissez les semaines-->
-<!--            disponibles de ce plat.</small>-->
-<!--        </div>-->
-
-<!--        <div role="radiogroup">-->
-<!--          <label class="label-title col-12">Status</label>-->
-<!--          <div class="form-check form-check-inline">-->
-<!--            <input class="form-check-input" type="radio" value="0"-->
-<!--                   name="inlineRadioOptions" id="status0"-->
-<!--                   (click)="addOrderStatus('0')">-->
-<!--            <label class="form-check-label" for="status0">Actif</label>-->
-<!--          </div>-->
-<!--          <div class="form-check form-check-inline">-->
-<!--            <input class="form-check-input" type="radio" value="1"-->
-<!--                   name="inlineRadioOptions" id="status1"-->
-<!--                   (click)="addOrderStatus('1')">-->
-<!--            <label class="form-check-label" for="status1">Inactif</label>-->
-<!--          </div>-->
-<!--          <div class="form-check form-check-inline">-->
-<!--            <input class="form-check-input" type="radio" value="2"-->
-<!--                   name="inlineRadioOptions" id="status2"-->
-<!--                   (click)="addOrderStatus('2')">-->
-<!--            <label class="form-check-label" for="status2">Effacé</label>-->
-<!--          </div>-->
-<!--        </div>-->
-
         <div class="btn-submit col-12">
           <button type="submit" class="btn btn-primary"
                   (click)="submitAddedOrder()">
