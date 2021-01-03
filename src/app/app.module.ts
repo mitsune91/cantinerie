@@ -12,6 +12,7 @@ import {AppSidebarModule} from './app.sidebar.module';
 import { AuthComponent } from './views/auth/auth.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResetPasswordComponent } from './views/reset-password/reset-password.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { ResetPasswordComponent } from './views/reset-password/reset-password.co
     AppSidebarModule,
     BrowserAnimationsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule
   ],
   providers: [],
   exports: [

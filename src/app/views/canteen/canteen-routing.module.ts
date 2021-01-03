@@ -9,6 +9,8 @@ import {EditMealComponent} from './meal-manager/edit-meal/edit-meal.component';
 import {AddMealComponent} from './meal-manager/add-meal/add-meal.component';
 import {AddOrderComponent} from './order-manager/add-order/add-order.component';
 import {EditOrderComponent} from './order-manager/edit-order/edit-order.component';
+import {AddUserComponent} from './users-manager/add-user/add-user.component';
+import {EditUserComponent} from './users-manager/edit-user/edit-user.component';
 
 const routes: Routes = [
   {
@@ -60,6 +62,20 @@ const routes: Routes = [
   {
     path: 'users',
     component: UsersManagerComponent,
+    data: {
+      navigateBackRoute: 'canteen'
+    }
+  },
+  {
+    path: 'users/add',
+    component: AddUserComponent,
+    data: {
+      navigateBackRoute: 'canteen'
+    }
+  },
+  {
+    path: 'users/edit/:id',
+    component: EditUserComponent,
     data: {
       navigateBackRoute: 'canteen'
     }

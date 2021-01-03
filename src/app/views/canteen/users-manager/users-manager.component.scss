@@ -1,0 +1,43 @@
+.users-manager-table-wrapper {
+  height: calc(100vh - 120px);
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.users-manager-table-btn {
+  border: none;
+  background-color: transparent;
+
+  button {
+    &:focus,
+    &:active {
+      border: none;
+      outline: none;
+    }
+  }
+
+  img {
+    width: 15px;
+  }
+}
+
+.users-manager-table-section-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  button {
+    border: none;
+    background-color: transparent;
+
+    img {
+      width: 15px;
+    }
+  }
+
+  .form-group {
+    margin: unset;
+  }
+}
