@@ -1,7 +1,13 @@
-<div class="sidebar-wrapper col-2">
-  <button *ngFor="let menu of buttonsMenu"
-          [value]="menu"
-          (click)="selectDayForMenu(menu)">
-    {{menu}}
+<div class="sidebar-images">
+  <button
+    *ngFor="let menu of buttonsMenu"
+    [value]="menu"
+    class="sidebar-images_btn col-2"
+  >
+    <img
+      src="assets/Icons/{{menu}}.png"
+      (click)="selectDayForMenu(menu)"
+      class="sidebar-images_img"
+    />
   </button>
 </div>
