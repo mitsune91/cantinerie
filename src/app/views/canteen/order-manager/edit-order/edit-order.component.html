@@ -20,7 +20,7 @@
           <div class="order-detail" *ngIf="!isFormDisplayed">{{ editedOrder.id }}</div>
           <input type="text" class="form-control" id="id"
                  *ngIf="isFormDisplayed"
-                 [placeholder]="form.value.id" disabled>
+                 [placeholder]="editedOrder.id" disabled>
         </div>
         <div class="form-group col-3 px-5">
           <label for="client">Client</label>
@@ -38,9 +38,8 @@
             <div class="order-detail">{{ editedOrder.quantity[0].meal.label }}</div>
           </div>
           <select class="form-control" id="meals"
-                  formControlName="meals"
-                  *ngIf="isFormDisplayed"
-                  multiple>
+                  formControlName="mealId"
+                  *ngIf="isFormDisplayed">
             <option *ngFor="let meal of meals" [value]="meal.id">{{ meal.label }}</option>
           </select>
           <small id="ingredientsHelp" class="form-text text-muted" *ngIf="isFormDisplayed">Précisez quels ingrédients
@@ -56,11 +55,11 @@
           <small id="categoryHelp" class="form-text text-muted" *ngIf="isFormDisplayed">Saisir la quantité.</small>
         </div>
         <div class="form-group col-3 px-5">
-          <label for="price">Montant</label>
+          <label for="price">Montant HT</label>
           <div class="order-detail" *ngIf="!isFormDisplayed">{{ editedOrder.quantity[0].quantity * editedOrder.quantity[0].meal.priceDF }}</div>
           <input type="text" class="form-control" id="price"
                  *ngIf="isFormDisplayed"
-                 [placeholder]="editedOrder.quantity[0].quantity * editedOrder.quantity[0].meal.priceDF">
+                 [placeholder]="editedOrder.quantity[0].quantity * editedOrder.quantity[0].meal.priceDF" disabled>
         </div>
 
         <div role="radiogroup">
@@ -90,7 +89,6 @@
           <label for="availableForWeeks">Date</label>
           <div class="order-detail" *ngIf="!isFormDisplayed">{{ editedOrder.creationDate | date: 'd MMMM y'}} {{ editedOrder.creationTime }}</div>
           <input type="text" class="form-control" id="availableForWeeks"
-                 formControlName="availableForWeeks"
                  *ngIf="isFormDisplayed"
                  [placeholder]="editedOrder.creationDate | date: 'd MMMM y' + ' ' + editedOrder.creationTime"
                  disabled>

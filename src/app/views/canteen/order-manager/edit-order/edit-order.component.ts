@@ -34,7 +34,8 @@ export class EditOrderComponent extends BaseComponent implements OnInit {
     this.form = this.fb.group({
       id: [''],
       quantity: [''],
-      meals: [''],
+      mealId: [''],
+      status: [''],
     });
   }
 
@@ -64,7 +65,18 @@ export class EditOrderComponent extends BaseComponent implements OnInit {
 
   // Envoie les changements du formulaire
   submitEditedOrder(): void {
-    const body = this.form.value;
+    const body = {
+      userId: this.editedOrder.user.id,
+      // Décommenter constraintId = -1 pour tester la requête
+      // constraintId: -1,
+      quantity: [
+        {
+          quantity: Number(this.form.value.quantity),
+          mealId: this.form.value.mealId,
+        }
+      ]
+    };
+    console.log(body);
     this.orderService.updateOrderById(this.editedOrder.id, body)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe();
@@ -79,8 +91,13 @@ export class EditOrderComponent extends BaseComponent implements OnInit {
         console.log(this.editedOrder);
         console.log(this.editedOrder.quantity[0].quantity);
         this.getOrderStatus(this.editedOrder);
-        this.form.patchValue(this.editedOrder); // On insère les valeurs du commandes dans le formulaire
       });
+  }
+
+  // Modifie le status via le formulaire
+  editOrderStatus(status: any): void {
+    this.form.value.status = status;
+    console.log(this.form.value.status);
   }
 
   // Récupère le status de la commande
@@ -102,5 +119,7 @@ export class EditOrderComponent extends BaseComponent implements OnInit {
         console.log(this.meals);
       });
   }
+
+  // TODO Filtrer les plats dans le formulaire pour n'afficher que les plats disponibles ce jour
 
 }
