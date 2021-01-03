@@ -1,18 +1,52 @@
-
 <!--<h1 id="wk">{{ date | date: 'w'}}</h1>-->
-
-<app-sidebar
-  (btnEvent)="loadMenuOfSelectedDay($event)"
-  [buttonsMenu]="days"
-></app-sidebar>
-<div>Semaine {{ weekNumber }}</div>
-<div class="wrapper" *ngIf="selectedMenusFromDay?.length">
-  <div *ngFor="let menu of selectedMenusFromDay[0]?.menus">
-    <h1>{{menu.label}}</h1>
-    <div *ngFor="let meal of menu.meals">
-      <p>{{meal.label}}</p>
-      <img [src]="meal.pathImg">
-      <p>{{meal.priceDF}} €</p>
-      <button (click)="selectMenu(menu.id)">AddTOCard</button>
+<div class="row sidebar-bg">
+  <div class="container-fluid">
+    <div class="row">
+      <app-sidebar
+        (btnEvent)="loadMenuOfSelectedDay($event)"
+        [buttonsMenu]="days"
+      ></app-sidebar>
     </div>
   </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div *ngIf="selectedMenusFromDay?.length">
+      <div *ngFor="let menu of selectedMenusFromDay[0]?.menus">
+        <div class="row ">
+          <div *ngFor="let meal of menu.meals">
+            <div class="col-3">
+              <div class="card home-card" style="width: 13rem;">
+                <img
+                  class="card-img-top"
+                  [src]="meal.pathImg"
+                  alt="Image plat"
+                />
+                <div class="card-body">
+                  <h5 class="card-title">{{meal.label}}</h5>
+                  <p class="card-text">{{meal.priceDF}} €</p>
+                  <button
+                    class="btn"
+                    (click)="selectMenu(menu.id)"
+                    style="background-color:  #1a423f;color: white;"
+                  >
+                    Ajouter au panier
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="card" style="width: 18rem;">
+  <img class="card-img-top" [src]="meal.pathImg" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">{{meal.label}}</h5>
+    <p class="card-text">{{meal.priceDF}}</p>
+    <button class="btn btn-primary" (click)="selectMenu(menu.id)">AddTOCard</button>
+  </div>
+</div> -->
