@@ -30,12 +30,13 @@ export class UserService {
    */
 
   getUsers(): Observable<any> {
-    return this.http.get(this.url + 'user/findall')
+    return this.http.get(this.url + 'user/findall');
   }
 
-  putUser(): Observable<any> {
-    return;
+  putUser(body: any): Observable<any> {
+    return this.http.put(this.url + 'user/register', body);
   }
+
   updateUser(): Observable<any> {
     return;
   }
@@ -58,8 +59,8 @@ export class UserService {
   debitUsersWallet(): Observable<any> {
     return;
   }
-  creditUsersWallet(): Observable<any> {
-    return;
+  creditUsersWallet(userId: number, body: any): Observable<any> {
+    return this.http.post(this.url + 'user/credit/' + userId + '?amount=' + body.wallet , body);
   }
   getImgUser(): Observable<any> {
     return;

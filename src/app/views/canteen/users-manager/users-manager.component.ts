@@ -5,6 +5,7 @@ import {debounceTime, takeUntil} from 'rxjs/operators';
 
 import {BaseComponent} from '../../../shared/core/base.component';
 import {UserService} from '../../../services/user.service';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-users-manager',
@@ -17,10 +18,14 @@ export class UsersManagerComponent extends BaseComponent implements OnInit {
   users: any = [];
   filteredUsers: any = [];
   userFilter = new FormControl('');
+  walletControl = new FormControl('');
+  editedUser: any = {};
+  closeResult = '';
 
   constructor(
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
   ) {
     super();
   }
@@ -84,11 +89,48 @@ export class UsersManagerComponent extends BaseComponent implements OnInit {
     this.router.navigate(['canteen/users/edit', userId]);
   }
 
+  onManageUserWallet(content: any, user: any): void {
+    this.editedUser = user;
+    this.modalService.open( content, {ariaLabelledBy: 'modal-basic-title'}).result.then(() => {
+      this.creditUserWallet(user, this.walletControl.value);
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  // Permet de fermer la modal en appuyant sur ESC
+  // ou en cliquant en dehors de celle-ci
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
   // Efface un utilisateur
   deleteUser(user: any): void {
     this.userService.deleteUserById(user.id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe();
+  }
+
+  // Créditer un client
+  creditUserWallet(user: any, amount: number): void {
+    console.log(user);
+    const body = {
+      id: user.id,
+      wallet: user.wallet + amount,
+      isLunchLady: true,
+    };
+    console.log(body);
+    this.userService.creditUsersWallet(user.id, body)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {
+        this.getAllUsers();
+      });
   }
 
 }
