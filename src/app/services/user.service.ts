@@ -32,10 +32,11 @@ export class UserService {
   getUsers (): Observable<any> {
     return this.http.get(this.url + 'user/findall')
   }
-
-  putUser (): Observable<any> {
-    return
+/* mettre en paramettre un body de type any , cette méthode envoi un observable */
+  putUser(body: any): Observable<any> {
+    return this.http.put(this.url + 'user/register', body);
   }
+
   updateUser (): Observable<any> {
     return
   }

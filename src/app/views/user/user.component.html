@@ -6,17 +6,17 @@
     <form [formGroup]="userInSignForm" (ngSubmit)="onSubmit()" >
         <div class="form-example">
             <label for="name">Enter your nom: </label>
-            <input type="text" name="name" id="name" required formControlName="nom">
+            <input type="text" name="name" id="name" required="nom oublié" formControlName="name">
           </div>
 
           <div class="form-example">
             <label for="name">Enter your prénom: </label>
-            <input type="text" name="name" id="name" required formControlName="prenom">
+            <input type="text" name="name" id="name" required="prénom oublié" formControlName="firstname">
           </div>
 
           <div class="form-example">
             <label for="email">Enter your email: </label>
-            <input type="email" name="email" id="email" required formControlName="email">
+            <input type="email" name="email" id="email" required="email oublié" formControlName="email">
           </div>
 
          <!--<div class="form-example">
@@ -28,11 +28,11 @@
 
           <div class="form-example">
             <label for="email">Enter your numéro: </label>
-            <input type="phone"  required formControlName="phone">
+            <input type="phone"  required="numéro oublié" formControlName="phone">
           </div>
 
           <div class="form-example">
-            <button type="submit"> envoyer </button>
+            <button type="button" type="submit" [disabled]="userInSignForm.invalid"> envoyer </button>
           </div>
         
     </form>
