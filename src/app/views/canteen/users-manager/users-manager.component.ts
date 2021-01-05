@@ -39,7 +39,6 @@ export class UsersManagerComponent extends BaseComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(users => {
         this.users = users;
-        console.log(this.users);
         this.filteredUsers = this.users;
         this.filterUsers(this.users);
       });
@@ -61,7 +60,6 @@ export class UsersManagerComponent extends BaseComponent implements OnInit {
   // Récupère des plats en fonction des lettres tapées dans le filtre
   getFilterMealsData(users: any, key: string): void {
     this.filteredUsers = users.filter(u => u.firstname.toLowerCase().includes(key) || u.name.toLowerCase().includes(key));
-    console.log(this.filteredUsers);
   }
 
   // Naviguer entre les différents menus
@@ -119,18 +117,15 @@ export class UsersManagerComponent extends BaseComponent implements OnInit {
 
   // Créditer un client
   creditUserWallet(user: any, amount: number): void {
-    console.log(user);
     const body = {
       id: user.id,
       wallet: user.wallet + amount,
       isLunchLady: true,
     };
-    console.log(body);
     this.userService.creditUsersWallet(user.id, body)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.getAllUsers();
       });
   }
-
 }

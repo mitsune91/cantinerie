@@ -120,6 +120,5 @@ export class EditUserComponent extends BaseComponent implements OnInit {
       .subscribe();
   }
 
-
   // TODO Ajouter update d'image + Affichage
 }

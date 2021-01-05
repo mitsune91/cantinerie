@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core'
-import { takeUntil } from 'rxjs/operators'
-import { Router } from '@angular/router'
+import {Component, OnInit} from '@angular/core';
+import {takeUntil} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
-import { BaseComponent } from '../../shared/core/base.component'
-import { Menu } from '../../models/Menu'
-import { MenuService } from '../../services/menu.service'
-import { MealService } from '../../services/meal.service'
-import { HOST } from '../../../../config/app.config'
+import {BaseComponent} from '../../shared/core/base.component';
+import {Menu} from '../../models/Menu';
+import {MenuService} from '../../services/menu.service';
+import {MealService} from '../../services/meal.service';
+import {HOST} from '../../../../config/app.config';
 
 @Component({
   selector: 'app-home',
@@ -14,115 +14,115 @@ import { HOST } from '../../../../config/app.config'
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent extends BaseComponent implements OnInit {
-  weeklyMenus: any[] = []
-  selectedMenusFromDay: any[]
-  date = new Date()
-  days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi']
-  selectedDay = ''
-  weekNumber: number
+  weeklyMenus: any[] = [];
+  selectedMenusFromDay: any[];
+  date = new Date();
+  days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
+  selectedDay = '';
+  weekNumber: number;
 
-  constructor (
+  constructor(
     private menuService: MenuService,
     private mealService: MealService,
     public route: Router
   ) {
-    super()
+    super();
   }
 
-  ngOnInit (): void {
-    this.weekNumber = this.getWeekNumber(this.date)
-    this.getMenusOfTheWeek(this.getWeekNumber(this.date))
-    console.log(this.weekNumber)
+  ngOnInit(): void {
+    this.weekNumber = this.getWeekNumber(this.date);
+    this.getMenusOfTheWeek(this.getWeekNumber(this.date));
+    console.log(this.weekNumber);
   }
 
   // Méthode pour récupérer le numéro de la semaine en cours
-  getWeekNumber (date: any): any {
+  getWeekNumber(date: any): any {
     date = new Date(
       Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
-    )
-    date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7))
-    const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1))
-    let weekNo = Math.ceil(((date - Number(yearStart)) / 86400000 + 1) / 7)
+    );
+    date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
+    const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+    let weekNo = Math.ceil(((date - Number(yearStart)) / 86400000 + 1) / 7);
     if (weekNo > 52) {
-      weekNo = weekNo - 52
+      weekNo = weekNo - 52;
     }
-    return weekNo
+    return weekNo;
   }
 
   // Récupère tous les menus disponibles de la semaine courante
-  getMenusOfTheWeek (weekNumber: number): void {
-    let rawMenus
+  getMenusOfTheWeek(weekNumber: number): void {
+    let rawMenus;
     this.menuService
       .getMenuOfTheWeek(weekNumber)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
-        rawMenus = data
-        console.log(this.weeklyMenus)
+        rawMenus = data;
+        console.log(this.weeklyMenus);
         // Récupère les images des meals
-        this.loadMealsImgFromMenu(rawMenus)
+        this.loadMealsImgFromMenu(rawMenus);
         // Répartit les meals pour chaque jour de la semaine
-        this.dispatchMenus(rawMenus)
+        this.dispatchMenus(rawMenus);
         // Affiche par défaut les menus du jour
-        this.initMenusOfTheDay()
-      })
+        this.initMenusOfTheDay();
+      });
   }
 
   // Méthode pour répartir les menus disponibles de la semaine sur chaque jour
-  dispatchMenus (menus: Menu[]): void {
+  dispatchMenus(menus: Menu[]): void {
     for (let i = 0; i < menus.length; i++) {
-      let day = i
+      let day = i;
       if (day < this.days.length) {
         const menu = {
           day: '',
           menus: []
-        }
-        menu.day = this.days[day]
-        menu.menus.push(menus[i])
-        this.weeklyMenus.push(menu)
+        };
+        menu.day = this.days[day];
+        menu.menus.push(menus[i]);
+        this.weeklyMenus.push(menu);
       } else {
-        day = 0
-        this.weeklyMenus[day].menus.push(menus[i])
+        day = 0;
+        this.weeklyMenus[day].menus.push(menus[i]);
       }
     }
-    console.log(this.weeklyMenus)
+    console.log(this.weeklyMenus);
   }
 
   // Initialise le menu du jour
-  initMenusOfTheDay (): void {
+  initMenusOfTheDay(): void {
     if (this.weeklyMenus.length) {
-      let today: string
-      const day = new Date().getDay().toString()
-      console.log(day)
+      let today: string;
+      const day = new Date().getDay().toString();
+      console.log(day);
       switch (day) {
         case '1':
-          today = 'Lundi'
-          break
+          today = 'Lundi';
+          break;
         case '2':
-          today = 'Mardi'
-          break
+          today = 'Mardi';
+          break;
         case '3':
-          today = 'Mercredi'
-          break
+          today = 'Mercredi';
+          break;
         case '4':
-          today = 'Jeudi'
-          break
+          today = 'Jeudi';
+          break;
         case '5':
-          today = 'Vendredi'
-          break
+          today = 'Vendredi';
+          break;
       }
-      this.selectedMenusFromDay = this.weeklyMenus.filter(w => w.day === today)
-      console.log(this.selectedMenusFromDay)
+      this.selectedMenusFromDay = this.weeklyMenus.filter(w => w.day === today);
+      console.log(this.selectedMenusFromDay);
     }
   }
 
   // Méthode pour afficher le menu en fonction du jour choisi
-  loadMenuOfSelectedDay (day: string): void {
-    this.selectedDay = day
-    this.selectedMenusFromDay = this.weeklyMenus.filter(w => w.day === day)
+  loadMenuOfSelectedDay(day: string): void {
+    this.selectedDay = day;
+    this.selectedMenusFromDay = this.weeklyMenus.filter(w => w.day === day);
   }
 
   // Récupère les images d'un menu
-  loadMealsImgFromMenu (menus: any): void {
+  loadMealsImgFromMenu(menus: any): void {
     menus.forEach(menu => {
       // On vérifie que le menu contient bien des meals
       if (menu.hasOwnProperty('meals')) {
@@ -131,30 +131,22 @@ export class HomeComponent extends BaseComponent implements OnInit {
             .getMealImg(meal.id)
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(data => {
-              const apiUrl = HOST.apiUrl
-              meal.pathImg = apiUrl + data.imagePath.split(' ').join('%20')
-            })
-        })
+              const apiUrl = HOST.apiUrl;
+              meal.pathImg = apiUrl + data.imagePath.split(' ').join('%20');
+            });
+        });
       }
-    })
+    });
   }
 
-  // selectMenu(idUser: number = 1, id: number) {
-  //   console.log(id);
-  //   if (idUser) {
-  //     this.route.navigate(['home/', idUser, '/basket/', id]);
-  //   } else {
-  //     this.route.navigate(['/404']);
-  //     alert('connecté vous!');
-  //   }
-  // }
-  selectMenu (id: number): void {
-    console.log(id)
+  // Navigate on basket or 404 error
+  selectMenu(id: number): void {
+    console.log(id);
     if (id) {
-      this.route.navigate(['/basket/', id])
+      this.route.navigate(['/basket/', id]);
     } else {
-      this.route.navigate(['/404'])
-      alert('panier vide!')
+      this.route.navigate(['/404']);
+      alert('panier vide!');
     }
   }
 }
