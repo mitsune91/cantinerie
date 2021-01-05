@@ -1,1 +1,133 @@
-<p>edit-user works!</p>
+<div class="canteen-user-edit-container">
+  <div class="canteen-user-edit-form-wrapper">
+    <div class="canteen-user-edit-form-section-top">
+      <div class="canteen-user-edit-btn-back-wrapper">
+        <button (click)="onNavigateBack()">
+          <img src="assets/Icons/back-icon.svg">
+          Retour
+        </button>
+      </div>
+      <div class="canteen-user-edit-btn-wrapper">
+        <button (click)="displayForm()">
+          <img src="assets/Icons/edit-icon.svg">
+        </button>
+      </div>
+    </div>
+    <form [formGroup]="form">
+      <div class="canteen-user-edit-form-body row">
+        <div class="form-group col-3 px-5">
+          <label for="id">N° de client</label>
+          <div class="user-detail" *ngIf="!isFormDisplayed">{{ editedUser.id }}</div>
+          <input type="text" class="form-control" id="id"
+                 *ngIf="isFormDisplayed"
+                 [placeholder]="editedUser.id" disabled>
+        </div>
+        <div class="form-group col-3 px-5">
+          <label for="name">Nom</label>
+          <div class="user-detail" *ngIf="!isFormDisplayed">{{ editedUser.name }}</div>
+          <input type="text" class="form-control" id="name"
+                 [placeholder]="editedUser.name"
+                 formControlName="name"
+                 *ngIf="isFormDisplayed">
+        </div>
+        <div class="form-group col-3 px-5">
+          <label for="firstname">Prénom</label>
+          <div class="user-detail" *ngIf="!isFormDisplayed">{{ editedUser.firstname }}</div>
+          <input type="text" class="form-control" id="firstname"
+                 [placeholder]="editedUser.firstname"
+                 formControlName="firstname"
+                 *ngIf="isFormDisplayed">
+        </div>
+        <div class="form-group col-3 px-5">
+          <label for="sex">Sexe</label>
+          <div class="user-detail" *ngIf="!isFormDisplayed">{{ getUserSex(editedUser) }}</div>
+          <select class="form-control" id="sex"
+                  formControlName="sex"
+                  *ngIf="isFormDisplayed">
+            <option value="0">Homme</option>
+            <option value="1">Femme</option>
+            <option value="2">Autre</option>
+          </select>
+        </div>
+        <div class="form-group col-3 px-5">
+          <label for="address">Adresse</label>
+          <div class="user-detail" *ngIf="!isFormDisplayed">{{ editedUser.address }}</div>
+          <input type="text" class="form-control" id="address"
+                 [placeholder]="editedUser.address"
+                 formControlName="address"
+                 *ngIf="isFormDisplayed">
+        </div>
+        <div class="form-group col-3 px-5">
+          <label for="postalCode">Code Postal</label>
+          <div class="user-detail" *ngIf="!isFormDisplayed">{{ editedUser.postalCode }}</div>
+          <input type="text" class="form-control" id="postalCode"
+                 [placeholder]="editedUser.postalCode"
+                 formControlName="postalCode"
+                 *ngIf="isFormDisplayed">
+        </div>
+        <div class="form-group col-3 px-5">
+          <label for="town">Ville</label>
+          <div class="user-detail" *ngIf="!isFormDisplayed">{{ editedUser.town }}</div>
+          <input type="text" class="form-control" id="town"
+                 [placeholder]="editedUser.town"
+                 formControlName="town"
+                 *ngIf="isFormDisplayed">
+        </div>
+        <div class="form-group col-3 px-5">
+          <label for="email">Email</label>
+          <div class="user-detail" *ngIf="!isFormDisplayed">{{ editedUser.email }}</div>
+          <input type="text" class="form-control" id="email"
+                 [placeholder]="editedUser.email"
+                 formControlName="email"
+                 *ngIf="isFormDisplayed">
+        </div>
+        <div class="form-group col-3 px-5">
+          <label for="phone">Téléphone</label>
+          <div class="user-detail" *ngIf="!isFormDisplayed">{{ editedUser.phone }}</div>
+          <input type="text" class="form-control" id="phone"
+                 [placeholder]="editedUser.phone"
+                 formControlName="phone"
+                 *ngIf="isFormDisplayed">
+        </div>
+        <div role="radiogroup">
+          <label class="label-title col-12">Status</label>
+          <div class="user-detail" *ngIf="!isFormDisplayed">{{ getUserStatus(editedUser) }}</div>
+          <div class="form-check form-check-inline" *ngIf="isFormDisplayed">
+            <input class="form-check-input" type="radio" value="0"
+                   name="inlineRadioOptions" id="status0"
+                   (click)="editUserStatus('0')">
+            <label class="form-check-label" for="status0">Activé</label>
+          </div>
+          <div class="form-check form-check-inline" *ngIf="isFormDisplayed">
+            <input class="form-check-input" type="radio" value="1"
+                   name="inlineRadioOptions" id="status1"
+                   (click)="editUserStatus('1')">
+            <label class="form-check-label" for="status1">Désactivé</label>
+          </div>
+          <div class="form-check form-check-inline" *ngIf="isFormDisplayed">
+            <input class="form-check-input" type="radio" value="2"
+                   name="inlineRadioOptions" id="status2"
+                   (click)="editUserStatus('2')">
+            <label class="form-check-label" for="status2">Supprimé</label>
+          </div>
+        </div>
+        <div class="form-group col-3 px-5">
+          <label for="wallet">Solde</label>
+          <div class="user-detail" *ngIf="!isFormDisplayed">{{ editedUser.wallet }}</div>
+          <input type="number" min="0" class="form-control" id="wallet"
+                 [placeholder]="editedUser.wallet"
+                 formControlName="wallet"
+                 *ngIf="isFormDisplayed">
+        </div>
+
+        <div class="btn-submit col-12">
+          <button type="submit" class="btn btn-primary"
+                  *ngIf="isFormDisplayed"
+                  (click)="submitEditedUser()">
+            Modifier
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

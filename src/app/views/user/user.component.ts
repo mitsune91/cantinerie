@@ -21,16 +21,16 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
 
-     // Appel au service MenuService
-     this.userService.getUser(this.id)
-     // Tant que la page n'est pas détruite,
-     .pipe(takeUntil(this.ngUnsubscribe))
-     // on souscrit à l'observable ou à la méthode getMenu()
-     .subscribe(data => {
-       // on stocke les données dans une variable pour les réutiliser
-       this.user = data;
-       console.log(this.user);
-   });
+     // // Appel au service MenuService
+     // this.userService.getUser(this.id)
+     // // Tant que la page n'est pas détruite,
+     // .pipe(takeUntil(this.ngUnsubscribe))
+     // // on souscrit à l'observable ou à la méthode getMenu()
+     // .subscribe(data => {
+     //   // on stocke les données dans une variable pour les réutiliser
+     //   this.user = data;
+     //   console.log(this.user);
+   // });
   }
 
 }

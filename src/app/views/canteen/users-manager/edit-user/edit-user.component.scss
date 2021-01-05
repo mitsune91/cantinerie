@@ -1,0 +1,95 @@
+$bc: #f8f9fa;
+
+.canteen-user-edit-container {
+  height: calc(100vh - 90px);
+  background-color: $bc;
+  padding-top: 30px;
+}
+
+.canteen-user-edit-form-wrapper {
+  margin: 50px 20px;
+  padding: 20px;
+  border: 1px solid lightgrey;
+  border-radius: 25px;
+  background-color: #fff;
+  text-align: center;
+}
+
+.canteen-user-edit-form-section-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-bottom: 1px solid lightgrey;
+  padding: 10px 0;
+  margin-bottom: 20px;
+
+  button {
+    border: none;
+    background-color: transparent;
+
+    &:focus {
+      outline: none;
+    }
+
+    img {
+      width: 15px;
+    }
+  }
+
+  .canteen-user-edit-btn-wrapper {
+    flex: 0 0 100%;
+    max-width: 100%;
+    text-align: right;
+  }
+
+  .canteen-user-edit-btn-back-wrapper {
+    flex: 0 0 100%;
+    max-width: 100%;
+    text-align: left;
+
+    img {
+      width: 20px;
+    }
+  }
+}
+
+.canteen-user-edit-img-wrapper {
+  img {
+    width: 150px;
+    height: auto;
+    border-radius: 10px;
+  }
+}
+
+.label-title {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+label {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.user-detail {
+  margin: 10px 0;
+  color: darkgrey;
+}
+
+.canteen-user-edit-form-section-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.canteen-user-edit-form-ingredients {
+  flex: 0 0 100%;
+  max-width: 100%;
+  margin: 20px 0 30px 0;
+}
+
+.canteen-user-edit-form-body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}

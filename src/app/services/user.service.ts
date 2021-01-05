@@ -18,6 +18,19 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
+
+  status = [
+    { code: 0, label: 'Activé'},
+    { code: 1, label: 'Désactivé'},
+    { code: 2, label: 'Supprimé'}
+  ];
+
+  sex = [
+    { code: 0, label: 'Homme'},
+    { code: 1, label: 'Femme'},
+    { code: 2, label: 'Autre'}
+  ];
+
   constructor(private http: HttpClient) {}
 
   private url: string = HOST.apiUrl;
@@ -37,8 +50,8 @@ export class UserService {
     return this.http.put(this.url + 'user/register', body);
   }
 
-  updateUser(): Observable<any> {
-    return;
+  updateUser(body: any): Observable<any> {
+    return this.http.patch(this.url + 'user/update/' + body.id, body);
   }
   deleteUserById(userId: number): Observable<any> {
     return this.http.delete(this.url + 'user/delete/' + userId);
@@ -49,7 +62,7 @@ export class UserService {
    * @param [integer] :id
    * @return [Object] retourne un objet type User
    */
-  getUser(id: number): Observable<any> {
+  getUserById(id: number): Observable<any> {
     return this.http.get(this.url + 'user/find/' + id);
 
   }

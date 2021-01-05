@@ -20,7 +20,7 @@ export class SidebarComponent implements OnInit {
   // pour l'envoyer au composant Home
   selectDayForMenu(value: string): void {
     this.btnEvent.emit(value);
-  };
+  }
 
 
 }
