@@ -52,11 +52,13 @@ export class MenuService {
   updateImgMenu(): Observable<any> {
     return;
   }
-  getMenuOfTheDay(): Observable<any> {
-    return;
-  }
-  getMenuOfTheWeek(): Observable<any> {
-    return;
+  // Méthode findallavailablefortoday de l'api ne fonctionne pas.
+  // Renvoie tous les menus de la semaine. Ne pas utiliser !!
+  // getMenuOfTheDay(): Observable<any> {
+  //   return this.http.get(this.url + 'menu/findallavailablefortoday');
+  // }
+  getMenuOfTheWeek(weekNumber: number): Observable<any> {
+    return this.http.get(this.url + 'menu/findallavailableforweek/' + weekNumber);
   }
   getImgMenu(): Observable<any> {
     return;

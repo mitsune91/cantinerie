@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
-import { HOST } from '../../../config/app.config'
-import { Observable } from 'rxjs'
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { HOST } from '../../../config/app.config';
+import { Observable } from 'rxjs';
 
 /*
  *
@@ -18,20 +18,21 @@ import { Observable } from 'rxjs'
   providedIn: 'root'
 })
 export class UserService {
-  constructor (private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-  private url: string = HOST.apiUrl
+  private url: string = HOST.apiUrl;
 
-  get urlApi () {
-    return this.url
+  get urlApi(): string {
+    return this.url;
   }
   /*
    *                        Gestion des utilisateurs
    */
 
-  getUsers (): Observable<any> {
+  getUsers(): Observable<any> {
     return this.http.get(this.url + 'user/findall')
   }
+<<<<<<< HEAD
 /* mettre en paramettre un body de type any , cette méthode envoi un observable */
   putUser(body: any): Observable<any> {
     return this.http.put(this.url + 'user/register', body);
@@ -39,9 +40,17 @@ export class UserService {
 
   updateUser (): Observable<any> {
     return
+=======
+
+  putUser(): Observable<any> {
+    return;
   }
-  deleteUser (): Observable<any> {
-    return
+  updateUser(): Observable<any> {
+    return;
+>>>>>>> b946409abd2cdc6a5effc2b9e4755e7f13b82e44
+  }
+  deleteUserById(userId: number): Observable<any> {
+    return this.http.delete(this.url + 'user/delete/' + userId);
   }
   /**
    * Recherche une utilisatuer par son numéro d'identifiaction.
@@ -53,22 +62,22 @@ export class UserService {
     return this.http.get(this.url + 'user/find/' + id);
 
   }
-  updateImgUser (): Observable<any> {
-    return
+  updateImgUser(): Observable<any> {
+    return;
   }
-  debitUsersWallet (): Observable<any> {
-    return
+  debitUsersWallet(): Observable<any> {
+    return;
   }
-  creditUsersWallet (): Observable<any> {
-    return
+  creditUsersWallet(): Observable<any> {
+    return;
   }
-  getImgUser (): Observable<any> {
-    return
+  getImgUser(): Observable<any> {
+    return;
   }
-  desactivateUserById (): Observable<any> {
-    return
+  desactivateUserById(): Observable<any> {
+    return;
   }
-  activateUserById (): Observable<any> {
-    return
+  activateUserById(): Observable<any> {
+    return;
   }
 }

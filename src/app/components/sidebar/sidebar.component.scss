@@ -1,11 +1,22 @@
-.sidebar-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  justify-content: space-around;
-  float: left;
-  width: 150px;
-  min-height: calc(100vh - 100px);
-  border-right: 1px solid #6d6c6c;
-  position: fixed;
+.sidebar-images {
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  &_btn {
+    background-color: inherit;
+    margin-right: 20px;
+    padding: 0;
+    border: none;
+    background: none;
+
+  }
+
+  &_img {
+    width: 100%;
+  }
+}
+
+button:focus {
+  outline: none;
 }

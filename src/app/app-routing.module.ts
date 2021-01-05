@@ -15,7 +15,15 @@ const routes: Routes = [
   },
   {
 
+<<<<<<< HEAD
     path: 'user',
+=======
+    path: 'canteen',
+    loadChildren: () => import('./views/canteen/canteen.module').then(m => m.CanteenModule),
+  },
+  {
+    path: 'home/:id',
+>>>>>>> b946409abd2cdc6a5effc2b9e4755e7f13b82e44
     component: UserComponent
   },
   {
@@ -30,7 +38,7 @@ const routes: Routes = [
     path: 'reset_password',
     component: ResetPasswordComponent
   }
-]
+];
 
 
 @NgModule({

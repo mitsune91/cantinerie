@@ -30,28 +30,20 @@ export class MealService {
   getMeals(): Observable<any> {
     return this.http.get(this.url + 'meal/findall');
   }
-
-  putMeal(): Observable<any> {
-    return ;
+  addMeal(body: any): Observable<any> {
+    return this.http.put(this.url + 'meal/add', body);
   }
-  updateMeal(): Observable<any> {
-    return;
+  updateMealById(mealId: number, body: any): Observable<any> {
+    return this.http.patch(this.url + 'meal/update/' + mealId, body);
   }
-  deleteMeal(): Observable<any> {
-    return;
+  deleteMeal(mealId: number): Observable<any> {
+    return this.http.delete(this.url + 'meal/delete/' + mealId);
   }
-  /**
-   * Get Meal by :ID
-   * Recherche un <<meal>> par son numéro d'identifiaction.
-   *
-   * @param [integer] :id
-   * @return [Object] retourne un objet type MEAL
-   */
-  getMeal(id: number): Observable<any> {
+  getMealById(id: number): Observable<any> {
     return this.http.get(this.url + 'meal/find/' + id);
   }
-  updateImgMeal(): Observable<any> {
-    return;
+  updateImgMealById(mealId: number, body: any): Observable<any> {
+    return this.http.patch(this.url + 'meal/updateimg/' + mealId, body);
   }
   getMealOfTheDay(): Observable<any> {
     return;
@@ -59,7 +51,7 @@ export class MealService {
   getMealOfTheWeek(): Observable<any> {
     return;
   }
-  getImgMeal(): Observable<any> {
-    return;
+  getMealImg(id: number): Observable<any> {
+    return this.http.get(this.url + 'meal/findimg/' + id);
   }
 }
