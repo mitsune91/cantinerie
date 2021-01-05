@@ -132,7 +132,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(data => {
               const apiUrl = HOST.apiUrl
-              meal.pathImg = apiUrl + data.imagePath.split(' ').join('%20')
+              meal.pathImg = apiUrl + data.imagePath.split(' ').join('%20');
             })
         })
       }
