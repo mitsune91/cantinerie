@@ -30,7 +30,7 @@ export class IngredientService {
     { code : 7, label: 'Soupe' },
     { code : 8, label: 'Sauce' },
     { code : 9, label: 'Boisson' },
-    { code : 10, label: 'Sandwiche' },
+    { code : 10, label: 'Sandwich' },
     { code : 11, label: 'Snack' },
   ];
 

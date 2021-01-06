@@ -116,6 +116,8 @@ export class EditMealComponent extends BaseComponent implements OnInit {
   // Envoie les changements du formulaire
   submitEditedMeal(): void {
     const body = this.form.value;
+    body.isLunchLady = true;
+    console.log(body);
     this.mealService.updateMealById(this.editedMeal.id, body)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe();

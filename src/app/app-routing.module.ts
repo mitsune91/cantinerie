@@ -14,7 +14,6 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-
     path: 'canteen',
     loadChildren: () => import('./views/canteen/canteen.module').then(m => m.CanteenModule),
   },
@@ -26,7 +25,7 @@ const routes: Routes = [
     path: 'basket/:idMenu',
     component: CardComponent
   },
-{
+  {
     path: 'login',
     component: AuthComponent
   },
