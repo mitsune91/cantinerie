@@ -20,7 +20,6 @@ export class UserComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
      // // Appel au service MenuService
      // this.userService.getUser(this.id)
      // // Tant que la page n'est pas détruite,

@@ -6,26 +6,18 @@
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/login"
-            >Se connecter</a
-          >
+          <a class="nav-link" routerLinkActive="active" routerLink="/login">Se connecter</a>
           <a
             class="nav-link"
             routerLinkActive="active"
             (click)="onLogout()"
-            routerLink="/"
-            >Se deconnecter</a
-          >
+            routerLink="/">Se deconnecter</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/signup"
-            >S'inscrire</a
-          >
+          <button class="nav-link" (click)="onAddUser()">S'inscrire</button>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/basket"
-            >Panier</a
-          >
+          <a class="nav-link" routerLinkActive="active" routerLink="/basket">Panier</a>
         </li>
       </ul>
     </div>
