@@ -1,10 +1,11 @@
+import { ModalComponent } from './../../components/modal/modal.component';
 import { AuthService } from './../../services/auth.service';
 import { MealService } from './../../services/meal.service';
 import { MenuService } from './../../services/menu.service';
 import { Menu } from './../../models/Menu';
 import { User } from './../../models/User';
 import { Order } from './../../models/Order';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { BaseComponent } from '../../shared/core/base.component';
 import { takeUntil } from 'rxjs/operators';
@@ -12,15 +13,14 @@ import { OrderService } from 'src/app/services/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Meal } from '../../models/Meal';
 import { JsonPipe } from '@angular/common';
-
-
-
+import { ModalConfig } from '../../models/modal.config';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss']
 })
 export class CardComponent extends BaseComponent implements OnInit {
+  @ViewChild('modal') private modalComponent: ModalComponent
 
   user: User;
   order: Order;
@@ -176,10 +176,16 @@ export class CardComponent extends BaseComponent implements OnInit {
 
             },
               // Vérification des constrains. limitation de commande avant 10h30 et pas plus de 500 commande par jour.
-              error => {
+              async error => {
                 console.log('oops', error);
+                /**
+                 * Une fois l'erreur d'étecté:
+                 * 1./ va chercher le moal.component
+                 * 2./ Récupère les informations dans la fonction ci-dessous [modalConfig]
+                 * 3./ La syncronise avec le modal content
+                 */
+                await this.modalComponent.open();
                 message = 'L\'heure authorisée pour passer une commande est dépassée';
-                alert('L\'heure authorisée pour passer une commande est dépassée.' + '\n' + 'Passé une commande avant 10h30!');
 
                 // Retour a la page d'accueil.
                 this.route.navigate(['/']);
@@ -202,6 +208,28 @@ export class CardComponent extends BaseComponent implements OnInit {
       console.log(this.mealQuantity);
       console.log(message);
 
+  }
+
+  /**
+   * La fonction récupere le model de modal pour dynamisé les instruction et information a intégré
+   */
+  public modalConfig: ModalConfig = {
+    modalTitle: "Alerte - Commande Annuler", // Titre associé a la modal
+    modalDescription: "L\'heure authorisée pour passer une commande est dépassée. Passé une commande avant 10h30!", // petite description dans le bode de la modal
+    onDismiss: () => {
+      return true
+    },
+    dismissButtonLabel: "Annulé", // text du boutton
+    onClose: () => {
+      return true // en cliquant ferme la modal
+    },
+    closeButtonLabel: "", // le deuxème boutton
+    disableCloseButton: () => {
+      return true // deactivation du boutton
+    },
+    hideCloseButton: () => {
+      return true // display none du boutton
+    }
   }
 
 }

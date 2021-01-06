@@ -19,6 +19,10 @@ const routes: Routes = [
     loadChildren: () => import('./views/canteen/canteen.module').then(m => m.CanteenModule),
   },
   {
+    path: 'profile',
+    loadChildren: () => import('./views/profile/profile.module').then(p => p.ProfileModule),
+  },
+  {
     path: 'home/:id',
     component: UserComponent
   },

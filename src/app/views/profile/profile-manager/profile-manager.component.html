@@ -1,0 +1,41 @@
+<div class="profile-manager-container row">
+  <div class="profile-manager-table-wrapper col-10 my-3">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Image</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Prénom</th>
+        <th scope="col">Sex</th>
+        <th scope="col">Tel</th>
+        <th scope="col">Email</th>
+        <th scope="col">Addresse</th>
+        <th scope="col">Code Postale</th>
+        <th scope="col">Ville</th>
+        <th scope="col">Solde</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><div><img [src]="userPathImg"></div></td>
+        <td>{{ user?.name  }}</td>
+        <td>{{ user?.firstname }}</td>
+        <td>{{ user?.sex }}</td>
+        <td>{{ user?.phone  }}</td>
+        <td>{{ user?.email }}</td>
+        <td>{{ user?.address }}</td>
+        <td>{{ user?.postalCode  }}</td>
+        <td>{{ user?.town }}</td>
+        <td>{{ user?.wallet }} €</td>
+        <td>
+          <button class="profile-manager-table-btn" (click)="onEditUser(user?.id)"
+                  data-toggle="tooltip" data-placement="top" title="Edit">
+            <img src="assets/Icons/edit-icon.svg">
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
