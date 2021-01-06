@@ -72,7 +72,7 @@ export class CardComponent extends BaseComponent implements OnInit {
 
   async getUserConnected(id: number): Promise<void>{
     // Appel au service UserService
-    this.userService.getUser(id)
+    this.userService.getUserById(id)
     // Tant que la page n'est pas détruite,
     .pipe(takeUntil(this.ngUnsubscribe))
     // on souscrit à l'observable ou à la méthode getUser()
