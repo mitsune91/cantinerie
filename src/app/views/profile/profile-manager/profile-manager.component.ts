@@ -54,7 +54,7 @@ export class ProfileManagerComponent extends BaseComponent implements OnInit {
     this.getUserConnect(14); // l'dentifiant let userIdConnected
   }
   getUserConnect(id: number) {
-    this.userService.getUser(id)
+    this.userService.getUserById(id)
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe(data => {
       this.user = data;

@@ -32,7 +32,7 @@ export class AddUserComponent extends BaseComponent implements OnInit {
       email: [''],
       phone: [''],
       wallet: [''],
-      password: ['']
+  
     });
   }
 
@@ -64,7 +64,7 @@ export class AddUserComponent extends BaseComponent implements OnInit {
       phone: this.form.value.phone,
       status: this.form.value.status,
       wallet: this.form.value.wallet,
-      password: this.form.value.password || 'bonjour' // A voir pour le password...
+      password: 'bonjour' // A voir pour le password...
     };
     this.userService.putUser(body)
       .pipe(takeUntil(this.ngUnsubscribe))
