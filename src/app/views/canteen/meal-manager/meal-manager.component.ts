@@ -97,5 +97,6 @@ export class MealManagerComponent extends BaseComponent implements OnInit {
   }
 
   // TODO Ajouter un filtre date
+  // TODO Ajouter filtre status
 
 }

@@ -23,8 +23,4 @@ export class NavbarComponent implements OnInit {
     console.log('click');
     this.authService.logout();
   }
-
-  onAddUser(): void {
-    this.router.navigate(['canteen/users/add']);
-  }
 }
