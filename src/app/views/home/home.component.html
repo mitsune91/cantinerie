@@ -13,30 +13,39 @@
   <div class="row">
     <div *ngIf="selectedMenusFromDay?.length">
       <div *ngFor="let menu of selectedMenusFromDay[0]?.menus">
-        <div class="row ">
-          <div *ngFor="let meal of menu.meals">
-            <div class="col-3">
-              <div class="card home-card" style="width: 13rem;">
-                <img
-                  class="card-img-top"
-                  [src]="meal.pathImg"
-                  alt="Image plat"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">{{meal.label}}</h5>
-                  <p class="card-text">{{meal.priceDF}} €</p>
-                  <button
-                    class="btn"
-                    (click)="selectMenu(menu.id)"
-                    style="background-color:  #1a423f;color: white;"
-                  >
-                    Ajouter au panier
-                  </button>
+        <div *ngIf="menu.meals; else elseBlockNoMenuMeal">
+          <div class="row ">
+            <div *ngFor="let meal of menu.meals">
+              <div class="col-3">
+                <div class="card home-card" style="width: 13rem;">
+                  <img
+                    class="card-img-top"
+                    [src]="meal.pathImg"
+                    alt="Image plat"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title">{{meal.label}}</h5>
+                    <p class="card-text">{{meal.priceDF}} €</p>
+                    <button
+                      class="btn"
+                      (click)="selectMenu(menu.id)"
+                      style="background-color:  #1a423f;color: white;"
+                    >
+                      Ajouter au panier
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <ng-template #elseBlockNoMenuMeal>
+          <div class="card home-card" style="width: 13rem;">
+            <div class="card-body">
+              <p class="card-text">Pas de menu.</p>
+            </div>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>

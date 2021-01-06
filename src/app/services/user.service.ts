@@ -75,8 +75,8 @@ export class UserService {
   creditUsersWallet(userId: number, body: any): Observable<any> {
     return this.http.post(this.url + 'user/credit/' + userId + '?amount=' + body.wallet , body);
   }
-  getImgUser(): Observable<any> {
-    return;
+  getImgUser(id: number): Observable<any> {
+    return this.http.get(this.url + 'user/findimg/' + id);
   }
   desactivateUserById(): Observable<any> {
     return;
