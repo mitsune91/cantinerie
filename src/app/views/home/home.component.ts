@@ -150,3 +150,16 @@ export class HomeComponent extends BaseComponent implements OnInit {
     }
   }
 }
+
+// TODO CSS plats edit et add page
+// TODO CSS commandes edit et add page
+// TODO CSS utilisateurs edit et add page
+// TODO CSS panier
+// TODO Authentification
+// TODO Token
+// TODO Roles
+// TODO links navbar
+// TODO Vérifier que toutes les méthodes fonctionnent
+// TODO Revoir la home
+// TODO Vérifier qu'il y a tous les filtres pour chaque tableau
+// TODO Docs et livrables
