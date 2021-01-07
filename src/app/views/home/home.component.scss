@@ -9,6 +9,7 @@
 .home-card {
   box-shadow: 2px 2px 2px#1a423f;
   margin-top: 20px;
+  height: 350px;
 }
 
 .home-container {
@@ -17,4 +18,34 @@
   .home-wrapper {
     height: 100%;
   }
+}
+
+.btn {
+  background-color: #1a423f;
+  color: #fff;
+  width: 150px;
+  height: 30px;
+  padding: 0;
+
+  &:hover {
+    background-color: #fff;
+    color: #1a423f;
+    border: 2px solid #1a423f;
+  }
+}
+
+.card-body {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-title {
+  text-align: center;
+}
+
+.card-text {
+  text-align: center;
 }

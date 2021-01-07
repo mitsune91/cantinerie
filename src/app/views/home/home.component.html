@@ -18,19 +18,11 @@
           <div *ngFor="let meal of menu.meals">
             <div class="col-3">
               <div class="card home-card" style="width: 13rem;">
-                <img
-                  class="card-img-top"
-                  [src]="meal.pathImg"
-                  alt="Image plat"
-                />
+                <img class="card-img-top" [src]="meal.pathImg" alt="Image plat"/>
                 <div class="card-body">
                   <h5 class="card-title">{{meal.label}}</h5>
                   <p class="card-text">{{meal.priceDF}} €</p>
-                  <button
-                    class="btn"
-                    (click)="selectMenu(menu.id)"
-                    style="background-color:  #1a423f;color: white;"
-                  >
+                  <button class="btn" (click)="selectMenu(menu.id)">
                     Ajouter au panier
                   </button>
                 </div>

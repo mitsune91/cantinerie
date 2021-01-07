@@ -1,0 +1,37 @@
+.login-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  height: calc(100vh - 150px);
+}
+
+.login-header-wrapper {
+  position: absolute;
+  top: 100px;
+
+  .login-header {
+    font-size: 70px;
+  }
+}
+
+.form-control {
+  margin: 20px 0;
+}
+
+.submit-btn {
+  border: 1px solid #1a423f;
+  color: #1a423f;
+  background-color: #fff;
+  width: 120px;
+  border-radius: 15px;
+  padding: 5px 10px;
+
+  &:hover {
+    color: #fff;
+    background-color: #1a423f;
+  }
+}
