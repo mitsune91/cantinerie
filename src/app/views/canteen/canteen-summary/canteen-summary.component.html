@@ -45,6 +45,7 @@
           <th scope="col">Plat commandé</th>
           <th scope="col">Quantité</th>
           <th scope="col">Utilisateur</th>
+          <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -59,6 +60,20 @@
           </td>
           <td *ngIf="!order?.quantity"></td>
           <td>{{ order.user.firstname }} {{ order.user.name }}</td>
+          <td>
+            <button class="summary-action-btn" (click)="payAndDeliverOrder(order)"
+                    data-toggle="tooltip" data-placement="top" title="Encaisser">
+              <img src="assets/Icons/cash-icon.svg">
+            </button>
+            <button class="summary-action-btn" (click)="editOrder(order)"
+                    data-toggle="tooltip" data-placement="top" title="Modifier">
+              <img src="assets/Icons/edit-icon.svg">
+            </button>
+            <button class="summary-action-btn" (click)="deleteOrder(order)"
+                    data-toggle="tooltip" data-placement="top" title="Supprimer">
+              <img src="assets/Icons/trash-icon.svg">
+            </button>
+          </td>
         </tr>
         </tbody>
       </table>

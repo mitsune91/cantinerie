@@ -103,4 +103,21 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
     this.isMealSummaryDisplayed = !this.isMealSummaryDisplayed;
   }
 
+  // TODO A travailler : Voir orderService
+  payAndDeliverOrder(order: any): void {
+    this.orderService.payAndDeliverOrder()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe();
+  }
+
+  editOrder(order: any): void {
+    this.router.navigate(['canteen/orders/edit/', order.id]);
+  }
+
+  deleteOrder(order: any): void {
+    this.orderService.cancelOrderById(order.id)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe();
+  }
+
 }

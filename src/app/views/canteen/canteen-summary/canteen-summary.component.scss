@@ -94,3 +94,20 @@ table {
     color: #ffa526;
   }
 }
+
+.summary-action-btn {
+  border: none;
+  background-color: transparent;
+
+  button {
+    &:focus,
+    &:active {
+      border: none;
+      outline: none;
+    }
+  }
+
+  img {
+    width: 20px;
+  }
+}
