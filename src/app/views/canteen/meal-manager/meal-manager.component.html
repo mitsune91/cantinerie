@@ -1,11 +1,16 @@
 <div class="meals-manager-container row">
-  <div class="col-2">
-    <app-sidebar
-      [buttonsMenu]="canteenMenus"
-      (btnEvent)="onSelectedMenu($event)"
-    ></app-sidebar>
+  <div class="row sidebar-bg">
+    <div class="container-fluid">
+      <div class="row vw-100">
+        <app-sidebar
+          (btnEvent)="onSelectedMenu($event)"
+          [buttonsMenu]="canteenMenus"
+          class="vw-100"
+        ></app-sidebar>
+      </div>
+    </div>
   </div>
-  <div class="meals-manager-table-wrapper col-10 my-3">
+  <div class="meals-manager-table-wrapper vw-100 my-3">
     <div class="meals-manager-table-section-top">
       <form>
         <div class="form-group form-inline">
@@ -21,7 +26,7 @@
     </div>
 
     <table class="table table-striped">
-      <thead>
+      <thead class="table-header">
       <tr>
         <th scope="col">Id</th>
         <th scope="col">Plat</th>

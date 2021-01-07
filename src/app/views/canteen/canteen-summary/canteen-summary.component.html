@@ -1,14 +1,19 @@
 <div class="summary-wrapper row">
-  <div class="col-2">
-    <app-sidebar
-      [buttonsMenu]="canteenMenus"
-      (btnEvent)="onSelectedMenu($event)"
-    ></app-sidebar>
+  <div class="row sidebar-bg">
+    <div class="container-fluid">
+      <div class="row vw-100">
+        <app-sidebar
+          (btnEvent)="onSelectedMenu($event)"
+          [buttonsMenu]="canteenMenus"
+          class="vw-100"
+        ></app-sidebar>
+      </div>
+    </div>
   </div>
 
-  <div class="summaries-wrapper col-10">
+  <div class="summaries-wrapper vw-100">
     <div class="row meals-summary">
-      <div class="col-12">
+      <div class="col-12 meals-summary-wrapper">
         Récapitulatif des commandes
         <button (click)="summaryToggle()" [ngSwitch]="isMealSummaryDisplayed">
           <img *ngSwitchCase="true" src="assets/Icons/keyboard-arrow-up.svg">

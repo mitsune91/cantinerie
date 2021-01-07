@@ -1,13 +1,16 @@
 .navbar-wrapper {
   flex: 0 0 100%;
   max-width: 100%;
-  height: 100px;
-  padding: 0 10px;
-  box-shadow: 0 5px 10px 0 #184788;
-
+  height: 110px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+}
+
+.navbar-links-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .logo-wrapper {
@@ -31,4 +34,46 @@
 .navbar-logo {
   width: 20%;
   border-radius: 50%;
+  padding: 10px;
+}
+
+.navbar-links-wrapper {
+  a {
+    img {
+      width: 200px;
+    }
+  }
+}
+
+.navbar-dropdown-btn-wrapper {
+  margin-right: 10px;
+  button {
+    border: none;
+    background-color: transparent;
+
+    &:focus {
+      outline: none;
+    }
+
+    img {
+      width: 40px;
+      font-weight: bold;
+      filter: invert(19%) sepia(30%) saturate(797%) hue-rotate(126deg) brightness(95%) contrast(91%);;
+    }
+  }
+}
+
+.dropdown-item {
+  color: #1a423f;
+  font-weight: bold;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.navbar-link {
+  &:hover {
+    opacity: 0.5;
+  }
 }

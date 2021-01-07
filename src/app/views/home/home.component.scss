@@ -10,3 +10,11 @@
   box-shadow: 2px 2px 2px#1a423f;
   margin-top: 20px;
 }
+
+.home-container {
+  height: calc(100vh - 250px);
+
+  .home-wrapper {
+    height: 100%;
+  }
+}

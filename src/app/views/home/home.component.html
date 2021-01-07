@@ -1,16 +1,17 @@
 <!--<h1 id="wk">{{ date | date: 'w'}}</h1>-->
 <div class="row sidebar-bg">
   <div class="container-fluid">
-    <div class="row">
+    <div class="row vw-100">
       <app-sidebar
         (btnEvent)="loadMenuOfSelectedDay($event)"
         [buttonsMenu]="days"
+        class="vw-100"
       ></app-sidebar>
     </div>
   </div>
 </div>
-<div class="container">
-  <div class="row">
+<div class="container home-container">
+  <div class="row flex justify-content-center align-items-lg-center home-wrapper">
     <div *ngIf="selectedMenusFromDay?.length">
       <div *ngFor="let menu of selectedMenusFromDay[0]?.menus">
         <div class="row ">

@@ -14,7 +14,7 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
   canteenMenus = ['Gestion des plats', 'Gestion des commandes', 'Gestion des utilisateurs'];
   ordersOfTheDay: any;
   day = new Date(2020, 9, 2);
-  isMealSummaryDisplayed = true;
+  isMealSummaryDisplayed = false;
   totalOrders = 0;
   numberOfMeals: any[] = [];
 

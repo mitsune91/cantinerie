@@ -1,11 +1,16 @@
 <div class="users-manager-container row">
-  <div class="col-2">
-    <app-sidebar
-      [buttonsMenu]="canteenMenus"
-      (btnEvent)="onSelectedMenu($event)"
-    ></app-sidebar>
+  <div class="row sidebar-bg">
+    <div class="container-fluid">
+      <div class="row vw-100">
+        <app-sidebar
+          (btnEvent)="onSelectedMenu($event)"
+          [buttonsMenu]="canteenMenus"
+          class="vw-100"
+        ></app-sidebar>
+      </div>
+    </div>
   </div>
-  <div class="users-manager-table-wrapper col-10 my-3">
+  <div class="users-manager-table-wrapper vw-100">
     <div class="users-manager-table-section-top">
       <form>
         <div class="form-group form-inline">
