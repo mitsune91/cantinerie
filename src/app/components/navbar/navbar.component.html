@@ -15,8 +15,8 @@
           <img src="assets/Icons/user-icon.svg">
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <a class="dropdown-item" routerLinkActive="active" routerLink="/basket">Mon panier</a>
-          <a class="dropdown-item" routerLinkActive="active" (click)="onLogout()" routerLink="/">Se déconnecter</a>
+          <button class="dropdown-item" (click)="onBasket()">Mon panier</button>
+          <button class="dropdown-item" (click)="onLogout()">Se déconnecter</button>
         </div>
       </div>
     </div>

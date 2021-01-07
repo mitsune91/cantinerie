@@ -9,7 +9,9 @@ import {Router} from '@angular/router';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+
   isLoggedIn$: Observable<boolean>;
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -20,7 +22,11 @@ export class NavbarComponent implements OnInit {
   }
 
   onLogout(): void {
-    console.log('click');
     this.authService.logout();
+    this.router.navigate(['/']);
+  }
+
+  onBasket(): void {
+    this.router.navigate(['basket']);
   }
 }
