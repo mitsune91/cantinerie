@@ -17,9 +17,9 @@
     <form [formGroup]="form">
       <div class="profile-user-edit-form-body row">
         <div class="form-group col-3 px-5" style="display: none;">
-          <label for="id">N° de client</label>
+          <label for="id">N° d'utilisateur</label>
           <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.id }}</div>
-          <input type="text" class="form-control" id="id"
+          <input type="number" class="form-control" id="id"
                  *ngIf="isFormDisplayed"
                  [placeholder]="user.id" disabled>
         </div>

@@ -97,21 +97,20 @@ export class ProfileManagerComponent extends BaseComponent implements OnInit {
         status = s.label;
       }
     });
-    console.log(status)
     return status;
   }
   onEditUser(id: number) {}
 
-      // Permet d'afficher le formulaire permettant de modifier un plat
+  // Permet d'afficher le formulaire permettant de modifier un plat
   displayForm(): void {
     this.isFormDisplayed = !this.isFormDisplayed;
   }
-      // Permet de revenir à la page d'accueil
+  // Permet de revenir à la page d'accueil
   onNavigateBack(): void {
     this.router.navigate(['']);
   }
 
-    // Envoie les changements du formulaire
+  // Envoie les changements du formulaire
     submitEditedUser(): void {
       const body = {
         // isLunchLady: true, // Décommenter pour tester la requête
