@@ -12,7 +12,6 @@ import { takeUntil } from 'rxjs/operators';
 import { OrderService } from 'src/app/services/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Meal } from '../../models/Meal';
-import { JsonPipe } from '@angular/common';
 import { ModalConfig } from '../../models/modal.config';
 @Component({
   selector: 'app-card',
@@ -214,7 +213,7 @@ export class CardComponent extends BaseComponent implements OnInit {
    * La fonction récupere le model de modal pour dynamisé les instruction et information a intégré
    */
   public modalConfig: ModalConfig = {
-    modalTitle: "Alerte - Commande Annuler", // Titre associé a la modal
+    modalTitle: 'Alerte - Commande Annuler', // Titre associé a la modal
     modalDescription: "L\'heure authorisée pour passer une commande est dépassée. Passé une commande avant 10h30!", // petite description dans le bode de la modal
     onDismiss: () => {
       return true

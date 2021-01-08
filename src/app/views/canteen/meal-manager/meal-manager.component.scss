@@ -1,5 +1,8 @@
+@import "src/theme/variables";
+@import "src/theme/mixins";
+
 .meals-manager-table-wrapper {
-  height: calc(100vh - 280px);
+  height: calc(100vh - 245px);
   overflow: scroll;
   overflow-x: hidden;
 }
@@ -14,22 +17,25 @@
 
   img {
     width: 15px;
+    filter: invert(70%) sepia(53%) saturate(886%) hue-rotate(337deg) brightness(90%) contrast(102%);
   }
 }
 
 .meals-manager-table-section-top {
-  display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   margin: 10px 10px 30px 10px;
 
+  @include flex-box();
+
   button {
     border: none;
     background-color: transparent;
+    color: $secondary;
 
     img {
-      width: 15px;
+      width: 25px;
+      filter: invert(70%) sepia(53%) saturate(886%) hue-rotate(337deg) brightness(100%) contrast(102%);
     }
   }
 
@@ -39,12 +45,12 @@
 }
 
 table {
-  tr:nth-child(odd) {
-    background-color: rgba(26, 66, 63, 0.2);
+  tr:nth-child(even) {
+    background-color: $primary-row;
   }
 
   .table-header {
-    background-color: #1a423f;
-    color: #ffa526;
+    background-color: $primary-thead;
+    color: $primary;
   }
 }

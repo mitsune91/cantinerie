@@ -157,10 +157,10 @@ export class HomeComponent extends BaseComponent implements OnInit {
 // TODO CSS commandes edit et add page
 // TODO CSS utilisateurs edit et add page
 
-// TODO links navbar cedric
+// TODO links navbar cedric OK fait
 // TODO Vérifier que toutes les méthodes fonctionnent Cedric
 // TODO Revoir la home cedric
-// TODO Ajouter password dans le formulaire edit page des utilisateurs cedric
+// TODO Ajouter password dans le formulaire edit page des utilisateurs cedric OK fait
 
 // TODO Vérifier qu'il y a tous les filtres pour chaque tableau JM
 //  (canteen-summary date picker, edit-order plats du jour, add-order plats du jour)

@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {takeUntil} from 'rxjs/operators';
 
 import {BaseComponent} from '../../../../shared/core/base.component';
 import {UserService} from '../../../../services/user.service';
+import {TOKEN_NAME} from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-add-user',
@@ -32,11 +33,11 @@ export class AddUserComponent extends BaseComponent implements OnInit {
       email: [''],
       phone: [''],
       wallet: [''],
-  
     });
   }
 
   ngOnInit(): void {
+    console.log(localStorage.getItem(TOKEN_NAME));
   }
 
   // Permet de revenir à la page de gestion des commandes
@@ -69,6 +70,10 @@ export class AddUserComponent extends BaseComponent implements OnInit {
     this.userService.putUser(body)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe();
+  }
+
+  isLogged(): boolean {
+    return (localStorage.getItem(TOKEN_NAME) !== null) ? true : false;
   }
 
 }

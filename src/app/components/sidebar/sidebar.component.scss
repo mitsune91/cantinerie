@@ -1,8 +1,11 @@
+@import "src/theme/variables";
+@import "src/theme/mixins";
+
 .sidebar-images {
   text-align: center;
-  flex: 0 0 100%;
-  max-width: 100%;
   height: 100px;
+
+  @include custom-col(100%);
 
   &_btn {
     background-color: inherit;

@@ -1,16 +1,18 @@
 <div class="canteen-user-edit-container">
   <div class="canteen-user-edit-form-wrapper">
     <div class="canteen-user-edit-form-section-top">
-      <div class="canteen-user-edit-btn-back-wrapper">
-        <button (click)="onNavigateBack()">
-          <img src="assets/Icons/back-icon.svg">
-          Retour
-        </button>
-      </div>
-      <div class="canteen-user-edit-btn-wrapper">
-        <button (click)="displayForm()">
-          <img src="assets/Icons/edit-icon.svg">
-        </button>
+      <div class="canteen-user-edit-form-section-top-btn-wrapper">
+        <div class="canteen-user-edit-btn-back-wrapper">
+          <button (click)="onNavigateBack()">
+            <img src="assets/Icons/back-icon.svg">
+            Retour
+          </button>
+        </div>
+        <div class="canteen-user-edit-btn-wrapper">
+          <button (click)="displayForm()">
+            <img src="assets/Icons/edit-icon.svg">
+          </button>
+        </div>
       </div>
     </div>
     <form [formGroup]="form">
@@ -118,6 +120,12 @@
                  [placeholder]="editedUser.wallet"
                  formControlName="wallet"
                  *ngIf="isFormDisplayed">
+        </div>
+        <div class="form-group col-3 px-5" *ngIf="isFormDisplayed">
+          <label for="password">Mot de passe</label>
+          <input type="password" min="0" class="form-control" id="password"
+                 placeholder="Saisir un nouveau mot de passe"
+                 formControlName="password">
         </div>
 
         <div class="btn-submit col-12">
