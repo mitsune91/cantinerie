@@ -8,7 +8,7 @@ import { HomeComponent } from './views/home/home.component';
 import {AddUserComponent} from './views/canteen/users-manager/add-user/add-user.component';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
-
+import {IsNotLoggedGuard} from './guards/is-not-logged.guard';
 
 const routes: Routes = [
   {
@@ -41,15 +41,18 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: AuthComponent
+    component: AuthComponent,
+    canActivate: [IsNotLoggedGuard]
   },
   {
     path: 'reset_password',
-    component: ResetPasswordComponent
+    component: ResetPasswordComponent,
+    canActivate: [IsNotLoggedGuard]
   },
   {
     path: 'signin',
-    component: AddUserComponent
+    component: AddUserComponent,
+    canActivate: [IsNotLoggedGuard]
   }
 ];
 

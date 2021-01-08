@@ -51,7 +51,7 @@ export class AuthService {
       this.setToken(userString);
       this.setRole((user.isLunchLady) ? 'ROLE_CANTEEN' : 'ROLE_USER');
       this.loggedIn.next(true);
-      this.router.navigate(['/']);
+      user.isLunchLady ? this.router.navigate(['/canteen']) : this.router.navigate(['/']);
     }
   }
 

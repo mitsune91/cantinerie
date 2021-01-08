@@ -4,7 +4,7 @@
       <img src="../../../assets/img/Logo.png" class="navbar-logo"/>
     </a>
     <div class="collapse navbar-collapse navbar-links-wrapper">
-      <ng-container *ngIf="!(isLoggedIn$ | async)">
+      <ng-container *ngIf="!isLoggedIn()">
         <a class="nav-link mx-0 p-0 navbar-link" routerLinkActive="active" routerLink="/login">
           <img src="assets/img/connect.png">
         </a>

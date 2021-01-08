@@ -6,20 +6,20 @@ import {AuthService} from '../services/auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class RoleGuard implements CanActivate {
-
+export class IsNotLoggedGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private router: Router
-    ) {}
+  ) {
+  }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (route.data.authorizedRole.indexOf(this.authService.getRole()) === -1) {
-      this.authService.getRole() === 'ROLE_CANTEEN' ? this.router.navigate(['/canteen']) : this.router.navigate(['/']);
+    if (!!this.authService.getToken()) {
+      this.router.navigate(['/']);
+      return false;
     }
-    return route.data.authorizedRole.indexOf(this.authService.getRole()) !== -1;
+    return true;
   }
-
 }
