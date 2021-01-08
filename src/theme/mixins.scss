@@ -1,0 +1,15 @@
+@mixin flex-box() {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@mixin font-size-weight-color($font-size, $font-weight, $color) {
+  font-size: $font-size;
+  font-weight: $font-weight;
+  color: $color;
+}
+
+@mixin custom-col($size) {
+  flex: 0 0 $size;
+  max-width: $size;
+}
