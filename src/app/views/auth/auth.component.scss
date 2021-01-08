@@ -1,21 +1,27 @@
+@import "src/theme/mixins";
+@import "src/theme/variables";
+
+.login-container {
+  height: calc(100vh - #{$navbar-height});
+  flex-direction: column;
+  text-align: center;
+
+  @include flex-box();
+}
+
+.login-header {
+  margin-bottom: 25px;
+
+  @include font-size-weight-color(30px, 500, #000);
+}
+
 .login-wrapper {
-  display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  position: relative;
-  height: calc(100vh - 150px);
-}
 
-.login-header-wrapper {
-  position: absolute;
-  top: 100px;
-
-  .login-header {
-    font-size: 70px;
-  }
+  @include flex-box();
+  @include custom-col(100%);
 }
 
 .form-control {
