@@ -47,8 +47,7 @@ export class AuthComponent implements OnInit {
     this.userNotFound = false;
     const formValue = this.authForm.value;
     this.getUserByMail(formValue.email).subscribe(user => {
-      console.log(user);
-      if (!!user) {
+      if (!!user && formValue.password === 'bonjour') {
         this.authService.login(user);
       } else {
         this.userNotFound = true;

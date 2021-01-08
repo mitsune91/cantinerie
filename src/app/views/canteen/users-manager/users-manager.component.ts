@@ -119,7 +119,7 @@ export class UsersManagerComponent extends BaseComponent implements OnInit {
   creditUserWallet(user: any, amount: number): void {
     const body = {
       id: user.id,
-      wallet: user.wallet + amount,
+      wallet: amount,
       isLunchLady: true,
     };
     this.userService.creditUsersWallet(user.id, body)

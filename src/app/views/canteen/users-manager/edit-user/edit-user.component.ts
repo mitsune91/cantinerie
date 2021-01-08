@@ -112,9 +112,10 @@ export class EditUserComponent extends BaseComponent implements OnInit {
       email: this.form.value.email || this.editedUser.email,
       phone: this.form.value.phone || this.editedUser.phone,
       status: this.form.value.status || this.getUserStatus(this.editedUser),
-      wallet: this.form.value.wallet || this.editedUser.wallet,
-      password: this.form.value.password || 'bonjour' // A voir pour le password...
+      wallet: this.form.value.wallet || this.editedUser.wallet, // Le changement ne prend pas en compte
+      password: this.form.value.password || 'bonjour' // A voir pour le password... le changement ne prend pas en compte
     };
+    console.log(body);
     this.userService.updateUser(body)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe();

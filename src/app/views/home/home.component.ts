@@ -32,7 +32,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
     this.weekNumber = this.getWeekNumber(this.date);
     this.getMenusOfTheWeek(this.getWeekNumber(this.date));
-    console.log(this.weekNumber);
   }
 
   // Méthode pour récupérer le numéro de la semaine en cours
@@ -57,7 +56,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
         rawMenus = data;
-        console.log(this.weeklyMenus);
         // Récupère les images des meals
         this.loadMealsImgFromMenu(rawMenus);
         // Répartit les meals pour chaque jour de la semaine
@@ -84,7 +82,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.weeklyMenus[day].menus.push(menus[i]);
       }
     }
-    console.log(this.weeklyMenus);
   }
 
   // Initialise le menu du jour

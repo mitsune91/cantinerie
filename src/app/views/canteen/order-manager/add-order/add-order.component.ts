@@ -110,7 +110,7 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
   getUserWallet(userFullname: string): number {
     if (userFullname) {
       const user = this.getUserByName(userFullname);
-      return user.wallet;
+      return user?.wallet;
     }
   }
 
