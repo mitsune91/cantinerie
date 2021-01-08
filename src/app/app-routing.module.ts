@@ -6,6 +6,8 @@ import { ResetPasswordComponent } from './views/reset-password/reset-password.co
 import { AuthComponent } from './views/auth/auth.component';
 import { HomeComponent } from './views/home/home.component';
 import {AddUserComponent} from './views/canteen/users-manager/add-user/add-user.component';
+import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 
 
 const routes: Routes = [
@@ -16,14 +18,26 @@ const routes: Routes = [
   {
     path: 'canteen',
     loadChildren: () => import('./views/canteen/canteen.module').then(m => m.CanteenModule),
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      authorizedRole: ['ROLE_CANTEEN']
+    }
   },
   {
     path: 'home/:id',
-    component: UserComponent
+    component: UserComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      authorizedRole: ['ROLE_USER']
+    }
   },
   {
     path: 'basket/:idMenu',
-    component: CardComponent
+    component: CardComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      authorizedRole: ['ROLE_USER']
+    }
   },
   {
     path: 'login',

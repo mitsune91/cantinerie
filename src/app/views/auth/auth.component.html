@@ -19,9 +19,10 @@
         </div>
       </div>
       <div class="mb-3">
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary" [disabled]="!authForm.valid">
           Se connecter
         </button>
+        <p class="error-message" *ngIf="userNotFound">Utilisateur non trouvé</p>
       </div>
       <div>
         <a routerLink="/reset_password">Mot de passe oublié ? </a>

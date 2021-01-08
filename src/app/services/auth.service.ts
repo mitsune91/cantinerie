@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/User';
 
 export const TOKEN_NAME = 'token_user';
+export const ROLE_NAME = 'role_name';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,17 @@ export const TOKEN_NAME = 'token_user';
 export class AuthService {
   loggedIn = new BehaviorSubject<boolean>(false);
 
-  get isLoggedIn(): Observable<any> {
-    return this.loggedIn.asObservable();
-  }
-
   constructor(
     private router: Router,
   ) {
+  }
+
+  getRole(): string {
+    return localStorage.getItem(ROLE_NAME);
+  }
+
+  setRole(role: string): void {
+    localStorage.setItem(ROLE_NAME, role);
   }
 
   /**
@@ -40,13 +45,13 @@ export class AuthService {
    * Log the user
    * @param user
    */
-  login(user: User[]): void {
+  login(user: User): void {
     if (!!user) {
       const userString = JSON.stringify(user);
       this.setToken(userString);
+      this.setRole((user.isLunchLady) ? 'ROLE_CANTEEN' : 'ROLE_USER');
       this.loggedIn.next(true);
-      console.log('test')
-      // this.router.navigate(['/']);
+      this.router.navigate(['/']);
     }
   }
 
@@ -56,6 +61,7 @@ export class AuthService {
   logout(): void {
     this.loggedIn.next(false);
     localStorage.removeItem(TOKEN_NAME);
+    localStorage.removeItem(ROLE_NAME);
     this.router.navigate(['/login']);
   }
 }
