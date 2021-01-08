@@ -14,7 +14,7 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
   canteenMenus = ['Gestion des plats', 'Gestion des commandes', 'Gestion des utilisateurs'];
   ordersOfTheDay: any;
   day = new Date(2020, 9, 2);
-  isMealSummaryDisplayed = true;
+  isMealSummaryDisplayed = false;
   totalOrders = 0;
   numberOfMeals: any[] = [];
 
@@ -101,6 +101,23 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
   // Permet de cacher la partie récapitulatif de commande
   summaryToggle(): void {
     this.isMealSummaryDisplayed = !this.isMealSummaryDisplayed;
+  }
+
+  // TODO A travailler : Voir orderService
+  payAndDeliverOrder(order: any): void {
+    this.orderService.payAndDeliverOrder()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe();
+  }
+
+  editOrder(order: any): void {
+    this.router.navigate(['canteen/orders/edit/', order.id]);
+  }
+
+  deleteOrder(order: any): void {
+    this.orderService.cancelOrderById(order.id)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe();
   }
 
 }

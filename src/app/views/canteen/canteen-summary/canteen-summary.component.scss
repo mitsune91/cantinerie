@@ -1,11 +1,16 @@
 .summaries-wrapper {
-  padding-left: 70px;
+  padding: 0 15px 0 20px;
+}
+
+.sidebar-bg {
+  background-color: #1a423f;
 }
 
 .meals-summary {
-  overflow: scroll;
-  overflow-x: hidden;
   padding: 20px 10px;
+  margin: 20px 10px;
+  border: 1px solid #1a423f;
+  border-radius: 20px;
 
   button {
     border: none;
@@ -23,20 +28,28 @@
   }
 }
 
+.meals-summary-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 .meals-summary-details {
   height: 200px;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .table-summary {
   overflow: scroll;
   overflow-x: hidden;
-  height: calc(100vh - 335px);
+  height: calc(100vh - 530px);
 }
 
 .table-summary-without-toggle {
   overflow: scroll;
   overflow-x: hidden;
-  height: calc(100vh - 165px);
+  height: calc(100vh - 330px);
 }
 
 .meals-summary-details-total-meals {
@@ -68,5 +81,33 @@
     border-radius: 15px;
     padding: 2px 5px;
     font-weight: 600;
+  }
+}
+
+table {
+  tr:nth-child(odd) {
+    background-color: rgba(26, 66, 63, 0.2);
+  }
+
+  thead {
+    background-color: #1a423f;
+    color: #ffa526;
+  }
+}
+
+.summary-action-btn {
+  border: none;
+  background-color: transparent;
+
+  button {
+    &:focus,
+    &:active {
+      border: none;
+      outline: none;
+    }
+  }
+
+  img {
+    width: 20px;
   }
 }

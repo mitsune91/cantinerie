@@ -1,7 +1,11 @@
 .users-manager-table-wrapper {
-  height: calc(100vh - 120px);
+  height: calc(100vh - 230px);
   overflow: scroll;
   overflow-x: hidden;
+}
+
+.sidebar-bg {
+  background-color: #1a423f;
 }
 
 .users-manager-table-btn {
@@ -26,7 +30,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin: 30px 10px;
 
   button {
     border: none;
@@ -39,5 +43,16 @@
 
   .form-group {
     margin: unset;
+  }
+}
+
+table {
+  tr:nth-child(odd) {
+    background-color: rgba(26, 66, 63, 0.2);
+  }
+
+  thead {
+    background-color: #1a423f;
+    color: #ffa526;
   }
 }

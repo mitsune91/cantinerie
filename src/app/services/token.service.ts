@@ -1,25 +1,28 @@
-import { Injectable } from '@angular/core'
+import {Injectable} from '@angular/core'
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenService {
-  constructor () {}
+  constructor() {
+  }
 
   // Verifie qu'un token est existant
-  isToken () {
+  isToken() {
     if (localStorage.getItem('ccurrentUser')) {
-      return true
+      return true;
     }
   }
+
   // recupere le token
-  getToken () {
+  getToken() {
     if (this.isToken() === true) {
-      return localStorage.getItem('currentUser')
+      return localStorage.getItem('currentUser');
     }
   }
+
   // Verifie que le token est valide
-  tokenIsValid () {
+  tokenIsValid() {
     if (this.isToken() === true) {
     }
   }

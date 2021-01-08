@@ -1,14 +1,19 @@
 <div class="summary-wrapper row">
-  <div class="col-2">
-    <app-sidebar
-      [buttonsMenu]="canteenMenus"
-      (btnEvent)="onSelectedMenu($event)"
-    ></app-sidebar>
+  <div class="row sidebar-bg">
+    <div class="container-fluid">
+      <div class="row vw-100">
+        <app-sidebar
+          (btnEvent)="onSelectedMenu($event)"
+          [buttonsMenu]="canteenMenus"
+          class="vw-100"
+        ></app-sidebar>
+      </div>
+    </div>
   </div>
 
-  <div class="summaries-wrapper col-10">
+  <div class="summaries-wrapper vw-100">
     <div class="row meals-summary">
-      <div class="col-12">
+      <div class="col-12 meals-summary-wrapper">
         Récapitulatif des commandes
         <button (click)="summaryToggle()" [ngSwitch]="isMealSummaryDisplayed">
           <img *ngSwitchCase="true" src="assets/Icons/keyboard-arrow-up.svg">
@@ -40,6 +45,7 @@
           <th scope="col">Plat commandé</th>
           <th scope="col">Quantité</th>
           <th scope="col">Utilisateur</th>
+          <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -54,6 +60,20 @@
           </td>
           <td *ngIf="!order?.quantity"></td>
           <td>{{ order.user.firstname }} {{ order.user.name }}</td>
+          <td>
+            <button class="summary-action-btn" (click)="payAndDeliverOrder(order)"
+                    data-toggle="tooltip" data-placement="top" title="Encaisser">
+              <img src="assets/Icons/cash-icon.svg">
+            </button>
+            <button class="summary-action-btn" (click)="editOrder(order)"
+                    data-toggle="tooltip" data-placement="top" title="Modifier">
+              <img src="assets/Icons/edit-icon.svg">
+            </button>
+            <button class="summary-action-btn" (click)="deleteOrder(order)"
+                    data-toggle="tooltip" data-placement="top" title="Supprimer">
+              <img src="assets/Icons/trash-icon.svg">
+            </button>
+          </td>
         </tr>
         </tbody>
       </table>
