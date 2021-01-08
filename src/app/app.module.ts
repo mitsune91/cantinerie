@@ -1,3 +1,4 @@
+import { ModalComponent } from './components/modal/modal.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { UserComponent } from './views/user/user.component';
@@ -23,7 +24,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     UserComponent,
     CardComponent,
     AuthComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +40,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   providers: [],
   exports: [
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ModalComponent]
 })
 export class AppModule {}

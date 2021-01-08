@@ -24,6 +24,10 @@ const routes: Routes = [
     }
   },
   {
+    path: 'profile',
+    loadChildren: () => import('./views/profile/profile.module').then(p => p.ProfileModule),
+  },
+  {
     path: 'home/:id',
     component: UserComponent,
     canActivate: [AuthGuard, RoleGuard],
