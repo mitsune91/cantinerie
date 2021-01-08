@@ -29,4 +29,8 @@ export class NavbarComponent implements OnInit {
   onBasket(): void {
     this.router.navigate(['basket']);
   }
+
+  isLoggedIn(): boolean {
+    return !!this.authService.getToken();
+  }
 }

@@ -4,12 +4,14 @@
       <img src="../../../assets/img/Logo.png" class="navbar-logo"/>
     </a>
     <div class="collapse navbar-collapse navbar-links-wrapper">
-      <a class="nav-link mx-0 p-0 navbar-link" routerLinkActive="active" routerLink="/login">
-        <img src="assets/img/connect.png">
-      </a>
-      <a class="nav-link mx-0 p-0 navbar-link" routerLinkActive="active" routerLink="/signin">
-        <img src="assets/img/signin.png">
-      </a>
+      <ng-container *ngIf="!isLoggedIn()">
+        <a class="nav-link mx-0 p-0 navbar-link" routerLinkActive="active" routerLink="/login">
+          <img src="assets/img/connect.png">
+        </a>
+        <a class="nav-link mx-0 p-0 navbar-link" routerLinkActive="active" routerLink="/signin">
+          <img src="assets/img/signin.png">
+        </a>
+      </ng-container>
       <div ngbDropdown class="d-inline-block navbar-dropdown-btn-wrapper">
         <button class="users-manager-table-btn" id="dropdownBasic1" ngbDropdownToggle>
           <img src="assets/Icons/user-icon.svg">
