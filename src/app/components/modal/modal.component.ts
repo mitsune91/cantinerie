@@ -1,21 +1,30 @@
-import { Component, Injectable, Input, OnInit, TemplateRef, ViewChild } from '@angular/core'
+import { promise } from 'protractor';
+import { Component, Injectable, Input, OnInit, TemplateRef, ViewChild, ViewEncapsulation, ElementRef } from '@angular/core'
 import { ModalConfig } from '../../models/modal.config'
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap'
 
 @Component({
   selector: 'modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss']
+  styleUrls: ['./modal.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 @Injectable()
 export class ModalComponent implements OnInit {
-  @Input() public modalConfig: ModalConfig
-  @ViewChild('modal') private modalContent: TemplateRef<ModalComponent>
-  private modalRef: NgbModalRef
+  @Input() public modalConfig: ModalConfig;
+  @ViewChild('modal') private modalContent: TemplateRef<ModalComponent>;
+  private modalRef: NgbModalRef;
+  private element: any;
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, private el: ElementRef) {
+    this.element = el.nativeElement;
+  }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    document.body.appendChild(this.element);
+    //console.log('click')
+
+  }
 
   /**
    * Overture du modal
@@ -49,4 +58,5 @@ export class ModalComponent implements OnInit {
       this.modalRef.dismiss(result)
     }
   }
+
 }

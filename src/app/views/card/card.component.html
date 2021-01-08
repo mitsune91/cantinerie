@@ -31,3 +31,24 @@
 <modal #modal [modalConfig]="modalConfig">
   <!--  body of the modal  -->
 </modal>
+<div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <div class="row">
+        <h4 class="modal-title col-12" id="modal-basic-title">{{ user.name }} {{ user.firstname }}</h4>
+        <h4 class="modal-title col-12">Solde : {{ user.wallet }}</h4>
+      </div>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <div for="wallet">Vous n'avez pas assez de crédit ?</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Créditer</button>
+    </div>
+  </ng-template>
+</div>

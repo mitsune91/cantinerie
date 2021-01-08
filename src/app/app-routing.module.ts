@@ -26,22 +26,14 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./views/profile/profile.module').then(p => p.ProfileModule),
-  },
-  {
-    path: 'home/:id',
-    component: UserComponent,
     canActivate: [AuthGuard, RoleGuard],
     data: {
       authorizedRole: ['ROLE_USER']
     }
   },
   {
-    path: 'basket/:idMenu',
+    path: 'panier/:idMenu',
     component: CardComponent,
-    canActivate: [AuthGuard, RoleGuard],
-    data: {
-      authorizedRole: ['ROLE_USER']
-    }
   },
   {
     path: 'login',

@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router';
 export interface ModalConfig {
   modalTitle: string // Title
   modalDescription: string //  Body
