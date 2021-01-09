@@ -14,6 +14,7 @@ import { takeUntil } from 'rxjs/operators';
 import { OrderService } from 'src/app/services/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Meal } from '../../models/Meal';
+import {HOST} from '../../../../config/app.config';
 import { JsonPipe } from '@angular/common';
 import { disposeEmitNodes } from 'typescript';
 import { promise } from 'protractor';
@@ -33,6 +34,7 @@ export class CardComponent extends BaseComponent implements OnInit {
   cartTotal = 0;
   mealQuantity = 0;
   message: string;
+  mealPathImg: string;
 
 
   constructor(
@@ -69,8 +71,22 @@ export class CardComponent extends BaseComponent implements OnInit {
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe(data => {
       this.menu = data;
-
+      this.getMealPathImg(this.menu.meals)
     });
+  }
+
+   // Récupère le path image des meals
+   getMealPathImg(meals): void {
+    meals.forEach( meal => {
+      this.mealService.getMealImg(meal.id)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(data => {
+          const apiUrl = HOST.apiUrl;
+          console.log(this.mealPathImg)
+          this.mealPathImg = apiUrl + data.imagePath.split(' ').join('%20');
+          return this.mealPathImg;
+        });
+    })
   }
 
   getTotalCard(event): number{
@@ -102,7 +118,6 @@ export class CardComponent extends BaseComponent implements OnInit {
 
   putCommandeValidation(event): void {
 
-    // TODO - A faire - une tableau de meal pour le data.mealId - car plusieur meal selectioné et c'est pas géré dans la BDD
     // TODO - retirer le montant de carteTOTAL du userWalet
       console.log(event.target);
 
