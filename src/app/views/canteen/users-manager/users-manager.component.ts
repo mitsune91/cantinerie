@@ -130,6 +130,7 @@ export class UsersManagerComponent extends BaseComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.getAllUsers();
+        alert(`${user.name} ${user.firstname} a bien été crédité(e) de ${amount} euros.`);
       });
   }
 }

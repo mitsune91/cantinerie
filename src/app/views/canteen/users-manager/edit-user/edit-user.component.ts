@@ -35,7 +35,8 @@ export class EditUserComponent extends BaseComponent implements OnInit {
       email: [''],
       phone: [''],
       wallet: [''],
-      password: ['']
+      password: [''],
+      isLunchLady: ['']
     });
   }
 
@@ -71,9 +72,9 @@ export class EditUserComponent extends BaseComponent implements OnInit {
   }
 
   // Modifie le status via le formulaire
-  editUserStatus(status: any): void {
-    this.form.value.status = status;
-    console.log(this.form.value.status);
+  editIsLunchLady(isLunchLady: boolean): void {
+    this.form.value.isLunchLady = isLunchLady;
+    console.log(this.form.value.isLunchLady);
   }
 
   // Récupère le status de la commande
@@ -111,12 +112,26 @@ export class EditUserComponent extends BaseComponent implements OnInit {
       town: this.form.value.town || this.editedUser.town,
       email: this.form.value.email || this.editedUser.email,
       phone: this.form.value.phone || this.editedUser.phone,
+      isLunchLady: this.form.value.isLunchLady || this.editedUser.isLunchLady,
       status: this.form.value.status || this.getUserStatus(this.editedUser),
-      wallet: this.form.value.wallet || this.editedUser.wallet, // Le changement ne prend pas en compte
+      wallet: this.form.value.wallet || this.editedUser.wallet,
       password: this.form.value.password || 'bonjour' // A voir pour le password... le changement ne prend pas en compte
     };
     console.log(body);
+    if (this.form.value.wallet) {
+      this.creditUser(this.editedUser, this.form.value.wallet);
+    }
+
     this.userService.updateUser(body)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe();
+  }
+
+  // Créditer utilisateur
+  creditUser(user: any, amount: number): void {
+    this.userService.creditUsersWallet(user.id, {
+      wallet: amount
+    })
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe();
   }

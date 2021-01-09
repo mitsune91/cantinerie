@@ -44,6 +44,8 @@
           <th scope="col">id</th>
           <th scope="col">Plat commandé</th>
           <th scope="col">Quantité</th>
+          <th scope="col">Prix</th>
+          <th scope="col">Status</th>
           <th scope="col">Utilisateur</th>
           <th scope="col">Actions</th>
         </tr>
@@ -56,13 +58,21 @@
           </td>
           <td *ngIf="!order?.quantity"></td>
           <td *ngIf="order?.quantity">
-            {{ order.quantity[0].quantity }}
+            {{ order.quantity[0].quantity }}</td>
+          <td *ngIf="!order?.quantity"></td>
+          <td *ngIf="order?.quantity">
+            {{ order.quantity[0].quantity * order.quantity[0].meal.priceDF }}
+          </td>
+          <td [ngSwitch]="order.status">
+            <div *ngSwitchCase="0">Créée</div>
+            <div *ngSwitchCase="1">Délivrée</div>
+            <div *ngSwitchCase="2">Annulée</div>
           </td>
           <td *ngIf="!order?.quantity"></td>
-          <td>{{ order.user.firstname }} {{ order.user.name }}</td>
+          <td>{{ order.user.firstname }} {{ order.user.name }} : {{ order.user.wallet }}€</td>
           <td>
             <button class="summary-action-btn" (click)="payAndDeliverOrder(order)"
-                    data-toggle="tooltip" data-placement="top" title="Donner la commande">
+                    data-toggle="tooltip" data-placement="top" title="Encaisser et donner la commande">
               <img src="assets/Icons/deliver-icon.svg">
             </button>
             <button class="summary-action-btn" (click)="editOrder(order)"

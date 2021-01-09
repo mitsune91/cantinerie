@@ -37,6 +37,7 @@
           <th scope="col">Ville</th>
           <th scope="col">Téléphone</th>
           <th scope="col">Cagnotte</th>
+          <th scope="col">Cantinière</th>
           <th scope="col">Status</th>
           <th scope="col">Actions</th>
         </tr>
@@ -51,6 +52,10 @@
           <td>{{ user.town }}</td>
           <td>{{ user.phone }}</td>
           <td>{{ user.wallet }}</td>
+          <td [ngSwitch]="user.isLunchLady">
+            <div *ngSwitchCase="true">Oui</div>
+            <div *ngSwitchCase="false">Non</div>
+          </td>
           <td [ngSwitch]="user.status">
             <div *ngSwitchCase="0">Activé</div>
             <div *ngSwitchCase="1">Désactivé</div>

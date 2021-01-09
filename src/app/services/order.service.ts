@@ -68,8 +68,8 @@ export class OrderService {
   getOrderById(orderId: number): Observable<any> {
     return this.http.get(this.url + 'order/find/' + orderId);
   }
-  payAndDeliverOrder(): Observable<any> {
-    return;
+  payAndDeliverOrder(order: any, constraintId: number): Observable<any> {
+    return this.http.patch(this.url + 'order/deliverandpay/' + order.id + '/' + constraintId, constraintId);
   }
   getOrdersByUserAndByCriteria(): Observable<any> {
     return;

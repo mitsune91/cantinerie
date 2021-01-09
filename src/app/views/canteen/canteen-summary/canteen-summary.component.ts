@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {OrderService} from '../../../services/order.service';
-import {BaseComponent} from '../../../shared/core/base.component';
 import {takeUntil} from 'rxjs/operators';
 import {Router} from '@angular/router';
+
+import {OrderService} from '../../../services/order.service';
+import {BaseComponent} from '../../../shared/core/base.component';
+import {ROLE_NAME} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-canteen-summary',
@@ -105,19 +107,28 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
 
   // TODO A travailler : Voir orderService
   payAndDeliverOrder(order: any): void {
-    this.orderService.payAndDeliverOrder()
+    const constraint = (localStorage.getItem(ROLE_NAME) === 'ROLE_CANTEEN') ? -1 : 0;
+    this.orderService.payAndDeliverOrder(order, constraint)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe();
+      .subscribe(() => {
+        alert(`La commande n°${order.id} a bien été réglée et délivrée au client.`);
+        this.getOrdersOfTheDay();
+      });
   }
 
+  // Permet de naviguer vers la page d'édition d'une commande
   editOrder(order: any): void {
     this.router.navigate(['canteen/orders/edit/', order.id]);
   }
 
+  // Permet de supprimer une commande
   deleteOrder(order: any): void {
     this.orderService.cancelOrderById(order.id)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe();
+      .subscribe(() => {
+        alert(`La commande n°${order.id} a bien été supprimée`);
+        this.getOrdersOfTheDay();
+      });
   }
 
 }
