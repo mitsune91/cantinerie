@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import {AuthService, ROLE_NAME} from 'src/app/services/auth.service';
+import {AuthService, ROLE_NAME, TOKEN_NAME} from 'src/app/services/auth.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -11,6 +11,9 @@ import {Router} from '@angular/router';
 export class NavbarComponent implements OnInit {
 
   isLoggedIn$: Observable<boolean>;
+  role: string;
+  wallet: number;
+  connectedUserId: number;
 
   constructor(
     private authService: AuthService,
@@ -18,7 +21,15 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
+    // setTimeout
     this.isLoggedIn$ = this.authService.loggedIn;
+    if (this.isLoggedIn()) {
+      this.wallet = this.getUserWallet();
+      this.role = localStorage.getItem(ROLE_NAME);
+    }
+
+    this.connectedUserId = this.getUserId();
   }
 
   onLogout(): void {
@@ -27,7 +38,7 @@ export class NavbarComponent implements OnInit {
   }
 
   onBasket(): void {
-    this.router.navigate(['basket']);
+    this.router.navigate(['profile/:id']);
   }
 
   isLoggedIn(): boolean {
@@ -40,5 +51,15 @@ export class NavbarComponent implements OnInit {
 
   onNavigateHome(): string {
     return (localStorage.getItem(ROLE_NAME) === 'ROLE_CANTEEN') ? '/canteen' : '/';
+  }
+
+  getUserWallet(): number {
+    const token = JSON.parse(localStorage.getItem(TOKEN_NAME));
+    return token.wallet;
+  }
+
+  getUserId(): number {
+    const token = JSON.parse(localStorage.getItem(TOKEN_NAME));
+    return token.id;
   }
 }

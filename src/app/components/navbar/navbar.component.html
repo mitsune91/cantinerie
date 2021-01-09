@@ -12,6 +12,9 @@
           <img src="assets/img/signin.png">
         </a>
       </ng-container>
+      <ng-container *ngIf="isLoggedIn() && role === 'ROLE_USER'">
+      <p class="mx-1 my-0 navbar-wallet">Cagnotte : {{ wallet }} €</p>
+    </ng-container>
       <div ngbDropdown class="d-inline-block navbar-dropdown-btn-wrapper" *ngIf="isLoggedIn()">
         <button class="users-manager-table-btn" id="dropdownBasic1" ngbDropdownToggle>
           <img src="assets/Icons/user-icon.svg">
