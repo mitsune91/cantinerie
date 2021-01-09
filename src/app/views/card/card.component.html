@@ -27,7 +27,7 @@
                   <input type="checkbox" ng-model="checked" ng-value="choice_meal" id="{{meal.id}}" (change)="getTotalCard($event)" value="{{ meal.priceDF }}">
                   <!--<label for="choice_meal">{{ i + 1 }}</label>-->
                 </td>
-                <td><img [src]="mealPathImg"></td>
+                <td><img [src]="meal.pathImg"></td>
                 <td class="flex justify-content-center align-items-lg-center"> {{ meal.label }}</td>
                 <td class="flex justify-content-center align-items-lg-center"> {{ meal.priceDF }} €</td>
               </tr>
