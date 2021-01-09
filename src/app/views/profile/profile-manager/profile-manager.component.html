@@ -1,120 +1,136 @@
+
 <div class="profile-user-edit-container">
   <div class="profile-user-edit-form-wrapper">
-    <div class="profile-user-edit-form-section-top">
-      <div class="profile-user-edit-btn-back-wrapper">
-        <button (click)="onNavigateBack()">
-          <img src="assets/Icons/back-icon.svg">
-          Retour
-        </button>
-      </div>
-      <div class="profile-user-edit-btn-wrapper">
-        <button (click)="displayForm()">
-          <img src="assets/Icons/edit-icon.svg">
-        </button>
-      </div>
-    </div>
-    <div><img [src]="userPathImg"/></div>
-    <form [formGroup]="form">
-      <div class="profile-user-edit-form-body row">
-        <div class="form-group col-3 px-5" style="display: none;">
-          <label for="id">N° d'utilisateur</label>
-          <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.id }}</div>
-          <input type="number" class="form-control" id="id"
-                 *ngIf="isFormDisplayed"
-                 [placeholder]="user.id" disabled>
-        </div>-->
-        <div class="form-group col-3 px-5">
-          <label for="name">Nom</label>
-          <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.name }}</div>
-          <input type="text" class="form-control" id="name"
-                 [placeholder]="user.name"
-                 formControlName="name"
-                 *ngIf="isFormDisplayed">
-        </div>
-        <div class="form-group col-3 px-5">
-          <label for="firstname">Prénom</label>
-          <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.firstname }}</div>
-          <input type="text" class="form-control" id="firstname"
-                 [placeholder]="user.firstname"
-                 formControlName="firstname"
-                 *ngIf="isFormDisplayed">
-        </div>
-        <div class="form-group col-3 px-5">
-          <label for="sex">Sexe</label>
-          <div class="user-detail" *ngIf="!isFormDisplayed">{{ getUserSex(user) }}</div>
-          <select class="form-control" id="sex"
-                  formControlName="sex"
-                  *ngIf="isFormDisplayed">
-            <option value="0">Homme</option>
-            <option value="1">Femme</option>
-            <option value="2">Autre</option>
-          </select>
-        </div>
-        <div class="form-group col-3 px-5">
-          <label for="address">Adresse</label>
-          <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.address }}</div>
-          <input type="text" class="form-control" id="address"
-                 [placeholder]="user.address"
-                 formControlName="address"
-                 *ngIf="isFormDisplayed">
-        </div>
-        <div class="form-group col-3 px-5">
-          <label for="postalCode">Code Postal</label>
-          <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.postalCode }}</div>
-          <input type="text" class="form-control" id="postalCode"
-                 [placeholder]="user.postalCode"
-                 formControlName="postalCode"
-                 *ngIf="isFormDisplayed">
-        </div>
-        <div class="form-group col-3 px-5">
-          <label for="town">Ville</label>
-          <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.town }}</div>
-          <input type="text" class="form-control" id="town"
-                 [placeholder]="user.town"
-                 formControlName="town"
-                 *ngIf="isFormDisplayed">
-        </div>
-        <div class="form-group col-3 px-5">
-          <label for="email">Email</label>
-          <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.email }}</div>
-          <input type="text" class="form-control" id="email"
-                 [placeholder]="user.email"
-                 formControlName="email"
-                 *ngIf="isFormDisplayed">
-        </div>
-        <div class="form-group col-3 px-5">
-          <label for="phone">Téléphone</label>
-          <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.phone }}</div>
-          <input type="text" class="form-control" id="phone"
-                 [placeholder]="user.phone"
-                 formControlName="phone"
-                 *ngIf="isFormDisplayed">
-        </div>
-        <div class="form-group col-3 px-5">
-          <label class="label-title col-12">Status</label>
-          <div class="user-detail" *ngIf="!isFormDisplayed">{{ getUserStatus(user) }}</div>
-          <input type="text"  class="form-control" id="status"
-                 [placeholder]="getUserStatus(user)"
-                 formControlName="status"
-                 *ngIf="isFormDisplayed" disabled>
-        </div>
-        <div class="form-group col-3 px-5">
-          <label for="wallet">Solde</label>
-          <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.wallet }} €</div>
-          <input type="number" min="0" class="form-control" id="wallet"
-                 [placeholder]="user.wallet"
-                 formControlName="wallet"
-                 *ngIf="isFormDisplayed" disabled>
-        </div>
-
-        <div class="btn-submit col-12">
-          <button type="submit" class="btn btn-primary"
-                  *ngIf="isFormDisplayed"
-                  (click)="submitEditedUser()">
-            Modifier
+    <div id="card">
+      <div class="profile-user-edit-form-section-top">
+        <div class="profile-user-edit-btn-back-wrapper">
+          <button (click)="onNavigateBack()">
+            <img src="assets/Icons/back-icon.svg">
+            Retour
           </button>
         </div>
       </div>
-    </form>
+      <div class="row userPic">
+        <div class="user-avatar"><img [src]="userPathImg"/></div>
+        <div class="profile-user-edit-btn-wrapper">
+          <button (click)="displayForm()">
+            <img src="assets/Icons/edit-icon.svg">
+          </button>
+        </div>
+      </div>
+      <form [formGroup]="form">
+        <div class="profile-user-edit-form-body row">
+          <div class="form-group col-6 px-5" style="display: none;">
+            <label class="label" for="id">N° d'utilisateur</label>
+            <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.id }}</div>
+            <input type="number" class="form-control" id="id"
+                   *ngIf="isFormDisplayed"
+                   [placeholder]="user.id" disabled>
+          </div>
+          <div class="row user-name">
+            <div class="form-group col-6 px-5">
+              <label class="label" for="name">Nom</label>
+              <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.name }}</div>
+              <input type="text" class="form-control" id="name"
+                     [placeholder]="user.name"
+                     formControlName="name"
+                     *ngIf="isFormDisplayed">
+            </div>
+            <div class="form-group col-6 px-5">
+              <label class="label" for="firstname">Prénom</label>
+              <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.firstname }}</div>
+              <input type="text" class="form-control" id="firstname"
+                     [placeholder]="user.firstname"
+                     formControlName="firstname"
+                     *ngIf="isFormDisplayed">
+            </div>
+          </div>
+          <div class="sex">
+            <div class="form-group col-12 px-5">
+            <label class="label" for="sex">Sexe</label>
+            <div class="user-detail" *ngIf="!isFormDisplayed">{{ getUserSex(user) }}</div>
+            <select class="form-control" id="sex"
+                    formControlName="sex"
+                    *ngIf="isFormDisplayed">
+              <option value="0">Homme</option>
+              <option value="1">Femme</option>
+              <option value="2">Autre</option>
+            </select>
+            </div>
+          </div>
+          <div class="col-12 user-adress">
+            <div class="form-group col-8 px-5">
+              <label class="label" for="address">Adresse</label>
+              <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.address }}</div>
+              <input type="text" class="form-control" id="address"
+                     [placeholder]="user.address"
+                     formControlName="address"
+                     *ngIf="isFormDisplayed">
+            </div>
+            <div class="row">
+              <div class="form-group col-6 px-5">
+                <label class="label" for="postalCode">Code Postal</label>
+                <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.postalCode }}</div>
+                <input type="text" class="form-control" id="postalCode"
+                       [placeholder]="user.postalCode"
+                       formControlName="postalCode"
+                       *ngIf="isFormDisplayed">
+              </div>
+              <div class="form-group col-6 px-5">
+                <label class="label" for="town">Ville</label>
+                <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.town }}</div>
+                <input type="text" class="form-control" id="town"
+                       [placeholder]="user.town"
+                       formControlName="town"
+                       *ngIf="isFormDisplayed">
+              </div>
+            </div>
+          </div>
+          <div class="row user-info">
+            <div class="form-group col-6 px-5">
+              <label class="label" for="email">Email</label>
+              <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.email }}</div>
+              <input type="text" class="form-control" id="email"
+                     [placeholder]="user.email"
+                     formControlName="email"
+                     *ngIf="isFormDisplayed">
+            </div>
+            <div class="form-group col-6 px-5">
+              <label class="label" for="phone">Téléphone</label>
+              <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.phone }}</div>
+              <input type="text" class="form-control" id="phone"
+                     [placeholder]="user.phone"
+                     formControlName="phone"
+                     *ngIf="isFormDisplayed">
+            </div>
+          </div>
+          <div class="row user-status-solde">
+            <div class="form-group col-6 px-5">
+              <label class="label-title col-6 label">Status</label>
+              <div class="user-detail" *ngIf="!isFormDisplayed">{{ getUserStatus(user) }}</div>
+              <input type="text"  class="form-control" id="status"
+                     [placeholder]="getUserStatus(user)"
+                     formControlName="status"
+                     *ngIf="isFormDisplayed" disabled>
+            </div>
+            <div class="form-group col-6 px-5">
+              <label class="label" for="wallet">Solde</label>
+              <div class="user-detail" *ngIf="!isFormDisplayed">{{ user.wallet }} €</div>
+              <input type="number" min="0" class="form-control" id="wallet"
+                     [placeholder]="user.wallet"
+                     formControlName="wallet"
+                     *ngIf="isFormDisplayed" disabled>
+            </div>
+          </div>
+          <div class="btn-submit col-md-12 text-center">
+            <button type="submit" class="btn btn-primary"
+                    *ngIf="isFormDisplayed"
+                    (click)="submitEditedUser()">
+              Modifier
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
