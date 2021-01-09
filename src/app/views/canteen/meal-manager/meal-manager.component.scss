@@ -1,12 +1,6 @@
 @import "src/theme/variables";
 @import "src/theme/mixins";
 
-.meals-manager-table-wrapper {
-  height: calc(100vh - 245px);
-  overflow: scroll;
-  overflow-x: hidden;
-}
-
 .sidebar-bg {
   background-color: #1a423f;
 }
@@ -42,6 +36,12 @@
   .form-group {
     margin: unset;
   }
+}
+
+.scroll-table {
+  height: calc(100vh - 330px);
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 table {

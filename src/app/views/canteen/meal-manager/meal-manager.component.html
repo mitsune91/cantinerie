@@ -25,53 +25,55 @@
       </div>
     </div>
 
-    <table class="table table-striped">
-      <thead class="table-header">
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Plat</th>
-        <th scope="col">Prix</th>
-        <th scope="col">Catégorie</th>
-        <th scope="col">Status</th>
-        <th scope="col">Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let meal of filteredMeals; index as i">
-        <th scope="row">{{ meal.id }}</th>
-        <td>{{ meal.label }}</td>
-        <td>{{ meal.priceDF }}</td>
-        <td [ngSwitch]="meal.category">
-          <div *ngSwitchCase="0">Inconnu</div>
-          <div *ngSwitchCase="1">Apéritif</div>
-          <div *ngSwitchCase="2">Entrée</div>
-          <div *ngSwitchCase="3">Plat principal</div>
-          <div *ngSwitchCase="4">Autre</div>
-          <div *ngSwitchCase="5">Dessert</div>
-          <div *ngSwitchCase="6">Brunch et déjeuner</div>
-          <div *ngSwitchCase="7">Soupe</div>
-          <div *ngSwitchCase="8">Sauce</div>
-          <div *ngSwitchCase="9">Boisson</div>
-          <div *ngSwitchCase="10">Sandwich</div>
-          <div *ngSwitchCase="11">Snack</div>
-        </td>
-        <td [ngSwitch]="meal.status">
-          <div *ngSwitchCase="0">Activé</div>
-          <div *ngSwitchCase="1">Désactivé</div>
-          <div *ngSwitchCase="2">Supprimé</div>
-        </td>
-        <td>
-          <button class="meals-manager-table-btn" (click)="onEditMeal(meal.id)"
-                  data-toggle="tooltip" data-placement="top" title="Edit">
-            <img src="assets/Icons/edit-icon.svg">
-          </button>
-          <button class="meals-manager-table-btn" (click)="deleteMeal(meal.id)"
-                  data-toggle="tooltip" data-placement="top" title="Delete">
-            <img src="assets/Icons/trash-icon.svg">
-          </button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="scroll-table">
+      <table class="table table-striped">
+        <thead class="table-header">
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Plat</th>
+          <th scope="col">Prix</th>
+          <th scope="col">Catégorie</th>
+          <th scope="col">Status</th>
+          <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let meal of filteredMeals; index as i">
+          <th scope="row">{{ meal.id }}</th>
+          <td>{{ meal.label }}</td>
+          <td>{{ meal.priceDF }}</td>
+          <td [ngSwitch]="meal.category">
+            <div *ngSwitchCase="0">Inconnu</div>
+            <div *ngSwitchCase="1">Apéritif</div>
+            <div *ngSwitchCase="2">Entrée</div>
+            <div *ngSwitchCase="3">Plat principal</div>
+            <div *ngSwitchCase="4">Autre</div>
+            <div *ngSwitchCase="5">Dessert</div>
+            <div *ngSwitchCase="6">Brunch et déjeuner</div>
+            <div *ngSwitchCase="7">Soupe</div>
+            <div *ngSwitchCase="8">Sauce</div>
+            <div *ngSwitchCase="9">Boisson</div>
+            <div *ngSwitchCase="10">Sandwich</div>
+            <div *ngSwitchCase="11">Snack</div>
+          </td>
+          <td [ngSwitch]="meal.status">
+            <div *ngSwitchCase="0">Activé</div>
+            <div *ngSwitchCase="1">Désactivé</div>
+            <div *ngSwitchCase="2">Supprimé</div>
+          </td>
+          <td>
+            <button class="meals-manager-table-btn" (click)="onEditMeal(meal.id)"
+                    data-toggle="tooltip" data-placement="top" title="Edit">
+              <img src="assets/Icons/edit-icon.svg">
+            </button>
+            <button class="meals-manager-table-btn" (click)="deleteMeal(meal.id)"
+                    data-toggle="tooltip" data-placement="top" title="Delete">
+              <img src="assets/Icons/trash-icon.svg">
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

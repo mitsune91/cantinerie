@@ -1,12 +1,6 @@
 @import "src/theme/variables";
 @import "src/theme/mixins";
 
-.orders-manager-table-wrapper {
-  height: calc(100vh - 230px);
-  overflow: scroll;
-  overflow-x: hidden;
-}
-
 .sidebar-bg {
   background-color: $primary;
 }
@@ -53,4 +47,10 @@ table {
     background-color: $primary-thead;
     color: $primary;
   }
+}
+
+.scroll-table {
+  height: calc(100vh - 315px);
+  overflow: scroll;
+  overflow-x: hidden;
 }

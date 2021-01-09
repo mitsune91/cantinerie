@@ -50,15 +50,15 @@ export class UsersManagerComponent extends BaseComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe), debounceTime(700))
       .subscribe(key => {
         if (key) {
-          this.getFilterMealsData(users, key);
+          this.filterUsersByName(users, key);
         } else {
           this.filteredUsers = this.users;
         }
       });
   }
 
-  // Récupère des plats en fonction des lettres tapées dans le filtre
-  getFilterMealsData(users: any, key: string): void {
+  // Récupère des utilisateurs en fonction des lettres tapées dans le filtre
+  filterUsersByName(users: any, key: string): void {
     this.filteredUsers = users.filter(u => u.firstname.toLowerCase().includes(key) || u.name.toLowerCase().includes(key));
   }
 
@@ -87,6 +87,7 @@ export class UsersManagerComponent extends BaseComponent implements OnInit {
     this.router.navigate(['canteen/users/edit', userId]);
   }
 
+  // Ouvre une modal pour créditer un utilisateur
   onManageUserWallet(content: any, user: any): void {
     this.editedUser = user;
     this.modalService.open( content, {ariaLabelledBy: 'modal-basic-title'}).result.then(() => {
@@ -112,7 +113,10 @@ export class UsersManagerComponent extends BaseComponent implements OnInit {
   deleteUser(user: any): void {
     this.userService.deleteUserById(user.id)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe();
+      .subscribe(() => {
+        alert(`${user.name} ${user.firstname} a bien été supprimé(e).`);
+        this.getAllUsers();
+      });
   }
 
   // Créditer un client

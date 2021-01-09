@@ -1,12 +1,6 @@
 @import "src/theme/variables";
 @import "src/theme/mixins";
 
-.users-manager-table-wrapper {
-  height: calc(100vh - 230px);
-  overflow: scroll;
-  overflow-x: hidden;
-}
-
 .sidebar-bg {
   background-color: $primary;
 }
@@ -54,6 +48,12 @@
   .form-group {
     margin: unset;
   }
+}
+
+.scroll-table {
+  height: calc(100vh - 315px);
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 table {

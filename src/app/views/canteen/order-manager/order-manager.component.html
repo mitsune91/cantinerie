@@ -25,45 +25,47 @@
       </div>
     </div>
 
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Client</th>
-        <th scope="col">Cagnotte</th>
-        <th scope="col">Plat commandé(s)</th>
-        <th scope="col">Quantité</th>
-        <th scope="col">Montant TTC</th>
-        <th scope="col">Date de la commande</th>
-        <th scope="col">Heure de la commande</th>
-        <th scope="col">Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let order of filteredOrders; index as i">
-        <th scope="row">{{ order.id }}</th>
-        <td>{{ order.user.firstname }} {{ order.user.name }}</td>
-        <td>{{ order.user.wallet }}</td>
-        <td *ngIf="!(!!order.quantity)"></td>
-        <td *ngIf="!(!!order.quantity)"></td>
-        <td *ngIf="!(!!order.quantity)"></td>
-        <td *ngIf="!!order.quantity">{{ order?.quantity[0]?.meal.label }}</td>
-        <td *ngIf="!!order.quantity">{{ order?.quantity[0]?.quantity }}</td>
-        <td *ngIf="!!order.quantity">{{ order?.quantity[0]?.quantity * order?.quantity[0].meal.priceDF }}</td>
-        <td>{{ order.creationDate | date: 'EEEE d MMMM y'}}</td>
-        <td>{{ order.creationTime }}</td>
-        <td>
-          <button class="orders-manager-table-btn" (click)="onEditOrder(order.id)"
-                  data-toggle="tooltip" data-placement="top" title="Edit">
-            <img src="assets/Icons/edit-icon.svg">
-          </button>
-          <button class="orders-manager-table-btn" (click)="cancelOrder(order)"
-                  data-toggle="tooltip" data-placement="top" title="Delete">
-            <img src="assets/Icons/trash-icon.svg">
-          </button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="scroll-table">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Client</th>
+          <th scope="col">Cagnotte</th>
+          <th scope="col">Plat commandé(s)</th>
+          <th scope="col">Quantité</th>
+          <th scope="col">Montant TTC</th>
+          <th scope="col">Date de la commande</th>
+          <th scope="col">Heure de la commande</th>
+          <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let order of filteredOrders; index as i">
+          <th scope="row">{{ order.id }}</th>
+          <td>{{ order.user.firstname }} {{ order.user.name }}</td>
+          <td>{{ order.user.wallet }}</td>
+          <td *ngIf="!(!!order.quantity)"></td>
+          <td *ngIf="!(!!order.quantity)"></td>
+          <td *ngIf="!(!!order.quantity)"></td>
+          <td *ngIf="!!order.quantity">{{ order?.quantity[0]?.meal.label }}</td>
+          <td *ngIf="!!order.quantity">{{ order?.quantity[0]?.quantity }}</td>
+          <td *ngIf="!!order.quantity">{{ order?.quantity[0]?.quantity * order?.quantity[0].meal.priceDF }}</td>
+          <td>{{ order.creationDate | date: 'EEEE d MMMM y'}}</td>
+          <td>{{ order.creationTime }}</td>
+          <td>
+            <button class="orders-manager-table-btn" (click)="onEditOrder(order.id)"
+                    data-toggle="tooltip" data-placement="top" title="Edit">
+              <img src="assets/Icons/edit-icon.svg">
+            </button>
+            <button class="orders-manager-table-btn" (click)="cancelOrder(order)"
+                    data-toggle="tooltip" data-placement="top" title="Delete">
+              <img src="assets/Icons/trash-icon.svg">
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

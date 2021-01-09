@@ -5,7 +5,7 @@ import {takeUntil} from 'rxjs/operators';
 
 import {BaseComponent} from '../../../../shared/core/base.component';
 import {UserService} from '../../../../services/user.service';
-import {TOKEN_NAME} from '../../../../services/auth.service';
+import {ROLE_NAME} from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-add-user',
@@ -32,23 +32,20 @@ export class AddUserComponent extends BaseComponent implements OnInit {
       town: [''],
       email: [''],
       phone: [''],
-      wallet: [''],
     });
   }
 
   ngOnInit(): void {
-    console.log(localStorage.getItem(TOKEN_NAME));
   }
 
   // Permet de revenir à la page de gestion des commandes
   onNavigateBack(): void {
-    this.router.navigate(['canteen/users']);
-  }
-
-  // Modifie le status via le formulaire
-  editUserStatus(status: any): void {
-    this.form.value.status = status;
-    console.log(this.form.value.status);
+    const role = localStorage.getItem(ROLE_NAME);
+    if (role === 'ROLE_CANTEEN') {
+      this.router.navigate(['canteen/users']);
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
   // Envoie les changements du formulaire
@@ -64,16 +61,14 @@ export class AddUserComponent extends BaseComponent implements OnInit {
       email: this.form.value.email,
       phone: this.form.value.phone,
       status: this.form.value.status,
-      wallet: this.form.value.wallet,
       password: 'bonjour' // A voir pour le password...
     };
     this.userService.putUser(body)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe();
-  }
-
-  isLogged(): boolean {
-    return (localStorage.getItem(TOKEN_NAME) !== null) ? true : false;
+      .subscribe(() => {
+        alert(`${body.name} ${body.firstname} a bien été créé(e)`);
+        this.onNavigateBack();
+      });
   }
 
 }
