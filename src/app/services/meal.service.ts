@@ -48,8 +48,8 @@ export class MealService {
   getMealOfTheDay(): Observable<any> {
     return;
   }
-  getMealOfTheWeek(): Observable<any> {
-    return;
+  getMealOfTheWeek(weekNumber: number): Observable<any> {
+    return this.http.get(this.url + 'meal/findallavailableforweek/' + weekNumber);
   }
   getMealImg(id: number): Observable<any> {
     return this.http.get(this.url + 'meal/findimg/' + id);

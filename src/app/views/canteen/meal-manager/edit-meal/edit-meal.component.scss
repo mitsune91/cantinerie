@@ -1,13 +1,16 @@
+@import "src/theme/mixins";
+@import "src/theme/variables";
+
 $bc: #f8f9fa;
 
 .canteen-meal-edit-container {
-  height: calc(100vh - 90px);
+  height: calc(100vh - #{$navbar-height});
   background-color: $bc;
   padding-top: 30px;
 }
 
 .canteen-meal-edit-form-wrapper {
-  margin: 50px 20px;
+  margin: 0px 20px;
   padding: 20px;
   border: 1px solid lightgrey;
   border-radius: 25px;

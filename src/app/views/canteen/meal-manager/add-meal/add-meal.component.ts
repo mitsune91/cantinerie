@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
 
@@ -27,12 +27,12 @@ export class AddMealComponent extends BaseComponent implements OnInit {
     super();
 
     this.form = this.fb.group({
-      label: [''],
-      priceDF: [''],
+      label: ['', Validators.required],
+      priceDF: ['', Validators.required],
       imageId: [''],
       ingredients: [''],
-      category: [''],
-      availableForWeeks: [''],
+      category: ['', Validators.required],
+      availableForWeeks: ['', Validators.required],
       status: [''],
     });
   }

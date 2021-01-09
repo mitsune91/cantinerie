@@ -36,7 +36,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'basket/:idMenu',
+    path: 'panier/:idMenu',
     component: CardComponent,
     canActivate: [AuthGuard, RoleGuard],
     data: {

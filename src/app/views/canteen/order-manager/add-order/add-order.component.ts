@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {takeUntil} from 'rxjs/operators';
 
 import {BaseComponent} from '../../../../shared/core/base.component';
@@ -20,6 +20,7 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
   filteredUsers: any = [];
   meals: any = [];
   filteredMeals: any = [];
+  weekNumber: number;
 
   constructor(
     private router: Router,
@@ -31,15 +32,16 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
     super();
 
     this.form = this.fb.group({
-      user: [''],
-      meal: [''],
-      quantity: [''],
+      user: ['', Validators.required],
+      meal: ['', Validators.required],
+      quantity: ['', Validators.required],
     });
   }
 
   ngOnInit(): void {
+    this.weekNumber = this.getWeekNumber(new Date());
     this.getAllUsers();
-    this.getAllMeals();
+    this.getAvailableMeals(this.weekNumber);
   }
 
   // Récupère tous les utilisateurs
@@ -52,8 +54,8 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
   }
 
   // Récupère tous les menus
-  getAllMeals(): void {
-    this.mealService.getMeals()
+  getAvailableMeals(weekNumber: number): void {
+    this.mealService.getMealOfTheWeek(weekNumber)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(meals => {
         this.meals = meals;
@@ -126,6 +128,20 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
       const meal = this.getMealByLabel(mealLabel);
       return (meal.priceDF * quantity).toFixed(2);
     }
+  }
+
+  // Méthode pour récupérer le numéro de la semaine en cours
+  getWeekNumber(date: any): any {
+    date = new Date(
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+    );
+    date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
+    const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+    let weekNo = Math.ceil(((date - Number(yearStart)) / 86400000 + 1) / 7);
+    if (weekNo > 52) {
+      weekNo = weekNo - 52;
+    }
+    return weekNo;
   }
 
   // TODO Ajouter modal de confirmation de prise de commande

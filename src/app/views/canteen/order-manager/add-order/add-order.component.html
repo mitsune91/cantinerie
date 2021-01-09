@@ -54,9 +54,11 @@
 
         <div class="btn-submit col-12">
           <button type="submit" class="btn btn-primary"
+                  [disabled]="!form.valid"
                   (click)="submitAddedOrder()">
             Valider la commande
           </button>
+          <div class="warning-msg" *ngIf="!form.valid && form.touched">* Remplir tous les champs afin de valider</div>
         </div>
       </div>
     </form>

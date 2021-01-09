@@ -5,6 +5,7 @@ import {debounceTime, takeUntil} from 'rxjs/operators';
 
 import {BaseComponent} from '../../../shared/core/base.component';
 import {OrderService} from '../../../services/order.service';
+import {UserService} from '../../../services/user.service';
 
 @Component({
   selector: 'app-order-manager',
@@ -20,7 +21,8 @@ export class OrderManagerComponent extends BaseComponent implements OnInit {
 
   constructor(
     private orderService: OrderService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {
     super();
   }
@@ -37,6 +39,7 @@ export class OrderManagerComponent extends BaseComponent implements OnInit {
         this.orders = orders;
         this.filteredOrders = this.orders;
         this.filterOrders(this.orders);
+        console.log(this.filteredOrders);
       });
   }
 
@@ -72,6 +75,11 @@ export class OrderManagerComponent extends BaseComponent implements OnInit {
   // TODO Ajouter modal pour confirmer l'annulation
   // Annule une commande
   cancelOrder(order: any): void {
+    // On recrédite l'utilisateur
+    this.userService.updateUser({ wallet: order.quantity.meal.priceDf * order.quantity.meal.quantity})
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe();
+    // Puis on supprime la commande
     this.orderService.cancelOrderById(order.id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe();

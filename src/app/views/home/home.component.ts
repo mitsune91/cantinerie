@@ -142,7 +142,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   selectMenu(id: number): void {
     console.log(id);
     if (id) {
-      this.route.navigate(['/basket/', id]);
+      this.route.navigate(['/panier', id]);
     } else {
       this.route.navigate(['/404']);
       alert('panier vide!');
