@@ -57,7 +57,7 @@ export class OrderService {
     return this.http.patch(this.url + 'order/update/' + orderId, body);
   }
   cancelOrderById(orderId: number): Observable<any> {
-    return this.http.patch(this.url + 'order/cancel/', orderId);
+    return this.http.patch(this.url + 'order/cancel/' + orderId, orderId);
   }
   computePricesOrder(): Observable<any> {
     return;

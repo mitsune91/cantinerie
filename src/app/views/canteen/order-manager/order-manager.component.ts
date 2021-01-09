@@ -75,10 +75,10 @@ export class OrderManagerComponent extends BaseComponent implements OnInit {
   // TODO Ajouter modal pour confirmer l'annulation
   // Annule une commande
   cancelOrder(order: any): void {
+    console.log(order);
     // On recrédite l'utilisateur
-    this.userService.updateUser({ wallet: order.quantity.meal.priceDf * order.quantity.meal.quantity})
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe();
+    const amountCredited = order.quantity[0].meal.priceDF * order.quantity[0].quantity;
+    this.creditUser(order.user, amountCredited);
     // Puis on supprime la commande
     this.orderService.cancelOrderById(order.id)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -98,6 +98,15 @@ export class OrderManagerComponent extends BaseComponent implements OnInit {
         this.router.navigate(['canteen/users']);
         break;
     }
+  }
+
+  // Créditer utilisateur
+  creditUser(user: any, amount: number): void {
+    this.userService.creditUsersWallet(user.id, {
+      wallet: amount
+    })
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(d => console.log(d));
   }
 
   // TODO Ajouter un filtre date
