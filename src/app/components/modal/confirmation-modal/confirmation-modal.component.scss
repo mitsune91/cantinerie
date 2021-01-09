@@ -1,0 +1,51 @@
+@import "src/theme/variables";
+@import "src/theme/mixins";
+
+.modal-window {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+
+  @include flex-box();
+}
+
+.modal-content {
+  background-color: $bc;
+  text-align: center;
+
+  @include custom-col(400px);
+}
+
+.modal-header {
+  position: relative;
+  text-align: center;
+  border-bottom: 1px solid $primary;
+
+  .modal-title {
+    position: absolute;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+
+    @include flex-box();
+    @include font-size-weight-color(18px, bold, $primary);
+  }
+}
+
+.modal-body {
+  text-align: center;
+  margin: 20px 0;
+
+  @include font-size-weight-color(14px, normal, $primary);
+}
+
+.modal-footer {
+  border-top: 1px solid $primary;
+  justify-content: center;
+}

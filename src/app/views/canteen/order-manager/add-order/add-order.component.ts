@@ -74,7 +74,7 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
 
   // Permet de revenir à la page de gestion des plats
   onNavigateBack(): void {
-    this.router.navigate(['canteen/meals']);
+    this.router.navigate(['canteen/orders']);
   }
 
   // Envoie le formulaire

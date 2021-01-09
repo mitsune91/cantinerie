@@ -1,31 +1,29 @@
 <div class="canteen-meal-edit-container">
   <div class="canteen-meal-edit-form-wrapper">
     <div class="canteen-meal-edit-form-section-top">
-      <div class="canteen-meal-edit-btn-back-wrapper">
+      <div class="canteen-meal-edit-btn-wrapper">
         <button (click)="onNavigateBack()">
           <img src="assets/Icons/back-icon.svg">
           Retour
+        </button>
+        <button (click)="displayForm()">
+          <img src="assets/Icons/edit-icon.svg">
         </button>
       </div>
       <div class="canteen-meal-edit-img-wrapper">
         <img [src]="mealPathImg">
       </div>
-      <div class="canteen-meal-edit-btn-wrapper">
-        <button (click)="displayForm()">
-          <img src="assets/Icons/edit-icon.svg">
-        </button>
-      </div>
     </div>
     <form [formGroup]="form">
       <div class="canteen-meal-edit-form-body row">
-        <div class="form-group col-3 px-5">
-          <label for="id">Id</label>
+        <div [class.col-12]="!isFormDisplayed" class="form-group col-md-3 px-5">
+          <label for="id">Id Commande</label>
           <div class="meal-detail" *ngIf="!isFormDisplayed">{{ editedMeal.id }}</div>
           <input type="text" class="form-control" id="id"
                  *ngIf="isFormDisplayed"
                  [placeholder]="form.value.id" disabled>
         </div>
-        <div class="form-group col-3 px-5">
+        <div class="form-group col-md-3 px-5">
           <label for="label">Nom du plat</label>
           <div class="meal-detail" *ngIf="!isFormDisplayed">{{ editedMeal.label }}</div>
           <input type="text" class="form-control" id="label"
@@ -34,7 +32,7 @@
                  formControlName="label">
           <small id="labelHelp" class="form-text text-muted" *ngIf="isFormDisplayed">Saisissez le nom du plat.</small>
         </div>
-        <div class="form-group col-3 px-5">
+        <div class="form-group col-md-3 px-5">
           <label for="priceDF">Prix</label>
           <div class="meal-detail" *ngIf="!isFormDisplayed">{{ editedMeal.priceDF }}</div>
           <input type="number" step="0.01" class="form-control" id="priceDF"
@@ -47,7 +45,7 @@
 
         <!-- TODO Need to work on select, add checkboxes for multiple select -->
 
-        <div class="form-group col-3 px-5 canteen-meal-edit-form-ingredients">
+        <div class="form-group col-md-3 px-5 canteen-meal-edit-form-ingredients">
           <label for="ingredients">Ingrédients</label>
           <div class="meal-detail-wrapper" *ngIf="!isFormDisplayed">
             <div class="meal-detail" *ngFor="let ingredient of editedMeal.ingredients">{{ ingredient.label }}</div>
@@ -59,9 +57,9 @@
             <option *ngFor="let ingredient of ingredients" [value]="ingredient">{{ ingredient.label }}</option>
           </select>
           <small id="ingredientsHelp" class="form-text text-muted" *ngIf="isFormDisplayed">Précisez quels ingrédients
-            sont utilisés.</small>
+            sont utilisés. Maintenir la touche ctrl du clavier, pour en sélectionner plusieurs</small>
         </div>
-        <div class="form-group col-3 px-5">
+        <div class="form-group col-md-3 px-5">
           <label for="category">Catégorie</label>
           <div class="meal-detail" *ngIf="!isFormDisplayed">{{ editedMealCategory }}</div>
           <select class="form-control" id="category"
@@ -72,7 +70,7 @@
           <small id="categoryHelp" class="form-text text-muted" *ngIf="isFormDisplayed">Choisissez la catégorie du
             plat.</small>
         </div>
-        <div class="form-group col-3 px-5">
+        <div class="form-group col-md-3 px-5">
           <label for="availableForWeeks">Disponibilités</label>
           <div class="meal-detail" *ngIf="!isFormDisplayed">{{ editedMeal.availableForWeeks }}</div>
           <input type="text" class="form-control" id="availableForWeeks"

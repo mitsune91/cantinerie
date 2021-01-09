@@ -1,3 +1,6 @@
+@import "src/theme/variables";
+@import "src/theme/mixins";
+
 $bc: #f8f9fa;
 
 .canteen-user-add-container {
@@ -9,30 +12,27 @@ $bc: #f8f9fa;
 .canteen-user-add-form-wrapper {
   margin: 50px 20px;
   padding: 20px;
-  border: 1px solid lightgrey;
+  border: 1px solid $primary;
   border-radius: 25px;
-  background-color: #fff;
+  background-color: $primary-row;
   text-align: center;
 }
 
 .canteen-user-add-form-section-top {
-  display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid $primary;
   padding: 10px 0;
   margin-bottom: 20px;
+
+  @include flex-box();
 
   button {
     border: none;
     background-color: transparent;
+    color: $secondary;
 
     &:focus {
       outline: none;
-    }
-
-    img {
-      width: 15px;
     }
   }
 
@@ -48,7 +48,8 @@ $bc: #f8f9fa;
     text-align: left;
 
     img {
-      width: 20px;
+      width: 30px;
+      filter: invert(70%) sepia(53%) saturate(886%) hue-rotate(337deg) brightness(100%) contrast(102%);
     }
   }
 }

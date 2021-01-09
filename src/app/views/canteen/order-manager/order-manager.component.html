@@ -1,5 +1,5 @@
 <div class="orders-manager-container row mx-0">
-  <div class="row sidebar-bg">
+  <div class="row sidebar-bg mx-0">
     <div class="container-fluid">
       <div class="row vw-100">
         <app-sidebar
@@ -14,7 +14,7 @@
     <div class="orders-manager-table-section-top">
       <form>
         <div class="form-group form-inline">
-          Rechercher par client : <input class="form-control ml-2" type="text" [formControl]="orderFilter"/>
+          Rechercher par utilisateur : <input class="form-control ml-2" type="text" [formControl]="orderFilter"/>
         </div>
       </form>
       <div class="orders-manager-table-section-top-add">
@@ -30,7 +30,7 @@
         <thead>
         <tr>
           <th scope="col">Id</th>
-          <th scope="col">Client</th>
+          <th scope="col">Utilisateur</th>
           <th scope="col">Cagnotte</th>
           <th scope="col">Plat commandé(s)</th>
           <th scope="col">Quantité</th>

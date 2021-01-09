@@ -36,7 +36,8 @@ export class OrderService {
     { code: 2, label: 'Annulée' },
   ];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   private url: string = HOST.apiUrl;
 

@@ -14,7 +14,7 @@ import { AuthComponent } from './views/auth/auth.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResetPasswordComponent } from './views/reset-password/reset-password.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import {ModalsModule} from './components/modal/modals.module';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    ModalsModule
   ],
   providers: [],
   exports: [

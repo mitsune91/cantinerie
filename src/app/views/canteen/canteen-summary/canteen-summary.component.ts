@@ -20,6 +20,12 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
   totalOrders = 0;
   numberOfMeals: any[] = [];
 
+  // Modal variables
+  isModalOpen = false;
+  modalMessage: string;
+  modalTitle: string;
+  isConfirmed: boolean;
+
   constructor(
     private orderService: OrderService,
     public router: Router
@@ -107,13 +113,22 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
 
   // TODO A travailler : Voir orderService
   payAndDeliverOrder(order: any): void {
-    const constraint = (localStorage.getItem(ROLE_NAME) === 'ROLE_CANTEEN') ? -1 : 0;
-    this.orderService.payAndDeliverOrder(order, constraint)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        alert(`La commande n°${order.id} a bien été réglée et délivrée au client.`);
-        this.getOrdersOfTheDay();
-      });
+    // Definit les infos de la modal de confirmation
+    this.isModalOpen = true;
+    this.modalTitle = `Commande n° ${order.id} : ${order.user.name} ${order.user.firstname}`;
+    this.modalMessage = 'Voulez-vous encaisser et donner la commande au client? ' +
+      '\n Cette action va débiter le montant de la commande à la cagnotte de l\'utilisateur.';
+    while (!this.isModalOpen) {
+      if (this.isConfirmed) {
+        const constraint = (localStorage.getItem(ROLE_NAME) === 'ROLE_CANTEEN') ? -1 : 0;
+        this.orderService.payAndDeliverOrder(order, constraint)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(() => {
+            alert(`La commande n°${order.id} a bien été réglée et délivrée au client.`);
+            this.getOrdersOfTheDay();
+          });
+      }
+    }
   }
 
   // Permet de naviguer vers la page d'édition d'une commande
@@ -129,6 +144,13 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
         alert(`La commande n°${order.id} a bien été supprimée`);
         this.getOrdersOfTheDay();
       });
+  }
+
+  // Permet la gestion de la modal de confirmation pour les actions
+  getConfirmation(isConfirmed: boolean): void {
+    console.log(isConfirmed);
+    this.isConfirmed = isConfirmed;
+    this.isModalOpen = !this.isModalOpen;
   }
 
 }

@@ -1,5 +1,5 @@
 <div class="users-manager-container row mx-0">
-  <div class="row sidebar-bg">
+  <div class="row sidebar-bg mx-0">
     <div class="container-fluid">
       <div class="row vw-100">
         <app-sidebar
@@ -14,13 +14,13 @@
     <div class="users-manager-table-section-top">
       <form>
         <div class="form-group form-inline">
-          Rechercher par client : <input class="form-control ml-2" type="text" [formControl]="userFilter"/>
+          Rechercher par utilisateur : <input class="form-control ml-2" type="text" [formControl]="userFilter"/>
         </div>
       </form>
       <div class="users-manager-table-section-top-add">
         <button (click)="onAddUser()">
           <img src="assets/Icons/add-icon.svg">
-          Créer un client
+          Ajouter un utilisateur
         </button>
       </div>
     </div>
@@ -86,9 +86,9 @@
 <div>
   <ng-template #content let-modal>
     <div class="modal-header">
-      <div class="row">
-        <h4 class="modal-title col-12" id="modal-basic-title">{{ editedUser.name }} {{ editedUser.firstname }}</h4>
-        <h4 class="modal-title col-12">Solde : {{ editedUser.wallet }}</h4>
+      <div class="row col-12">
+        <h4 class="modal-title col-12 my-0" id="modal-basic-title">{{ editedUser.name }} {{ editedUser.firstname }}</h4>
+        <h4 class="modal-title col-12 my-0">Solde : {{ editedUser.wallet }}</h4>
       </div>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
@@ -105,7 +105,11 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Créditer</button>
+      <button type="button" class="btn btn-primary"
+              [disabled]="!walletControl.valid"
+              (click)="modal.close('Save click')">
+        Créditer
+      </button>
     </div>
   </ng-template>
 </div>

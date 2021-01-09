@@ -1,6 +1,8 @@
 @import "src/theme/variables";
 @import "src/theme/mixins";
 
+$bc: #f8f9fa;
+
 .sidebar-bg {
   background-color: $primary;
 }
@@ -65,4 +67,30 @@ table {
     background-color: $primary-thead;
     color: $primary;
   }
+}
+
+.modal-content {
+  background-color: $bc;
+  text-align: center;
+}
+
+.modal-header {
+  text-align: center;
+  border-bottom: 1px solid $primary;
+
+  .modal-title {
+    @include font-size-weight-color(18px, bold, $primary);
+  }
+}
+
+.modal-body {
+  text-align: center;
+  margin: 20px 0;
+
+  @include font-size-weight-color(14px, normal, $primary);
+}
+
+.modal-footer {
+  border-top: 1px solid $primary;
+  justify-content: center;
 }

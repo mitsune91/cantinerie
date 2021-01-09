@@ -1,5 +1,5 @@
 <div class="canteen-order-add-container">
-  <div class="canteen-order-add-form-wrapper">
+  <div class="canteen-order-add-wrapper">
     <div class="canteen-order-add-form-section-top">
       <div class="canteen-order-add-btn-back-wrapper">
         <button (click)="onNavigateBack()">
@@ -11,57 +11,59 @@
         <!--        <img [src]="orderPathImg">-->
       </div>
     </div>
-    <form [formGroup]="form">
-      <div class="canteen-order-add-form-body row">
+    <div class="canteen-order-add-form-wrapper">
+      <form [formGroup]="form">
+        <div class="canteen-order-add-form-body row">
 
-        <div class="form-group col-3 px-5">
-          <label for="customer">Client</label>
-          <input type="text" class="form-control"
-                 (keyup)="getFilterUsersData(users, $event)"
-                 formControlName="user"
-                 list="usersList" id="customer"/>
-          <datalist id="usersList">
-            <option *ngFor="let user of filteredUsers" [value]="user.firstname + ' ' + user.name">Crédit : {{ user.wallet }} €</option>
-          </datalist>
-        </div>
-        <div class="form-group col-3 px-5" *ngIf="form.value.user.length">
-          <label for="wallet">Crédits</label>
-          <input type="number" step="0.01" class="form-control" id="wallet"
-                 [placeholder]="getUserWallet(form.value.user) || '0'" disabled>
-        </div>
-        <div class="form-group col-3 px-5">
-          <label for="meal">Plat</label>
-          <input type="text" class="form-control"
-                 (keyup)="getFilterMealsData(meals, $event)"
-                 formControlName="meal"
-                 list="mealsList" id="meal"/>
-          <datalist id="mealsList">
-            <option *ngFor="let meal of filteredMeals" [value]="meal.label">{{ meal.priceDF }} €</option>
-          </datalist>
-        </div>
-        <div class="form-group col-3 px-5">
-          <label for="quantity">Quantité</label>
-          <input type="number" class="form-control" id="quantity" min="0"
-                 placeholder="Saisissez la quantité voulue"
-                 formControlName="quantity">
-          <small id="quantityHelp" class="form-text text-muted" *ngIf="form.invalid">Saisissez un nombre entier.</small>
-        </div>
-        <div class="form-group col-3 px-5">
-          <label for="priceDF">Prix HT</label>
-          <input type="number" step="0.01" class="form-control" id="priceDF"
-                 [placeholder]="simulatePriceDF(this.form.value.meal, this.form.value.quantity) || '0'" disabled>
-        </div>
+          <div class="form-group">
+            <label for="customer">Client</label>
+            <input type="text" class="form-control"
+                   (keyup)="getFilterUsersData(users, $event)"
+                   formControlName="user"
+                   list="usersList" id="customer"/>
+            <datalist id="usersList">
+              <option *ngFor="let user of filteredUsers" [value]="user.firstname + ' ' + user.name">Crédit : {{ user.wallet }} €</option>
+            </datalist>
+          </div>
+          <div class="form-group" *ngIf="form.value.user.length">
+            <label for="wallet">Crédits</label>
+            <input type="number" step="0.01" class="form-control px-5" id="wallet"
+                   [placeholder]="getUserWallet(form.value.user) || '0'" disabled>
+          </div>
+          <div class="form-group">
+            <label for="meal">Plat</label>
+            <input type="text" class="form-control px-5"
+                   (keyup)="getFilterMealsData(meals, $event)"
+                   formControlName="meal"
+                   list="mealsList" id="meal"/>
+            <datalist id="mealsList">
+              <option *ngFor="let meal of filteredMeals" [value]="meal.label">{{ meal.priceDF }} €</option>
+            </datalist>
+          </div>
+          <div class="form-group">
+            <label for="quantity">Quantité</label>
+            <input type="number" class="form-control px-5" id="quantity" min="0"
+                   placeholder="Saisissez la quantité voulue"
+                   formControlName="quantity">
+            <small id="quantityHelp" class="form-text text-muted" *ngIf="form.invalid">Saisissez un nombre entier.</small>
+          </div>
+          <div class="form-group">
+            <label for="priceDF">Prix HT</label>
+            <input type="number" step="0.01" class="form-control px-5" id="priceDF"
+                   [placeholder]="simulatePriceDF(this.form.value.meal, this.form.value.quantity) || '0'" disabled>
+          </div>
 
-        <div class="btn-submit col-12">
-          <button type="submit" class="btn btn-primary"
-                  [disabled]="!form.valid"
-                  (click)="submitAddedOrder()">
-            Valider la commande
-          </button>
-          <div class="warning-msg" *ngIf="!form.valid && form.touched">* Remplir tous les champs afin de valider</div>
+          <div class="btn-submit">
+            <button type="submit" class="btn btn-primary"
+                    [disabled]="!form.valid"
+                    (click)="submitAddedOrder()">
+              Valider la commande
+            </button>
+            <div class="warning-msg" *ngIf="!form.valid && form.touched">* Remplir tous les champs afin de valider</div>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </div>
 

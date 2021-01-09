@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {FormControl, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {debounceTime, takeUntil} from 'rxjs/operators';
 
@@ -18,7 +18,7 @@ export class UsersManagerComponent extends BaseComponent implements OnInit {
   users: any = [];
   filteredUsers: any = [];
   userFilter = new FormControl('');
-  walletControl = new FormControl('');
+  walletControl = new FormControl('', Validators.required);
   editedUser: any = {};
   closeResult = '';
 
