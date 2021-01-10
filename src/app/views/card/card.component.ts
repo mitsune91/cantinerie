@@ -17,13 +17,14 @@ import { Meal } from '../../models/Meal';
 import { JsonPipe } from '@angular/common';
 import { disposeEmitNodes } from 'typescript';
 import { promise } from 'protractor';
+
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss']
 })
 export class CardComponent extends BaseComponent implements OnInit {
-  @ViewChild('modal') private modalComponent: ModalComponent
+  @ViewChild('modal') private modalComponent: ModalComponent;
 
   user: User;
   order: Order;
@@ -42,8 +43,8 @@ export class CardComponent extends BaseComponent implements OnInit {
     private authService: AuthService,
     private route: Router,
     private activatedRoute: ActivatedRoute) {
-      super();
-    }
+    super();
+  }
 
   ngOnInit(): void {
 
@@ -52,7 +53,7 @@ export class CardComponent extends BaseComponent implements OnInit {
      *
      * Passer le paramèttre dans le fontion qui suit
      */
-    const idMenu: number = parseInt(this.activatedRoute.snapshot.paramMap.get('idMenu'));
+    const idMenu: number = Number(this.activatedRoute.snapshot.paramMap.get('idMenu'));
 
 
     // Résupération du menu par le numéro d'identifiant
@@ -73,88 +74,87 @@ export class CardComponent extends BaseComponent implements OnInit {
 
   }
 
-  async getUserConnected(id: number): Promise<void>{
+  async getUserConnected(id: number): Promise<void> {
     // Appel au service UserService
     this.userService.getUserById(id)
-    // Tant que la page n'est pas détruite,
-    .pipe(takeUntil(this.ngUnsubscribe))
-    // on souscrit à l'observable ou à la méthode getUser()
-    .subscribe(data => {
-      // on stocke les données dans une variable pour les réutiliser
-      this.user = data;
-      // console.log(this.user.id);
-      return this.user.id.toString;
+      // Tant que la page n'est pas détruite,
+      .pipe(takeUntil(this.ngUnsubscribe))
+      // on souscrit à l'observable ou à la méthode getUser()
+      .subscribe(data => {
+        // on stocke les données dans une variable pour les réutiliser
+        this.user = data;
+        // console.log(this.user.id);
+        return this.user.id.toString;
       });
 
 
   }
 
-  getMenuForCard(idMenu: number): void{
+  getMenuForCard(idMenu: number): void {
     /**
      * Appel su menu pa r le service menuService
      */
     this.menuService.getMenu(idMenu)
-    .pipe(takeUntil(this.ngUnsubscribe))
-    .subscribe(data => {
-      this.menu = data;
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(data => {
+        this.menu = data;
 
-    });
+      });
   }
 
-  getTotalCard(event): number{
-     const isChecked = event.target.checked; // Listener des evenement en cliquant sur le boutton validé la commande
-     const price = parseFloat(event.target.value); // <<parseFloat>> car le prix est decimal
+  getTotalCard(event): number {
+    const isChecked = event.target.checked; // Listener des evenement en cliquant sur le boutton validé la commande
+    const price = parseFloat(event.target.value); // <<parseFloat>> car le prix est decimal
 
-     const mealId: number = event.target.id; // Récupération de l'identifiant du meal selectionée.
+    const mealId: number = event.target.id; // Récupération de l'identifiant du meal selectionée.
 
-     /**
-      * Résupération du MEAL par le mealService
-      */
-     this.mealService.getMealById(mealId)
-     .pipe(takeUntil(this.ngUnsubscribe))
-     .subscribe(data => {
-       this.meal = data;
-       // console.log(this.meal);
-     });
+    /**
+     * Résupération du MEAL par le mealService
+     */
+    this.mealService.getMealById(mealId)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(data => {
+        this.meal = data;
+        // console.log(this.meal);
+      });
 
-     if (isChecked){
+    if (isChecked) {
       this.cartTotal += price;
-      this.mealQuantity ++; // ajouté le nombre de meal selectioné dans le menu
-     } else if (!isChecked) {
-       this.cartTotal -= price;
-       this.mealQuantity --; // retirer le nombre de meal déselectioné dans le menu
-     }
+      this.mealQuantity++; // ajouté le nombre de meal selectioné dans le menu
+    } else if (!isChecked) {
+      this.cartTotal -= price;
+      this.mealQuantity--; // retirer le nombre de meal déselectioné dans le menu
+    }
 
-     return this.cartTotal;
+    return this.cartTotal;
   }
 
   putCommandeValidation(event): void {
 
     // TODO - A faire - une tableau de meal pour le data.mealId - car plusieur meal selectioné et c'est pas géré dans la BDD
     // TODO - retirer le montant de carteTOTAL du userWalet
-      console.log(event.target);
+    console.log(event.target);
 
-      let message: string;
-      let quantity: Array<any> = [];
-      let userConnected: any;
+    let message: string;
+    let quantity: Array<any> = [];
+    let userConnected: any;
 
-      event.preventDefault();
-      /**
-       * les vérification a mettre en place avant ge généré un ORDER
-       */
-      if(localStorage.getItem(TOKEN_NAME) !== null) {
-           userConnected = JSON.parse(this.authService.getToken());
-          console.log(userConnected);
+    event.preventDefault();
+    /**
+     * les vérification a mettre en place avant ge généré un ORDER
+     */
+    if (localStorage.getItem(TOKEN_NAME) !== null) {
+      userConnected = JSON.parse(this.authService.getToken());
+      console.log(userConnected);
 
-       // A VOIR AVEC THOMAS D'ABORD
-       // Vérifier si il y a un utilisateur connecté
-      if (this.user){
+      // A VOIR AVEC THOMAS D'ABORD
+      // Vérifier si il y a un utilisateur connecté
+      if (this.user) {
         /**
          * la suite de la verification
          */
 
-        // Vérifié si l'utilisateur a asseé d'argent dans son walet
-        const userConnected: User = this.user;
+          // Vérifié si l'utilisateur a asseé d'argent dans son walet
         const userWalet: number = this.user.wallet; // Récuperer le Solde de l'utilisateur.
         console.log(userWalet);
 
@@ -162,26 +162,26 @@ export class CardComponent extends BaseComponent implements OnInit {
          * Initialization le prix par defaut par le prix du menu
          */
         if (this.cartTotal === 0) {
-        this.cartTotal = this.menu.priceDF; // Prix par default
+          this.cartTotal = this.menu.priceDF; // Prix par default
         }
 
         if (userWalet > this.cartTotal) {
-            // Faire la derniére verification avant la commande
-            console.log(userWalet + 'et' + this.cartTotal);
+          // Faire la derniére verification avant la commande
+          console.log(userWalet + 'et' + this.cartTotal);
 
-            this.oderService.putOrder()
+          this.oderService.putOrder()
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(
               data => {
                 console.log(data);
                 quantity = [
-                  data.quantity =  this.mealQuantity, // la quantité de meal selectioné dans le menu
+                  data.quantity = this.mealQuantity, // la quantité de meal selectioné dans le menu
                   data.mealId = this.meal, // Récupere le dérnier meal selectioné
                   data.menuId = this.menu
                 ];
                 message = 'votre commande est validé';
 
-            },
+              },
               // Vérification des constrains. limitation de commande avant 10h30 et pas plus de 500 commande par jour.
               async error => {
                 console.log('oops', error);
@@ -196,14 +196,14 @@ export class CardComponent extends BaseComponent implements OnInit {
 
                 // Retour a la page d'accueil.
                 this.route.navigate(['/']);
-            });
+              });
 
-          } else {
-            // message = pas assez de fond
-            // tout annulé
-            message = 'Pas assez de fond ' + '\n' + 'Se renseigné au près de la cantiniere!';
+        } else {
+          // message = pas assez de fond
+          // tout annulé
+          message = 'Pas assez de fond ' + '\n' + 'Se renseigné au près de la cantiniere!';
 
-            //  this.route.navigate(['/home']);
+          //  this.route.navigate(['/home']);
         }
       } else {
         // Si Non redirection
@@ -215,28 +215,30 @@ export class CardComponent extends BaseComponent implements OnInit {
       console.log(this.mealQuantity);
       console.log(message);
 
-  }
-
-  /**
-   * La fonction récupere le model de modal pour dynamisé les instruction et information a intégré
-   */
-  public modalConfig: ModalConfig = {
-    modalTitle: 'Alerte - Commande Annuler', // Titre associé a la modal
-    modalDescription: "L\'heure authorisée pour passer une commande est dépassée. Passé une commande avant 10h30!", // petite description dans le bode de la modal
-    onDismiss: () => {
-      return true
-    },
-    dismissButtonLabel: "Annulé", // text du boutton
-    onClose: () => {
-      return true // en cliquant ferme la modal
-    },
-    closeButtonLabel: "", // le deuxème boutton
-    disableCloseButton: () => {
-      return true // deactivation du boutton
-    },
-    hideCloseButton: () => {
-      return true // display none du boutton
     }
-  }
 
+    /**
+     * La fonction récupere le model de modal pour dynamisé les instruction et information a intégré
+     */
+  public
+    modalConfig: ModalConfig = {
+      modalTitle: 'Alerte - Commande Annuler', // Titre associé a la modal
+      modalDescription: 'L\'heure authorisée pour passer une commande est dépassée. Passé une commande avant 10h30!', // petite description dans le bode de la modal
+      onDismiss: () => {
+        return true;
+      },
+      dismissButtonLabel: 'Annulé', // text du boutton
+      onClose: () => {
+        return true; // en cliquant ferme la modal
+      },
+      closeButtonLabel: '', // le deuxème boutton
+      disableCloseButton: () => {
+        return true; // deactivation du boutton
+      },
+      hideCloseButton: () => {
+        return true; // display none du boutton
+      }
+    };
+
+  }
 }
