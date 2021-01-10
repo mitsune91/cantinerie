@@ -14,11 +14,20 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-danger" (click)="isAccepted(false)">
+      <button type="button" class="btn btn-danger"
+              *ngIf="twoButton"
+              (click)="isAccepted(false)">
         Non
       </button>
-      <button type="button" class="btn btn-primary" (click)="isAccepted(true)">
+      <button type="button" class="btn btn-primary"
+              *ngIf="twoButton"
+              (click)="isAccepted(true)">
         Oui
+      </button>
+      <button type="button" class="btn btn-primary"
+              *ngIf="!twoButton"
+              (click)="isAccepted(false)">
+        OK
       </button>
     </div>
   </div>

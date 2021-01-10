@@ -7,6 +7,7 @@ import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 })
 export class ConfirmationModalComponent implements OnInit {
 
+  @Input() twoButton: boolean;
   @Input() modalTitle: string;
   @Input() message: string;
   @Output() isModalOpen = new EventEmitter<boolean>();

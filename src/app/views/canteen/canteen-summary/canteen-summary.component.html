@@ -93,6 +93,7 @@
 
 <app-confirmation-modal
   *ngIf="isModalOpen"
+  [twoButton]="true"
   [modalTitle]="modalTitle"
   [message]="modalMessage"
   (isModalOpen)="getConfirmation($event)"
