@@ -20,7 +20,7 @@ const routes: Routes = [
     loadChildren: () => import('./views/canteen/canteen.module').then(m => m.CanteenModule),
     canActivate: [AuthGuard, RoleGuard],
     data: {
-      authorizedRole: ['ROLE_CANTEEN']
+      authorizedRole: ['ROLE_LUNCHLADY']
     }
   },
   {

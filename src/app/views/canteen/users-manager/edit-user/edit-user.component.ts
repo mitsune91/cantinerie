@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {takeUntil} from 'rxjs/operators';
-import {BaseComponent} from '../../../../shared/core/base.component';
-import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {UserService} from '../../../../services/user.service';
+import { takeUntil } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { BaseComponent } from '../../../../shared/core/base.component';
+import { UserService } from '../../../../services/user.service';
+import { ConfirmationModalComponent } from '../../../../components/modal/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-edit-user',
@@ -21,7 +24,8 @@ export class EditUserComponent extends BaseComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private modalService: NgbModal
   ) {
     super();
 
@@ -102,7 +106,6 @@ export class EditUserComponent extends BaseComponent implements OnInit {
   // Envoie les changements du formulaire
   submitEditedUser(): void {
     const body = {
-      // isLunchLady: true, // Décommenter pour tester la requête
       id: this.editedUser.id,
       name: this.form.value.name || this.editedUser.name,
       firstname: this.form.value.firstname || this.editedUser.firstname,
@@ -117,14 +120,35 @@ export class EditUserComponent extends BaseComponent implements OnInit {
       wallet: this.form.value.wallet || this.editedUser.wallet,
       password: this.form.value.password || 'bonjour' // A voir pour le password... le changement ne prend pas en compte
     };
-    console.log(body);
-    if (this.form.value.wallet) {
-      this.creditUser(this.editedUser, this.form.value.wallet);
-    }
+    const modal = this.modalService.open(ConfirmationModalComponent);
+    modal.componentInstance.modalTitle = 'Modifier un utilisateur';
+    modal.componentInstance.message = 'Etes-vous sûr(e) de vouloir modifier cet utilisateur ?';
+    modal.componentInstance.twoButton = true;
+    modal.result.then((confirmed) => {
+      if (confirmed) {
+        console.log(body);
+        // Si le champ cagnotte a été saisi
+        // on crédite la cagnotte de l'utilisateur
+        if (this.form.value.wallet) {
+          this.creditUser(this.editedUser, this.form.value.wallet);
+        }
 
-    this.userService.updateUser(body)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe();
+        // On change ensuite le reste des informations
+        this.userService.updateUser(body)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(() => {
+            const notification = this.modalService.open(ConfirmationModalComponent);
+            notification.componentInstance.modalTitle = 'Modifier un utilisateur';
+            notification.componentInstance.message = 'L\'utilisateur a bien été modifié.';
+            notification.componentInstance.twoButton = false;
+            notification.result.then(() => {
+              this.onNavigateBack();
+            }).catch(() => {
+            });
+          });
+      }
+    }).catch(() => {
+    });
   }
 
   // Créditer utilisateur

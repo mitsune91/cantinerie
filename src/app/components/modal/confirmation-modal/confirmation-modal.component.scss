@@ -1,24 +1,9 @@
 @import "src/theme/variables";
 @import "src/theme/mixins";
 
-.modal-window {
-  position: absolute;
-  top: 0;
-  z-index: 1;
-  width: 100vw;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.3);
-
-  @include flex-box();
-}
-
 .modal-content {
   background-color: $bc;
   text-align: center;
-
-  @include custom-col(400px);
 }
 
 .modal-header {

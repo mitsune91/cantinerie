@@ -1,12 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {takeUntil} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { takeUntil } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import {BaseComponent} from '../../../../shared/core/base.component';
-import {UserService} from '../../../../services/user.service';
-import {MealService} from '../../../../services/meal.service';
-import {OrderService} from '../../../../services/order.service';
+import { BaseComponent } from '../../../../shared/core/base.component';
+import { UserService } from '../../../../services/user.service';
+import { MealService } from '../../../../services/meal.service';
+import { OrderService } from '../../../../services/order.service';
+import { ConfirmationModalComponent } from '../../../../components/modal/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-add-order',
@@ -27,7 +29,8 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private mealService: MealService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private modalService: NgbModal
   ) {
     super();
 
@@ -92,11 +95,37 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
       ]
     };
     if (selectedUser.wallet > this.simulatePriceDF(this.form.value.meal, this.form.value.quantity)) {
-      this.orderService.addOrder(body)
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe();
+      const modal = this.modalService.open(ConfirmationModalComponent);
+      modal.componentInstance.modalTitle = 'Ajouter une commande';
+      modal.componentInstance.message = 'Etes-vous sûr(e) de vouloir ajouter cette commande ?';
+      modal.componentInstance.twoButton = true;
+      modal.result.then((confirmed) => {
+        if (confirmed) {
+          this.orderService.addOrder(body)
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(() => {
+              const notification = this.modalService.open(ConfirmationModalComponent);
+              notification.componentInstance.modalTitle = 'Ajouter une commande';
+              notification.componentInstance.message = 'La commande a bien été ajoutée.';
+              notification.componentInstance.twoButton = false;
+              modal.result.then(() => {
+                this.onNavigateBack();
+              }).catch(() => {
+              });
+            });
+        }
+      }).catch(() => {
+      });
     } else {
-      alert('Le client n\'a pas assez de crédit pour commander');
+      const notification = this.modalService.open(ConfirmationModalComponent);
+      notification.componentInstance.modalTitle = `${selectedUser.name} ${selectedUser.firstname} : ${selectedUser.wallet} €`;
+      notification.componentInstance.message =
+        'L\'utilisateur n\'a pas assez de crédit. \n  Recharger la cagnotte auprès de la cantinière.';
+      notification.componentInstance.twoButton = false;
+      notification.result.then(() => {
+        this.onNavigateBack();
+      }).catch(() => {
+      });
     }
   }
 
@@ -143,8 +172,4 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
     }
     return weekNo;
   }
-
-  // TODO Ajouter modal de confirmation de prise de commande
-  // TODO Retravailler un peu le formulaire
-
 }

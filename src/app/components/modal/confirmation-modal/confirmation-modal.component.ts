@@ -1,4 +1,5 @@
-import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-confirmation-modal',
@@ -10,15 +11,17 @@ export class ConfirmationModalComponent implements OnInit {
   @Input() twoButton: boolean;
   @Input() modalTitle: string;
   @Input() message: string;
-  @Output() isModalOpen = new EventEmitter<boolean>();
 
-  constructor() { }
+  constructor(
+    public activeModal: NgbActiveModal
+  ) {
+  }
 
   ngOnInit(): void {
   }
 
   isAccepted(response: boolean): void {
-    this.isModalOpen.emit(response);
+    this.activeModal.close(response);
   }
 
 }

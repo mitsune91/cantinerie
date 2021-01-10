@@ -1,10 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {takeUntil} from 'rxjs/operators';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import {OrderService} from '../../../services/order.service';
-import {BaseComponent} from '../../../shared/core/base.component';
-import {ROLE_NAME} from '../../../services/auth.service';
+import { OrderService } from '../../../services/order.service';
+import { BaseComponent } from '../../../shared/core/base.component';
+import { AuthService } from '../../../services/auth.service';
+import { ConfirmationModalComponent } from '../../../components/modal/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-canteen-summary',
@@ -20,15 +22,11 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
   totalOrders = 0;
   numberOfMeals: any[] = [];
 
-  // Modal variables
-  isModalOpen = false;
-  modalMessage: string;
-  modalTitle: string;
-  isConfirmed: boolean;
-
   constructor(
     private orderService: OrderService,
-    public router: Router
+    public router: Router,
+    private modalService: NgbModal,
+    private authService: AuthService
   ) {
     super();
   }
@@ -111,24 +109,31 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
     this.isMealSummaryDisplayed = !this.isMealSummaryDisplayed;
   }
 
-  // TODO A travailler : Voir orderService
+  // Permet de changer le status de la commande en 'délivrée'
+  // et retire la somme de la cagnotte de l'utilisateur
   payAndDeliverOrder(order: any): void {
-    // Definit les infos de la modal de confirmation
-    this.isModalOpen = true;
-    this.modalTitle = `Commande n° ${order.id} : ${order.user.name} ${order.user.firstname}`;
-    this.modalMessage = 'Voulez-vous encaisser et donner la commande au client? ' +
+    const modal = this.modalService.open(ConfirmationModalComponent);
+    modal.componentInstance.modalTitle = `Commande n° ${order.id} : ${order.user.name} ${order.user.firstname}`;
+    modal.componentInstance.message = 'Voulez-vous encaisser et donner la commande au client? ' +
       '\n Cette action va débiter le montant de la commande à la cagnotte de l\'utilisateur.';
-    while (!this.isModalOpen) {
-      if (this.isConfirmed) {
-        const constraint = (localStorage.getItem(ROLE_NAME) === 'ROLE_CANTEEN') ? -1 : 0;
-        this.orderService.payAndDeliverOrder(order, constraint)
+    modal.componentInstance.twoButton = true;
+    modal.result.then((confirmed) => {
+      if (confirmed) {
+        this.orderService.payAndDeliverOrder(order, this.authService.getRole() === 'ROLE_LUNCHLADY' ? -1 : 0)
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(() => {
-            alert(`La commande n°${order.id} a bien été réglée et délivrée au client.`);
-            this.getOrdersOfTheDay();
+            const notification = this.modalService.open(ConfirmationModalComponent);
+            notification.componentInstance.modalTitle = `Commande n° ${order.id} : ${order.user.name} ${order.user.firstname}`;
+            notification.componentInstance.message = 'La commande a bien été encaissée et délivrée.';
+            notification.componentInstance.twoButton = false;
+            modal.result.then(() => {
+              this.getOrdersOfTheDay();
+            }).catch(() => {
+            });
           });
       }
-    }
+    }).catch(() => {
+    });
   }
 
   // Permet de naviguer vers la page d'édition d'une commande
@@ -138,19 +143,26 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
 
   // Permet de supprimer une commande
   deleteOrder(order: any): void {
-    this.orderService.cancelOrderById(order.id)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        alert(`La commande n°${order.id} a bien été supprimée`);
-        this.getOrdersOfTheDay();
-      });
+    const modal = this.modalService.open(ConfirmationModalComponent);
+    modal.componentInstance.modalTitle = `Commande n° ${order.id} : ${order.user.name} ${order.user.firstname}`;
+    modal.componentInstance.message = 'Etes-vous sûr(e) de vouloir annuler cette commande ?';
+    modal.componentInstance.twoButton = true;
+    modal.result.then((confirmed) => {
+      if (confirmed) {
+        this.orderService.cancelOrderById(order.id)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(() => {
+            const notification = this.modalService.open(ConfirmationModalComponent);
+            notification.componentInstance.modalTitle = `Commande n° ${order.id} : ${order.user.name} ${order.user.firstname}`;
+            notification.componentInstance.message = 'La commande a bien été annulée.';
+            notification.componentInstance.twoButton = false;
+            modal.result.then(() => {
+              this.getOrdersOfTheDay();
+            }).catch(() => {
+            });
+          });
+      }
+    }).catch(() => {
+    });
   }
-
-  // Permet la gestion de la modal de confirmation pour les actions
-  getConfirmation(isConfirmed: boolean): void {
-    console.log(isConfirmed);
-    this.isConfirmed = isConfirmed;
-    this.isModalOpen = !this.isModalOpen;
-  }
-
 }

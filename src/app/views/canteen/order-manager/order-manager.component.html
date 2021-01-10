@@ -37,6 +37,7 @@
           <th scope="col">Montant TTC</th>
           <th scope="col">Date de la commande</th>
           <th scope="col">Heure de la commande</th>
+          <th scope="col">Status</th>
           <th scope="col">Actions</th>
         </tr>
         </thead>
@@ -53,6 +54,11 @@
           <td *ngIf="!!order.quantity">{{ order?.quantity[0]?.quantity * order?.quantity[0].meal.priceDF }}</td>
           <td>{{ order.creationDate | date: 'EEEE d MMMM y'}}</td>
           <td>{{ order.creationTime }}</td>
+          <td [ngSwitch]="order.status">
+            <div *ngSwitchCase="0">Créée</div>
+            <div *ngSwitchCase="1">Délivrée</div>
+            <div *ngSwitchCase="2">Annulée</div>
+          </td>
           <td>
             <button class="orders-manager-table-btn" (click)="onEditOrder(order.id)"
                     data-toggle="tooltip" data-placement="top" title="Edit">

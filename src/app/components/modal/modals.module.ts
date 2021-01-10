@@ -13,6 +13,9 @@ import {ConfirmationModalComponent} from './confirmation-modal/confirmation-moda
   ],
   imports: [
     CommonModule
+  ],
+  entryComponents: [
+    ConfirmationModalComponent
   ]
 })
 export class ModalsModule { }

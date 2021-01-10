@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { takeUntil } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import {MealService} from '../../../../services/meal.service';
-import {IngredientService} from '../../../../services/ingredient.service';
-import {BaseComponent} from '../../../../shared/core/base.component';
+import { MealService } from '../../../../services/meal.service';
+import { IngredientService } from '../../../../services/ingredient.service';
+import { BaseComponent } from '../../../../shared/core/base.component';
+import { ConfirmationModalComponent } from '../../../../components/modal/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-add-meal',
@@ -22,7 +24,8 @@ export class AddMealComponent extends BaseComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private mealService: MealService,
-    private ingredientService: IngredientService
+    private ingredientService: IngredientService,
+    private modalService: NgbModal
   ) {
     super();
 
@@ -66,9 +69,27 @@ export class AddMealComponent extends BaseComponent implements OnInit {
       availabilities.push(numberData);
     });
     body.availableForWeeks = availabilities;
-    this.mealService.addMeal(body)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe();
+    const modal = this.modalService.open(ConfirmationModalComponent);
+    modal.componentInstance.modalTitle = 'Ajouter un plat';
+    modal.componentInstance.message = 'Etes-vous sûr(e) de vouloir ajouter ce plat ?';
+    modal.componentInstance.twoButton = true;
+    modal.result.then((confirmed) => {
+      if (confirmed) {
+        this.mealService.addMeal(body)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(() => {
+            const notification = this.modalService.open(ConfirmationModalComponent);
+            notification.componentInstance.modalTitle = 'Ajouter un plat';
+            notification.componentInstance.message = 'Le plat a bien été ajouté.';
+            notification.componentInstance.twoButton = false;
+            modal.result.then(() => {
+              this.onNavigateBack();
+            }).catch(() => {
+            });
+          });
+      }
+    }).catch(() => {
+    });
   }
 
   // Permet de revenir à la page de gestion des plats
@@ -77,6 +98,5 @@ export class AddMealComponent extends BaseComponent implements OnInit {
   }
 
   // TODO Changer le système des disponibilités
-  // TODO Améliorer le select des ingrédients
   // TODO Permettre l'update d'image
 }
