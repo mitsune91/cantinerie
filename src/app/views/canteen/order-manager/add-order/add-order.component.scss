@@ -1,3 +1,6 @@
+@import "src/theme/variables";
+@import "src/theme/mixins";
+
 $bc: #f8f9fa;
 
 .canteen-order-add-container {
@@ -6,22 +9,22 @@ $bc: #f8f9fa;
   padding-top: 30px;
 }
 
-.canteen-order-add-form-wrapper {
+.canteen-order-add-wrapper {
   margin: 50px 20px;
   padding: 20px;
-  border: 1px solid lightgrey;
+  border: 1px solid $primary;
   border-radius: 25px;
-  background-color: #fff;
+  background-color: $primary-row;
   text-align: center;
 }
 
 .canteen-order-add-form-section-top {
-  display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid $primary;
   padding: 10px 0;
   margin-bottom: 20px;
+
+  @include flex-box();
 
   button {
     border: none;
@@ -37,19 +40,23 @@ $bc: #f8f9fa;
   }
 
   .canteen-order-add-btn-back-wrapper {
-    flex: 0 0 100%;
-    max-width: 100%;
     text-align: left;
 
+    @include custom-col(100%);
+
+    button {
+      color: $secondary;
+    }
+
     img {
-      width: 20px;
+      width: 25px;
+      filter: invert(70%) sepia(53%) saturate(886%) hue-rotate(337deg) brightness(100%) contrast(102%);
     }
   }
 }
 
 .label-title {
-  flex: 0 0 100%;
-  max-width: 100%;
+  @include custom-col(100%);
 }
 
 label {
@@ -58,19 +65,33 @@ label {
 }
 
 .canteen-order-add-form-section-top {
-  display: flex;
-  flex-wrap: wrap;
   justify-content: center;
+
+  @include flex-box();
 }
 
 .canteen-order-add-form-ingredients {
-  flex: 0 0 100%;
-  max-width: 100%;
   margin: 20px 0 30px 0;
+
+  @include custom-col(100%);
 }
 
 .canteen-order-add-form-body {
-  display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+
+  @include flex-box();
+}
+
+.warning-msg {
+  color: red;
+}
+
+.form-control {
+  margin-bottom: 15px;
+}
+
+.btn-primary {
+  margin: 10px 0;
 }

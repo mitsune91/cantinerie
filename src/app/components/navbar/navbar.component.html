@@ -1,6 +1,6 @@
 <nav class="navbar-expand-lg navbar-light bg-light">
   <div class="vw-100 navbar-wrapper">
-    <a class="" routerLink="/">
+    <a class="" [routerLink]="onNavigateHome()">
       <img src="../../../assets/img/Logo.png" class="navbar-logo"/>
     </a>
     <div class="collapse navbar-collapse navbar-links-wrapper">
@@ -12,12 +12,16 @@
           <img src="assets/img/signin.png">
         </a>
       </ng-container>
-      <div ngbDropdown class="d-inline-block navbar-dropdown-btn-wrapper">
+      <ng-container *ngIf="isLoggedIn() && getRole() === 'ROLE_USER'">
+      <p class="mx-1 my-0 navbar-wallet" *ngIf="wallet !== 0">Cagnotte : {{ wallet }} €</p>
+      <p class="mx-1 my-0 navbar-wallet" *ngIf="wallet === 0">Cagnotte : - €</p>
+    </ng-container>
+      <div ngbDropdown class="d-inline-block navbar-dropdown-btn-wrapper" *ngIf="isLoggedIn()">
         <button class="users-manager-table-btn" id="dropdownBasic1" ngbDropdownToggle>
           <img src="assets/Icons/user-icon.svg">
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button class="dropdown-item" (click)="onBasket()">Mon panier</button>
+          <button class="dropdown-item" (click)="onBasket()" *ngIf="isUser()">Mon panier</button>
           <button class="dropdown-item" (click)="onLogout()">Se déconnecter</button>
         </div>
       </div>

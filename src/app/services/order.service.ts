@@ -36,7 +36,8 @@ export class OrderService {
     { code: 2, label: 'Annulée' },
   ];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   private url: string = HOST.apiUrl;
 
@@ -57,7 +58,7 @@ export class OrderService {
     return this.http.patch(this.url + 'order/update/' + orderId, body);
   }
   cancelOrderById(orderId: number): Observable<any> {
-    return this.http.patch(this.url + 'order/cancel/', orderId);
+    return this.http.patch(this.url + 'order/cancel/' + orderId, orderId);
   }
   computePricesOrder(): Observable<any> {
     return;
@@ -68,8 +69,8 @@ export class OrderService {
   getOrderById(orderId: number): Observable<any> {
     return this.http.get(this.url + 'order/find/' + orderId);
   }
-  payAndDeliverOrder(): Observable<any> {
-    return;
+  payAndDeliverOrder(order: any, constraintId: number): Observable<any> {
+    return this.http.patch(this.url + 'order/deliverandpay/' + order.id + '/' + constraintId, constraintId);
   }
   getOrdersByUserAndByCriteria(): Observable<any> {
     return;

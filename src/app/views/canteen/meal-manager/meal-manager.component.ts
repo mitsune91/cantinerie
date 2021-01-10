@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {BaseComponent} from '../../../shared/core/base.component';
-import {Router} from '@angular/router';
-import {MealService} from '../../../services/meal.service';
-import {debounceTime, takeUntil} from 'rxjs/operators';
-import {FormControl} from '@angular/forms';
+import { BaseComponent } from '../../../shared/core/base.component';
+import { Router } from '@angular/router';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { MealService } from '../../../services/meal.service';
+import { ConfirmationModalComponent } from '../../../components/modal/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-meal-manager',
@@ -19,7 +22,8 @@ export class MealManagerComponent extends BaseComponent implements OnInit {
 
   constructor(
     private mealService: MealService,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
   ) {
     super();
   }
@@ -68,14 +72,32 @@ export class MealManagerComponent extends BaseComponent implements OnInit {
     this.router.navigate(['canteen/meals/edit', mealId]);
   }
 
-  // TODO Ajouter modal pour confirmer la suppression
   // Supprime un plat
   deleteMeal(mealId: number): void {
-    this.mealService.deleteMeal(mealId)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe();
+    const modal = this.modalService.open(ConfirmationModalComponent);
+    modal.componentInstance.modalTitle = 'Supprimer un plat';
+    modal.componentInstance.message = 'Etes-vous sûr(e) de vouloir supprimer ce plat ?';
+    modal.componentInstance.twoButton = true;
+    modal.result.then((confirmed) => {
+      if (confirmed) {
+        this.mealService.deleteMeal(mealId)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(() => {
+            const notification = this.modalService.open(ConfirmationModalComponent);
+            notification.componentInstance.modalTitle = 'Supprimer un plat';
+            notification.componentInstance.message = 'Le plat a bien été supprimé.';
+            notification.componentInstance.twoButton = false;
+            notification.result.then(() => {
+              this.getAllMeals();
+            }).catch(() => {
+            });
+          });
+      }
+    }).catch(() => {
+    });
   }
 
+  // Naviguer vers la page add meal
   onAddMeal(): void {
     this.router.navigate(['canteen/meals/add']);
   }
@@ -97,6 +119,5 @@ export class MealManagerComponent extends BaseComponent implements OnInit {
   }
 
   // TODO Ajouter un filtre date
-  // TODO Ajouter filtre status
 
 }

@@ -10,17 +10,17 @@
     </div>
     <form [formGroup]="form">
       <div class="canteen-user-add-form-body row">
-        <div class="form-group col-3 px-5">
+        <div class="form-group col-md-3 px-5">
           <label for="name">Nom</label>
           <input type="text" class="form-control" id="name"
                  formControlName="name">
         </div>
-        <div class="form-group col-3 px-5">
+        <div class="form-group col-md-3 px-5">
           <label for="firstname">Prénom</label>
           <input type="text" class="form-control" id="firstname"
                  formControlName="firstname">
         </div>
-        <div class="form-group col-3 px-5">
+        <div class="form-group col-md-3 px-5">
           <label for="sex">Sexe</label>
           <select class="form-control" id="sex"
                   formControlName="sex">
@@ -29,66 +29,40 @@
             <option value="2">Autre</option>
           </select>
         </div>
-        <div class="form-group col-3 px-5">
-          <label for="address">Adresse</label>
-          <input type="text" class="form-control" id="address"
-                 formControlName="address">
-        </div>
-        <div class="form-group col-3 px-5">
-          <label for="postalCode">Code Postal</label>
-          <input type="text" class="form-control" id="postalCode"
-                 formControlName="postalCode">
-        </div>
-        <div class="form-group col-3 px-5">
-          <label for="town">Ville</label>
-          <input type="text" class="form-control" id="town"
-                 formControlName="town">
-        </div>
-        <div class="form-group col-3 px-5">
-          <label for="email">Email</label>
-          <input type="email" class="form-control" id="email"
-                 formControlName="email">
-        </div>
-        <div class="form-group col-3 px-5">
+        <div class="form-group col-md-3 px-5">
           <label for="phone">Téléphone</label>
           <input type="text" class="form-control" id="phone"
                  formControlName="phone">
         </div>
-        <div role="radiogroup">
-          <label class="label-title col-12">Status</label>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" value="0"
-                   name="inlineRadioOptions" id="status0"
-                   (click)="editUserStatus('0')">
-            <label class="form-check-label" for="status0">Activé</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" value="1"
-                   name="inlineRadioOptions" id="status1"
-                   (click)="editUserStatus('1')">
-            <label class="form-check-label" for="status1">Désactivé</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" value="2"
-                   name="inlineRadioOptions" id="status2"
-                   (click)="editUserStatus('2')">
-            <label class="form-check-label" for="status2">Supprimé</label>
-          </div>
+        <div class="form-group col-md-3 px-5">
+          <label for="address">Adresse</label>
+          <input type="text" class="form-control" id="address"
+                 formControlName="address">
         </div>
-        <div class="form-group col-3 px-5">
-          <label for="wallet">Solde</label>
-          <input type="number" min="0" class="form-control" id="wallet"
-                 formControlName="wallet">
+        <div class="form-group col-md-3 px-5">
+          <label for="postalCode">Code Postal</label>
+          <input type="text" class="form-control" id="postalCode"
+                 formControlName="postalCode">
+        </div>
+        <div class="form-group col-md-3 px-5">
+          <label for="town">Ville</label>
+          <input type="text" class="form-control" id="town"
+                 formControlName="town">
+        </div>
+        <div class="form-group col-md-3 px-5">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email"
+                 formControlName="email">
         </div>
 
-        <div class="form-group col-3 px-5">
+        <div class="form-group col-md-3 px-5">
           <label for="password">Mot de passe</label>
-          <input type="text" class="form-control" id="password">
+          <input type="password" class="form-control" id="password">
         </div>
         <div class="btn-submit col-12">
           <button type="submit" class="btn btn-primary"
                   (click)="submitEditedUser()">
-            Modifier
+            Ajouter
           </button>
         </div>
       </div>

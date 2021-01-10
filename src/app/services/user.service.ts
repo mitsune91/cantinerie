@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { HOST } from '../../../config/app.config';
 import { Observable } from 'rxjs';
-import {tap} from "rxjs/operators";
+
+import { HOST } from '../../../config/app.config';
 
 /*
  *
@@ -76,6 +76,7 @@ export class UserService {
   creditUsersWallet(userId: number, body: any): Observable<any> {
     return this.http.post(this.url + 'user/credit/' + userId + '?amount=' + body.wallet , body);
   }
+
   getImgUser(id: number): Observable<any> {
     return this.http.get(this.url + 'user/findimg/' + id);
   }

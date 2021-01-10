@@ -32,7 +32,6 @@ export class CardComponent extends BaseComponent implements OnInit {
   cartItems = [];
   cartTotal = 0;
   mealQuantity = 0;
-  message: string;
 
 
   constructor(
@@ -58,6 +57,35 @@ export class CardComponent extends BaseComponent implements OnInit {
 
     // Résupération du menu par le numéro d'identifiant
     this.getMenuForCard(idMenu);
+
+    console.log(this.authService.getToken());
+
+    console.log(JSON.parse(this.authService.getToken()));
+
+
+    /**
+     * Recuperation de l'identidiant de L'utilisateur connecté
+     * pour la suite rajouté le token de lutilisateur pour verification.
+     *
+     * Passer le paramèttre dans le fontion qui suit
+     */
+    this.getUserConnected(5); // l'dentifiant a être modifié avec les information de thomas
+
+  }
+
+  async getUserConnected(id: number): Promise<void>{
+    // Appel au service UserService
+    this.userService.getUserById(id)
+    // Tant que la page n'est pas détruite,
+    .pipe(takeUntil(this.ngUnsubscribe))
+    // on souscrit à l'observable ou à la méthode getUser()
+    .subscribe(data => {
+      // on stocke les données dans une variable pour les réutiliser
+      this.user = data;
+      // console.log(this.user.id);
+      return this.user.id.toString;
+      });
+
 
   }
 
@@ -118,78 +146,74 @@ export class CardComponent extends BaseComponent implements OnInit {
            userConnected = JSON.parse(this.authService.getToken());
           console.log(userConnected);
 
-        // Vérifier si il y a un utilisateur connecté
-        if (userConnected){
-          /**
-           * la suite de la verification
-           */
-          const userWalet: number = userConnected.wallet; // Récuperer le Solde de l'utilisateur.
-          console.log(userWalet);
+       // A VOIR AVEC THOMAS D'ABORD
+       // Vérifier si il y a un utilisateur connecté
+      if (this.user){
+        /**
+         * la suite de la verification
+         */
 
-          /**
-           * Initialization le prix par defaut par le prix du menu
-           */
-          if (this.cartTotal === 0) {
-          this.cartTotal = this.menu.priceDF; // Prix par default
-          }
+        // Vérifié si l'utilisateur a asseé d'argent dans son walet
+        const userConnected: User = this.user;
+        const userWalet: number = this.user.wallet; // Récuperer le Solde de l'utilisateur.
+        console.log(userWalet);
 
-          if (userWalet > this.cartTotal) {
-              // Faire la derniére verification avant la commande
-              console.log(userWalet + 'et' + this.cartTotal);
+        /**
+         * Initialization le prix par defaut par le prix du menu
+         */
+        if (this.cartTotal === 0) {
+        this.cartTotal = this.menu.priceDF; // Prix par default
+        }
 
-              this.oderService.putOrder()
-              .pipe(takeUntil(this.ngUnsubscribe))
-              .subscribe(
-                data => {
-                  console.log(data);
-                  quantity = [
-                    data.quantity =  this.mealQuantity, // la quantité de meal selectioné dans le menu
-                    data.mealId = this.meal, // Récupere le dérnier meal selectioné
-                    data.menuId = this.menu
-                  ];
-                  message = 'votre commande est validé';
+        if (userWalet > this.cartTotal) {
+            // Faire la derniére verification avant la commande
+            console.log(userWalet + 'et' + this.cartTotal);
 
-              },
-                // Vérification des constrains. limitation de commande avant 10h30 et pas plus de 500 commande par jour.
-                async error => {
-                  console.log('oops', error);
-                  /**
-                   * Une fois l'erreur d'étecté:
-                   * 1./ va chercher le moal.component
-                   * 2./ Récupère les informations dans la fonction ci-dessous [modalConfig]
-                   * 3./ La syncronise avec le modal content
-                   */
-                  await this.modalComponent.open();
-                  this.message = 'L\'heure authorisée pour passer une commande est dépassée';
+            this.oderService.putOrder()
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(
+              data => {
+                console.log(data);
+                quantity = [
+                  data.quantity =  this.mealQuantity, // la quantité de meal selectioné dans le menu
+                  data.mealId = this.meal, // Récupere le dérnier meal selectioné
+                  data.menuId = this.menu
+                ];
+                message = 'votre commande est validé';
 
-                  // Retour a la page d'accueil.
-                   this.route.navigate(['']);
-              });
+            },
+              // Vérification des constrains. limitation de commande avant 10h30 et pas plus de 500 commande par jour.
+              async error => {
+                console.log('oops', error);
+                /**
+                 * Une fois l'erreur d'étecté:
+                 * 1./ va chercher le moal.component
+                 * 2./ Récupère les informations dans la fonction ci-dessous [modalConfig]
+                 * 3./ La syncronise avec le modal content
+                 */
+                await this.modalComponent.open();
+                message = 'L\'heure authorisée pour passer une commande est dépassée';
+
+                // Retour a la page d'accueil.
+                this.route.navigate(['/']);
+            });
 
           } else {
-              // message = pas assez de fond
-              // tout annulé
-              this.message = 'Pas assez de fond. ' + '\n' + 'Se renseigné au près de la cantiniere!';
-              this.modalComponent.open();
-              this.modalComponent.modalConfig.modalDescription = this.message;
-              this.modalComponent.modalConfig.dismissButtonLabel = "Ok"
-              this.route.navigate(['']);
-          }
-        } else {
-          // Si Non redirection
-          message = 'Connectez-vous avant de passer une commande!';
-          this.modalComponent.modalConfig.modalDescription = this.message;
-          this.route.navigate(['/login']);
+            // message = pas assez de fond
+            // tout annulé
+            message = 'Pas assez de fond ' + '\n' + 'Se renseigné au près de la cantiniere!';
+
+            //  this.route.navigate(['/home']);
         }
-      }else {
+      } else {
+        // Si Non redirection
         message = 'Connectez-vous avant de passer une commande!';
-        this.modalComponent.modalConfig.modalDescription = this.message;
         this.route.navigate(['/login']);
       }
       console.log(this.cartTotal);
       console.log(this.meal);
       console.log(this.mealQuantity);
-      console.log(this.message);
+      console.log(message);
 
   }
 
@@ -197,7 +221,7 @@ export class CardComponent extends BaseComponent implements OnInit {
    * La fonction récupere le model de modal pour dynamisé les instruction et information a intégré
    */
   public modalConfig: ModalConfig = {
-    modalTitle: "Alerte - Commande Annuler", // Titre associé a la modal
+    modalTitle: 'Alerte - Commande Annuler', // Titre associé a la modal
     modalDescription: "L\'heure authorisée pour passer une commande est dépassée. Passé une commande avant 10h30!", // petite description dans le bode de la modal
     onDismiss: () => {
       return true

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {Router} from '@angular/router';
-import {debounceTime, takeUntil} from 'rxjs/operators';
+import { FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import {BaseComponent} from '../../../shared/core/base.component';
-import {UserService} from '../../../services/user.service';
-import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { BaseComponent } from '../../../shared/core/base.component';
+import { UserService } from '../../../services/user.service';
+import { ConfirmationModalComponent } from '../../../components/modal/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-users-manager',
@@ -18,7 +19,7 @@ export class UsersManagerComponent extends BaseComponent implements OnInit {
   users: any = [];
   filteredUsers: any = [];
   userFilter = new FormControl('');
-  walletControl = new FormControl('');
+  walletControl = new FormControl('', Validators.required);
   editedUser: any = {};
   closeResult = '';
 
@@ -50,15 +51,15 @@ export class UsersManagerComponent extends BaseComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe), debounceTime(700))
       .subscribe(key => {
         if (key) {
-          this.getFilterMealsData(users, key);
+          this.filterUsersByName(users, key);
         } else {
           this.filteredUsers = this.users;
         }
       });
   }
 
-  // Récupère des plats en fonction des lettres tapées dans le filtre
-  getFilterMealsData(users: any, key: string): void {
+  // Récupère des utilisateurs en fonction des lettres tapées dans le filtre
+  filterUsersByName(users: any, key: string): void {
     this.filteredUsers = users.filter(u => u.firstname.toLowerCase().includes(key) || u.name.toLowerCase().includes(key));
   }
 
@@ -87,9 +88,10 @@ export class UsersManagerComponent extends BaseComponent implements OnInit {
     this.router.navigate(['canteen/users/edit', userId]);
   }
 
+  // Ouvre une modal pour créditer un utilisateur
   onManageUserWallet(content: any, user: any): void {
     this.editedUser = user;
-    this.modalService.open( content, {ariaLabelledBy: 'modal-basic-title'}).result.then(() => {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(() => {
       this.creditUserWallet(user, this.walletControl.value);
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -110,22 +112,65 @@ export class UsersManagerComponent extends BaseComponent implements OnInit {
 
   // Efface un utilisateur
   deleteUser(user: any): void {
-    this.userService.deleteUserById(user.id)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe();
+    const modal = this.modalService.open(ConfirmationModalComponent);
+    modal.componentInstance.modalTitle = `${user.name} ${user.firstname}`;
+    modal.componentInstance.message = 'Etes-vous sûr(e) de vouloir supprimer cet utilisateur ?';
+    modal.componentInstance.twoButton = true;
+    modal.result.then((confirmed) => {
+      if (confirmed) {
+        this.userService.deleteUserById(user.id)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(() => {
+            const notification = this.modalService.open(ConfirmationModalComponent);
+            notification.componentInstance.modalTitle = `${user.name} ${user.firstname}`;
+            notification.componentInstance.message = 'L\'utilisateur a bien été supprimé.';
+            notification.componentInstance.twoButton = false;
+            notification.result.then(() => {
+              this.getAllUsers();
+            }).catch(() => {
+            });
+          });
+      }
+    }).catch(() => {
+    });
   }
 
   // Créditer un client
   creditUserWallet(user: any, amount: number): void {
     const body = {
       id: user.id,
-      wallet: user.wallet + amount,
+      wallet: amount,
       isLunchLady: true,
     };
-    this.userService.creditUsersWallet(user.id, body)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        this.getAllUsers();
+    if (user.status === 0) {
+      const modal = this.modalService.open(ConfirmationModalComponent);
+      modal.componentInstance.modalTitle = `${user.name} ${user.firstname}`;
+      modal.componentInstance.message = `Créditer de ${amount} euros cet utilisateur ?`;
+      modal.componentInstance.twoButton = true;
+      modal.result.then((confirmed) => {
+        if (confirmed) {
+          this.userService.creditUsersWallet(user.id, body)
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(() => {
+              const notification = this.modalService.open(ConfirmationModalComponent);
+              notification.componentInstance.modalTitle = `${user.name} ${user.firstname}`;
+              notification.componentInstance.message = `L'utilisateur a bien été crédité de ${amount} euros.`;
+              notification.componentInstance.twoButton = false;
+              notification.result.then(() => {
+                this.getAllUsers();
+              }).catch(() => {
+              });
+            });
+        }
+      }).catch(() => {
       });
+    } else {
+      const notification = this.modalService.open(ConfirmationModalComponent);
+      notification.componentInstance.modalTitle = `${user.name} ${user.firstname}`;
+      notification.componentInstance.message = 'Impossible de créditer ce compte car il est soit inactif soit supprimé.';
+      notification.componentInstance.twoButton = false;
+      notification.result.then().catch(() => {
+      });
+    }
   }
 }

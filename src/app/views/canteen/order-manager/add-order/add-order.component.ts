@@ -1,12 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {takeUntil} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { takeUntil } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import {BaseComponent} from '../../../../shared/core/base.component';
-import {UserService} from '../../../../services/user.service';
-import {MealService} from '../../../../services/meal.service';
-import {OrderService} from '../../../../services/order.service';
+import { BaseComponent } from '../../../../shared/core/base.component';
+import { UserService } from '../../../../services/user.service';
+import { MealService } from '../../../../services/meal.service';
+import { OrderService } from '../../../../services/order.service';
+import { ConfirmationModalComponent } from '../../../../components/modal/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-add-order',
@@ -20,26 +22,29 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
   filteredUsers: any = [];
   meals: any = [];
   filteredMeals: any = [];
+  weekNumber: number;
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private userService: UserService,
     private mealService: MealService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private modalService: NgbModal
   ) {
     super();
 
     this.form = this.fb.group({
-      user: [''],
-      meal: [''],
-      quantity: [''],
+      user: ['', Validators.required],
+      meal: ['', Validators.required],
+      quantity: ['', Validators.required],
     });
   }
 
   ngOnInit(): void {
+    this.weekNumber = this.getWeekNumber(new Date());
     this.getAllUsers();
-    this.getAllMeals();
+    this.getAvailableMeals(this.weekNumber);
   }
 
   // Récupère tous les utilisateurs
@@ -52,8 +57,8 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
   }
 
   // Récupère tous les menus
-  getAllMeals(): void {
-    this.mealService.getMeals()
+  getAvailableMeals(weekNumber: number): void {
+    this.mealService.getMealOfTheWeek(weekNumber)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(meals => {
         this.meals = meals;
@@ -72,7 +77,7 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
 
   // Permet de revenir à la page de gestion des plats
   onNavigateBack(): void {
-    this.router.navigate(['canteen/meals']);
+    this.router.navigate(['canteen/orders']);
   }
 
   // Envoie le formulaire
@@ -90,11 +95,37 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
       ]
     };
     if (selectedUser.wallet > this.simulatePriceDF(this.form.value.meal, this.form.value.quantity)) {
-      this.orderService.addOrder(body)
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe();
+      const modal = this.modalService.open(ConfirmationModalComponent);
+      modal.componentInstance.modalTitle = 'Ajouter une commande';
+      modal.componentInstance.message = 'Etes-vous sûr(e) de vouloir ajouter cette commande ?';
+      modal.componentInstance.twoButton = true;
+      modal.result.then((confirmed) => {
+        if (confirmed) {
+          this.orderService.addOrder(body)
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(() => {
+              const notification = this.modalService.open(ConfirmationModalComponent);
+              notification.componentInstance.modalTitle = 'Ajouter une commande';
+              notification.componentInstance.message = 'La commande a bien été ajoutée.';
+              notification.componentInstance.twoButton = false;
+              modal.result.then(() => {
+                this.onNavigateBack();
+              }).catch(() => {
+              });
+            });
+        }
+      }).catch(() => {
+      });
     } else {
-      alert('Le client n\'a pas assez de crédit pour commander');
+      const notification = this.modalService.open(ConfirmationModalComponent);
+      notification.componentInstance.modalTitle = `${selectedUser.name} ${selectedUser.firstname} : ${selectedUser.wallet} €`;
+      notification.componentInstance.message =
+        'L\'utilisateur n\'a pas assez de crédit. \n  Recharger la cagnotte auprès de la cantinière.';
+      notification.componentInstance.twoButton = false;
+      notification.result.then(() => {
+        this.onNavigateBack();
+      }).catch(() => {
+      });
     }
   }
 
@@ -110,7 +141,7 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
   getUserWallet(userFullname: string): number {
     if (userFullname) {
       const user = this.getUserByName(userFullname);
-      return user.wallet;
+      return user?.wallet;
     }
   }
 
@@ -128,7 +159,17 @@ export class AddOrderComponent extends BaseComponent implements OnInit {
     }
   }
 
-  // TODO Ajouter modal de confirmation de prise de commande
-  // TODO Retravailler un peu le formulaire
-
+  // Méthode pour récupérer le numéro de la semaine en cours
+  getWeekNumber(date: any): any {
+    date = new Date(
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+    );
+    date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
+    const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+    let weekNo = Math.ceil(((date - Number(yearStart)) / 86400000 + 1) / 7);
+    if (weekNo > 52) {
+      weekNo = weekNo - 52;
+    }
+    return weekNo;
+  }
 }

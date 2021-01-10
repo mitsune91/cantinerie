@@ -1,59 +1,68 @@
+@import "src/theme/mixins";
+@import "src/theme/variables";
+
 $bc: #f8f9fa;
 
 .canteen-meal-edit-container {
-  height: calc(100vh - 90px);
+  height: calc(100vh - #{$navbar-height});
   background-color: $bc;
   padding-top: 30px;
 }
 
 .canteen-meal-edit-form-wrapper {
-  margin: 50px 20px;
+  margin: 0px 20px;
   padding: 20px;
-  border: 1px solid lightgrey;
+  border: 1px solid $primary;
   border-radius: 25px;
-  background-color: #fff;
+  background-color: $primary-row;
   text-align: center;
 }
 
 .canteen-meal-edit-form-section-top {
-  display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid $primary;
   padding: 10px 0;
   margin-bottom: 20px;
+
+  @include flex-box();
 
   button {
     border: none;
     background-color: transparent;
+    color: $secondary;
 
     &:focus {
       outline: none;
     }
 
     img {
-      width: 15px;
+      width: 25px;
+      filter: invert(70%) sepia(53%) saturate(886%) hue-rotate(337deg) brightness(100%) contrast(102%);
     }
   }
 
   .canteen-meal-edit-btn-wrapper {
-    flex: 0 0 100%;
-    max-width: 100%;
     text-align: right;
   }
 
-  .canteen-meal-edit-btn-back-wrapper {
-    flex: 0 0 100%;
-    max-width: 100%;
+  .canteen-meal-edit-btn-wrapper {
+    justify-content: space-between;
+    align-items: center;
     text-align: left;
 
+    @include flex-box();
+    @include custom-col(100%);
+
     img {
-      width: 20px;
+      width: 25px;
+      filter: invert(70%) sepia(53%) saturate(886%) hue-rotate(337deg) brightness(100%) contrast(102%);
     }
   }
 }
 
 .canteen-meal-edit-img-wrapper {
+  margin-bottom: 10px;
+
   img {
     width: 150px;
     height: auto;
@@ -62,8 +71,7 @@ $bc: #f8f9fa;
 }
 
 .label-title {
-  flex: 0 0 100%;
-  max-width: 100%;
+  @include custom-col(100%);
 }
 
 label {
@@ -73,23 +81,24 @@ label {
 
 .meal-detail {
   margin: 10px 0;
-  color: darkgrey;
+  color: $primary-thead;
 }
 
 .canteen-meal-edit-form-section-top {
-  display: flex;
-  flex-wrap: wrap;
   justify-content: center;
+
+  @include flex-box();
 }
 
 .canteen-meal-edit-form-ingredients {
-  flex: 0 0 100%;
-  max-width: 100%;
   margin: 20px 0 30px 0;
+
+  @include custom-col(100%)
 }
 
 .canteen-meal-edit-form-body {
-  display: flex;
-  flex-wrap: wrap;
   justify-content: center;
+  color: $primary;
+
+  @include flex-box();
 }

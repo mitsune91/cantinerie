@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntil } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import {BaseComponent} from '../../../../shared/core/base.component';
-import {OrderService} from '../../../../services/order.service';
-import {MealService} from '../../../../services/meal.service';
+import { BaseComponent } from '../../../../shared/core/base.component';
+import { OrderService } from '../../../../services/order.service';
+import { MealService } from '../../../../services/meal.service';
+import { ConfirmationModalComponent } from '../../../../components/modal/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-edit-order',
@@ -27,7 +29,8 @@ export class EditOrderComponent extends BaseComponent implements OnInit {
     private orderService: OrderService,
     private mealService: MealService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
   ) {
     super();
 
@@ -75,9 +78,38 @@ export class EditOrderComponent extends BaseComponent implements OnInit {
         }
       ]
     };
-    this.orderService.updateOrderById(this.editedOrder.id, body)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe();
+    const modal = this.modalService.open(ConfirmationModalComponent);
+    modal.componentInstance.modalTitle = 'Modifier une commande';
+    modal.componentInstance.message = 'Etes-vous sûr(e) de vouloir modifier cette commande ?';
+    modal.componentInstance.twoButton = true;
+    modal.result.then((confirmed) => {
+      if (confirmed) {
+        this.orderService.updateOrderById(this.editedOrder.id, body)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(() => {
+            const notification = this.modalService.open(ConfirmationModalComponent);
+            notification.componentInstance.modalTitle = 'Modifier une commande';
+            notification.componentInstance.message = 'La commande a bien été modifiée.';
+            notification.componentInstance.twoButton = false;
+            modal.result.then(() => {
+              this.onNavigateBack();
+            }).catch(() => {
+            });
+          }, (error => {
+            if (error.status === 412) {
+              const notification = this.modalService.open(ConfirmationModalComponent);
+              notification.componentInstance.modalTitle = 'Modifier une commande';
+              notification.componentInstance.message = 'Vous ne pouvez plus modifier la commande. L\'heure de prise de commande est dépassée.';
+              notification.componentInstance.twoButton = false;
+              modal.result.then(() => {
+                this.onNavigateBack();
+              }).catch(() => {
+              });
+            }
+          }));
+      }
+    }).catch(() => {
+    });
   }
 
   // Récupère un commande grâce à son id

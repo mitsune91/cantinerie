@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {takeUntil} from 'rxjs/operators';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
-import {BaseComponent} from '../../shared/core/base.component';
-import {Menu} from '../../models/Menu';
-import {MenuService} from '../../services/menu.service';
-import {MealService} from '../../services/meal.service';
-import {HOST} from '../../../../config/app.config';
+import { BaseComponent } from '../../shared/core/base.component';
+import { Menu } from '../../models/Menu';
+import { MenuService } from '../../services/menu.service';
+import { MealService } from '../../services/meal.service';
+import { HOST } from '../../../../config/app.config';
 
 @Component({
   selector: 'app-home',
@@ -32,7 +32,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
     this.weekNumber = this.getWeekNumber(this.date);
     this.getMenusOfTheWeek(this.getWeekNumber(this.date));
-    console.log(this.weekNumber);
   }
 
   // Méthode pour récupérer le numéro de la semaine en cours
@@ -57,7 +56,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
         rawMenus = data;
-        console.log(this.weeklyMenus);
         // Récupère les images des meals
         this.loadMealsImgFromMenu(rawMenus);
         // Répartit les meals pour chaque jour de la semaine
@@ -84,7 +82,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.weeklyMenus[day].menus.push(menus[i]);
       }
     }
-    console.log(this.weeklyMenus);
   }
 
   // Initialise le menu du jour
@@ -145,7 +142,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   selectMenu(id: number): void {
     console.log(id);
     if (id) {
-      this.route.navigate(['/panier/', id]);
+      this.route.navigate(['/panier', id]);
     } else {
       this.route.navigate(['/404']);
       alert('panier vide!');
@@ -153,20 +150,20 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 }
 
-// TODO CSS plats edit et add page
-// TODO CSS commandes edit et add page
-// TODO CSS utilisateurs edit et add page
+// TODO CSS plats edit et add page OK par Cedric
+// TODO CSS commandes edit et add page Ok par cedric
+// TODO CSS utilisateurs edit et add page OK par cedric
 
-// TODO links navbar cedric
-// TODO Vérifier que toutes les méthodes fonctionnent Cedric
+// TODO links navbar cedric OK fait
+// TODO Vérifier que toutes les méthodes fonctionnent Cedric OK fait sauf pour panier et user profile
 // TODO Revoir la home cedric
-// TODO Ajouter password dans le formulaire edit page des utilisateurs cedric
+// TODO Ajouter password dans le formulaire edit page des utilisateurs cedric OK fait
 
 // TODO Vérifier qu'il y a tous les filtres pour chaque tableau JM
 //  (canteen-summary date picker, edit-order plats du jour, add-order plats du jour)
 // TODO CSS panier JM
 
-// TODO Ajouter des modal pour chaque actions Thomas
+// TODO Ajouter des modal pour chaque actions Thomas OK par cedric
 // TODO Enlever les console.log Thomas
 // TODO Reset password Thomas
 

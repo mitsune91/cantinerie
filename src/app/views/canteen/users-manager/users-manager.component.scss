@@ -1,16 +1,19 @@
-.users-manager-table-wrapper {
-  height: calc(100vh - 230px);
-  overflow: scroll;
-  overflow-x: hidden;
-}
+@import "src/theme/variables";
+@import "src/theme/mixins";
+
+$bc: #f8f9fa;
 
 .sidebar-bg {
-  background-color: #1a423f;
+  background-color: $primary;
 }
 
 .users-manager-table-btn {
   border: none;
   background-color: transparent;
+
+  &:after {
+    color: #ffa526;
+  }
 
   button {
     &:focus,
@@ -22,22 +25,25 @@
 
   img {
     width: 15px;
+    filter: invert(70%) sepia(53%) saturate(886%) hue-rotate(337deg) brightness(90%) contrast(102%);
   }
 }
 
 .users-manager-table-section-top {
-  display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   margin: 30px 10px;
 
+  @include flex-box();
+
   button {
     border: none;
     background-color: transparent;
+    color: $secondary;
 
     img {
-      width: 15px;
+      width: 25px;
+      filter: invert(70%) sepia(53%) saturate(886%) hue-rotate(337deg) brightness(100%) contrast(102%);
     }
   }
 
@@ -46,13 +52,45 @@
   }
 }
 
+.scroll-table {
+  height: calc(100vh - 315px);
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
 table {
   tr:nth-child(odd) {
-    background-color: rgba(26, 66, 63, 0.2);
+    background-color: $primary-row;
   }
 
   thead {
-    background-color: #1a423f;
-    color: #ffa526;
+    background-color: $primary-thead;
+    color: $primary;
   }
+}
+
+.modal-content {
+  background-color: $bc;
+  text-align: center;
+}
+
+.modal-header {
+  text-align: center;
+  border-bottom: 1px solid $primary;
+
+  .modal-title {
+    @include font-size-weight-color(18px, bold, $primary);
+  }
+}
+
+.modal-body {
+  text-align: center;
+  margin: 20px 0;
+
+  @include font-size-weight-color(14px, normal, $primary);
+}
+
+.modal-footer {
+  border-top: 1px solid $primary;
+  justify-content: center;
 }

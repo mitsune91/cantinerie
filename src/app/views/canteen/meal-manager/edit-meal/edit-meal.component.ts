@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntil } from 'rxjs/operators';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import {BaseComponent} from '../../../../shared/core/base.component';
-import {MealService} from '../../../../services/meal.service';
-import {HOST} from '../../../../../../config/app.config';
-import {IngredientService} from '../../../../services/ingredient.service';
+import { BaseComponent } from '../../../../shared/core/base.component';
+import { MealService } from '../../../../services/meal.service';
+import { HOST } from '../../../../../../config/app.config';
+import { IngredientService } from '../../../../services/ingredient.service';
+import { ConfirmationModalComponent } from '../../../../components/modal/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-edit-meal',
@@ -30,8 +32,9 @@ export class EditMealComponent extends BaseComponent implements OnInit {
     private mealService: MealService,
     private ingredientService: IngredientService,
     private fb: FormBuilder,
-    private router: Router
-    ) {
+    private router: Router,
+    private modalService: NgbModal
+  ) {
     super();
 
     this.form = this.fb.group({
@@ -118,9 +121,27 @@ export class EditMealComponent extends BaseComponent implements OnInit {
     const body = this.form.value;
     body.isLunchLady = true;
     console.log(body);
-    this.mealService.updateMealById(this.editedMeal.id, body)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe();
+    const modal = this.modalService.open(ConfirmationModalComponent);
+    modal.componentInstance.modalTitle = 'Modifier un plat';
+    modal.componentInstance.message = 'Etes-vous sûr(e) de vouloir modifier ce plat ?';
+    modal.componentInstance.twoButton = true;
+    modal.result.then((confirmed) => {
+      if (confirmed) {
+        this.mealService.updateMealById(this.editedMeal.id, body)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(() => {
+            const notification = this.modalService.open(ConfirmationModalComponent);
+            notification.componentInstance.modalTitle = 'Modifier un plat';
+            notification.componentInstance.message = 'Le plat a bien été modifié.';
+            notification.componentInstance.twoButton = false;
+            notification.result.then(() => {
+              this.onNavigateBack();
+            }).catch(() => {
+            });
+          });
+      }
+    }).catch(() => {
+    });
   }
 
   // Récupère tous les ingrédients disponibles
@@ -137,8 +158,6 @@ export class EditMealComponent extends BaseComponent implements OnInit {
     this.router.navigate(['canteen/meals']);
   }
 
-  // TODO Ajouter modal de confirmation pour modifier
-  // TODO Améliorer le Select des ingrédients
   // TODO Travailler sur les disponibilités
   // TODO Faire l'update d'image
 }

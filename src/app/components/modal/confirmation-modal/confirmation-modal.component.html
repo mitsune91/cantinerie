@@ -1,0 +1,35 @@
+<div class="modal-window">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="row modal-title col-12">
+        {{ modalTitle }}
+      </div>
+      <button type="button" class="close" aria-label="Close" (click)="isAccepted(false)">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-message">
+        {{ message }}
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger"
+              *ngIf="twoButton"
+              (click)="isAccepted(false)">
+        Non
+      </button>
+      <button type="button" class="btn btn-primary"
+              *ngIf="twoButton"
+              (click)="isAccepted(true)">
+        Oui
+      </button>
+      <button type="button" class="btn btn-primary"
+              *ngIf="!twoButton"
+              (click)="isAccepted(false)">
+        OK
+      </button>
+    </div>
+  </div>
+</div>
+

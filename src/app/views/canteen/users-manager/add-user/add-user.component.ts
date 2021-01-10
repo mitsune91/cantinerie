@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {takeUntil} from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { takeUntil } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import {BaseComponent} from '../../../../shared/core/base.component';
-import {UserService} from '../../../../services/user.service';
+import { BaseComponent } from '../../../../shared/core/base.component';
+import { UserService } from '../../../../services/user.service';
+import { ROLE_NAME } from '../../../../services/auth.service';
+import { ConfirmationModalComponent } from '../../../../components/modal/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-add-user',
@@ -18,7 +21,8 @@ export class AddUserComponent extends BaseComponent implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private modalService: NgbModal
   ) {
     super();
 
@@ -31,8 +35,6 @@ export class AddUserComponent extends BaseComponent implements OnInit {
       town: [''],
       email: [''],
       phone: [''],
-      wallet: [''],
-  
     });
   }
 
@@ -41,19 +43,17 @@ export class AddUserComponent extends BaseComponent implements OnInit {
 
   // Permet de revenir à la page de gestion des commandes
   onNavigateBack(): void {
-    this.router.navigate(['canteen/users']);
-  }
-
-  // Modifie le status via le formulaire
-  editUserStatus(status: any): void {
-    this.form.value.status = status;
-    console.log(this.form.value.status);
+    const role = localStorage.getItem(ROLE_NAME);
+    if (role === 'ROLE_LUNCHLADY') {
+      this.router.navigate(['canteen/users']);
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
   // Envoie les changements du formulaire
   submitEditedUser(): void {
     const body = {
-      // isLunchLady: true, // Décommenter pour tester la requête
       name: this.form.value.name,
       firstname: this.form.value.firstname,
       sex: this.form.value.sex,
@@ -63,12 +63,29 @@ export class AddUserComponent extends BaseComponent implements OnInit {
       email: this.form.value.email,
       phone: this.form.value.phone,
       status: this.form.value.status,
-      wallet: this.form.value.wallet,
       password: 'bonjour' // A voir pour le password...
     };
-    this.userService.putUser(body)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe();
+    const modal = this.modalService.open(ConfirmationModalComponent);
+    modal.componentInstance.modalTitle = 'Enregistrement';
+    modal.componentInstance.message = 'Etes-vous sûr(e) de vouloir valider cet enregistrement ?';
+    modal.componentInstance.twoButton = true;
+    modal.result.then((confirmed) => {
+      if (confirmed) {
+        this.userService.putUser(body)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(() => {
+            const notification = this.modalService.open(ConfirmationModalComponent);
+            notification.componentInstance.modalTitle = 'Enregistrement';
+            notification.componentInstance.message = 'Le compte a bien été ajouté.';
+            notification.componentInstance.twoButton = false;
+            notification.result.then(() => {
+              this.onNavigateBack();
+            }).catch(() => {
+            });
+          });
+      }
+    }).catch(() => {
+    });
   }
 
 }

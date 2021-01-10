@@ -1,11 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {User} from 'src/app/models/User';
-import {AuthService} from 'src/app/services/auth.service';
-import {UserService} from 'src/app/services/user.service';
-import {isEmpty} from 'lodash-es';
-import {filter, map, tap} from "rxjs/operators";
-import {Observable} from "rxjs";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+
+import { User } from 'src/app/models/User';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -14,12 +12,10 @@ import {Observable} from "rxjs";
 })
 export class AuthComponent implements OnInit {
   users: User[];
-  userNotFound = false;
 
   constructor(
     private authService: AuthService,
-    private formBuilder: FormBuilder,
-    private usersService: UserService
+    private formBuilder: FormBuilder
   ) {
   }
 
@@ -38,21 +34,11 @@ export class AuthComponent implements OnInit {
     return this.authForm.controls;
   }
 
-  getUserByMail(email: string): Observable<any> {
-    return this.usersService.getUsers()
-      .pipe(map(users => users.find(u => u.email === email)));
+  onSubmit(): any {
+    this.authService.login(this.authForm.value);
   }
 
-  onSubmit(): any {
-    this.userNotFound = false;
-    const formValue = this.authForm.value;
-    this.getUserByMail(formValue.email).subscribe(user => {
-      console.log(user);
-      if (!!user) {
-        this.authService.login(user);
-      } else {
-        this.userNotFound = true;
-      }
-    });
+  getUserNotFoundSubject(): Observable<boolean> {
+    return this.authService.getUserNotFoundSubject();
   }
 }

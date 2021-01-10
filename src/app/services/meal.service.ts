@@ -3,6 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {HOST} from '../../../config/app.config';
 import {Observable} from 'rxjs';
 
+export const MEAL_NAME = 'meal_name';
+
 /*
  *
  * ICI ON MET TOUS LES APPELS API !!!!
@@ -22,6 +24,14 @@ export class MealService {
   constructor(private http: HttpClient) {}
 
   private url: string = HOST.apiUrl;
+
+  getMeal(): any {
+    return localStorage.getItem(MEAL_NAME);
+  }
+
+  setMeal(meal: any): void {
+    localStorage.setItem(MEAL_NAME, meal);
+  }
 
   /*
    *                        Gestion des plats
@@ -48,8 +58,8 @@ export class MealService {
   getMealOfTheDay(): Observable<any> {
     return;
   }
-  getMealOfTheWeek(): Observable<any> {
-    return;
+  getMealOfTheWeek(weekNumber: number): Observable<any> {
+    return this.http.get(this.url + 'meal/findallavailableforweek/' + weekNumber);
   }
   getMealImg(id: number): Observable<any> {
     return this.http.get(this.url + 'meal/findimg/' + id);

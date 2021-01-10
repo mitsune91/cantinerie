@@ -1,5 +1,5 @@
-<div class="users-manager-container row">
-  <div class="row sidebar-bg">
+<div class="users-manager-container row mx-0">
+  <div class="row sidebar-bg mx-0">
     <div class="container-fluid">
       <div class="row vw-100">
         <app-sidebar
@@ -14,68 +14,81 @@
     <div class="users-manager-table-section-top">
       <form>
         <div class="form-group form-inline">
-          Rechercher par client : <input class="form-control ml-2" type="text" [formControl]="userFilter"/>
+          Rechercher par utilisateur : <input class="form-control ml-2" type="text" [formControl]="userFilter"/>
         </div>
       </form>
       <div class="users-manager-table-section-top-add">
         <button (click)="onAddUser()">
           <img src="assets/Icons/add-icon.svg">
-          Créer un client
+          Ajouter un utilisateur
         </button>
       </div>
     </div>
 
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Nom</th>
-        <th scope="col">Prénom</th>
-        <th scope="col">Adresse</th>
-        <th scope="col">Code postal</th>
-        <th scope="col">Ville</th>
-        <th scope="col">Téléphone</th>
-        <th scope="col">Crédits</th>
-        <th scope="col">Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let user of filteredUsers; index as i">
-        <th scope="row">{{ user.id }}</th>
-        <td>{{ user.name }}</td>
-        <td> {{ user.firstname }}</td>
-        <td>{{ user.address }}</td>
-        <td>{{ user.postalCode }}</td>
-        <td>{{ user.town }}</td>
-        <td>{{ user.phone }}</td>
-        <td>{{ user.wallet }}</td>
-        <td>
-          <div ngbDropdown class="d-inline-block">
-            <button class="users-manager-table-btn" id="dropdownBasic1" ngbDropdownToggle>
-              <img src="assets/Icons/edit-icon.svg">
-            </button>
-            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-              <button class="dropdown-item" (click)="onEditUser(user.id)">Editer</button>
-              <button class="dropdown-item" (click)="onManageUserWallet(content, user)">Créditer</button>
+    <div class="scroll-table">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Prénom</th>
+          <th scope="col">Adresse</th>
+          <th scope="col">Code postal</th>
+          <th scope="col">Ville</th>
+          <th scope="col">Téléphone</th>
+          <th scope="col">Cagnotte</th>
+          <th scope="col">Cantinière</th>
+          <th scope="col">Status</th>
+          <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of filteredUsers; index as i">
+          <th scope="row">{{ user.id }}</th>
+          <td>{{ user.name }}</td>
+          <td> {{ user.firstname }}</td>
+          <td>{{ user.address }}</td>
+          <td>{{ user.postalCode }}</td>
+          <td>{{ user.town }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.wallet }}</td>
+          <td [ngSwitch]="user.isLunchLady">
+            <div *ngSwitchCase="true">Oui</div>
+            <div *ngSwitchCase="false">Non</div>
+          </td>
+          <td [ngSwitch]="user.status">
+            <div *ngSwitchCase="0">Activé</div>
+            <div *ngSwitchCase="1">Désactivé</div>
+            <div *ngSwitchCase="2">Supprimé</div>
+          </td>
+          <td>
+            <div ngbDropdown class="d-inline-block">
+              <button class="users-manager-table-btn" id="dropdownBasic1" ngbDropdownToggle>
+                <img src="assets/Icons/edit-icon.svg">
+              </button>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <button class="dropdown-item" (click)="onEditUser(user.id)">Editer</button>
+                <button class="dropdown-item" (click)="onManageUserWallet(content, user)">Créditer</button>
+              </div>
             </div>
-          </div>
-          <button class="users-manager-table-btn" (click)="deleteUser(user)"
-                  data-toggle="tooltip" data-placement="top" title="Delete">
-            <img src="assets/Icons/trash-icon.svg">
-          </button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+            <button class="users-manager-table-btn" (click)="deleteUser(user)"
+                    data-toggle="tooltip" data-placement="top" title="Delete">
+              <img src="assets/Icons/trash-icon.svg">
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
 <div>
   <ng-template #content let-modal>
     <div class="modal-header">
-      <div class="row">
-        <h4 class="modal-title col-12" id="modal-basic-title">{{ editedUser.name }} {{ editedUser.firstname }}</h4>
-        <h4 class="modal-title col-12">Solde : {{ editedUser.wallet }}</h4>
+      <div class="row col-12">
+        <h4 class="modal-title col-12 my-0" id="modal-basic-title">{{ editedUser.name }} {{ editedUser.firstname }}</h4>
+        <h4 class="modal-title col-12 my-0">Solde : {{ editedUser.wallet }} euros</h4>
       </div>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
@@ -92,7 +105,11 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Créditer</button>
+      <button type="button" class="btn btn-primary"
+              [disabled]="!walletControl.valid"
+              (click)="modal.close('Save click')">
+        Créditer
+      </button>
     </div>
   </ng-template>
 </div>
