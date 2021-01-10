@@ -14,7 +14,7 @@
         <button type="submit" class="btn btn-primary" [disabled]="!authForm.valid">
           Se connecter
         </button>
-        <p class="error-message my-2" *ngIf="userNotFound">Login ou mot de passe incorrect</p>
+        <p class="error-message my-2" *ngIf="this.getUserNotFoundSubject() | async">Login ou mot de passe incorrect</p>
       </div>
       <div>
         <a routerLink="/reset_password">Mot de passe oublié ? </a>

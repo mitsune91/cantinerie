@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { HOST } from '../../../config/app.config';
 import { Observable } from 'rxjs';
-import {tap} from "rxjs/operators";
+
+import { HOST } from '../../../config/app.config';
 
 /*
  *
