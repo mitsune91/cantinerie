@@ -158,8 +158,7 @@ export class CanteenSummaryComponent extends BaseComponent implements OnInit {
             notification.componentInstance.twoButton = false;
             modal.result.then(() => {
               this.getOrdersOfTheDay();
-            }).catch(() => {
-            });
+            }).catch(() => {});
           });
       }
     }).catch(() => {

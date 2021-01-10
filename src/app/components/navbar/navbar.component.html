@@ -13,7 +13,8 @@
         </a>
       </ng-container>
       <ng-container *ngIf="isLoggedIn() && getRole() === 'ROLE_USER'">
-      <p class="mx-1 my-0 navbar-wallet">Cagnotte : {{ wallet }} €</p>
+      <p class="mx-1 my-0 navbar-wallet" *ngIf="wallet !== 0">Cagnotte : {{ wallet }} €</p>
+      <p class="mx-1 my-0 navbar-wallet" *ngIf="wallet === 0">Cagnotte : - €</p>
     </ng-container>
       <div ngbDropdown class="d-inline-block navbar-dropdown-btn-wrapper" *ngIf="isLoggedIn()">
         <button class="users-manager-table-btn" id="dropdownBasic1" ngbDropdownToggle>
