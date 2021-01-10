@@ -1,5 +1,5 @@
 <!--<h1 id="wk">{{ date | date: 'w'}}</h1>-->
-<div class="row sidebar-bg mx-0">
+<div class="row sidebar-bg">
   <div class="container-fluid">
     <div class="row vw-100">
       <app-sidebar
@@ -22,7 +22,7 @@
                 <div class="card-body">
                   <h5 class="card-title">{{meal.label}}</h5>
                   <p class="card-text">{{meal.priceDF}} €</p>
-                  <button class="btn" (click)="selectMenu(menu)">
+                  <button class="btn" (click)="addToCart(menu)">
                     Ajouter au panier
                   </button>
                 </div>

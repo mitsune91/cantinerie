@@ -32,7 +32,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'panier/:idMenu',
+    path: 'panier',
     component: CardComponent,
   },
   {

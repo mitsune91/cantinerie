@@ -1,5 +1,5 @@
+import { Meal } from './../../models/Meal';
 import { ModalConfig } from './../../models/modal.config';
-import { ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from './../../components/modal/modal.component';
 import { AuthService, TOKEN_NAME } from './../../services/auth.service';
 import { MealService } from './../../services/meal.service';
@@ -13,11 +13,8 @@ import { BaseComponent } from '../../shared/core/base.component';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from 'src/app/services/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Meal } from '../../models/Meal';
 import {HOST} from '../../../../config/app.config';
-import { JsonPipe } from '@angular/common';
-import { disposeEmitNodes } from 'typescript';
-import { promise } from 'protractor';
+import { CardService } from '../../services/card.service';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -35,6 +32,8 @@ export class CardComponent extends BaseComponent implements OnInit {
   mealQuantity = 0;
   message: string;
   mealPathImg: string;
+  items;
+  itemsInCart = [];
 
 
   constructor(
@@ -44,37 +43,62 @@ export class CardComponent extends BaseComponent implements OnInit {
     private mealService: MealService,
     private authService: AuthService,
     private route: Router,
-    private activatedRoute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute,
+    private cartService: CardService
+    ) {
       super();
     }
 
   ngOnInit(): void {
 
-    /**
-     * Récupération de l'identifiant passer dans l'URL {idMenu}
-     *
-     * Passer le paramèttre dans le fontion qui suit
-     */
-    const idMenu: number = parseInt(this.activatedRoute.snapshot.paramMap.get('idMenu'));
-
-
-    // Résupération du menu par le numéro d'identifiant
-    this.getMenuForCard(idMenu);
+    this.items = this.cartService.getItems();
+    console.log(this.items)
 
   }
+  selectMeal(mealId: number){
 
-  getMenuForCard(idMenu: number): void{
-    /**
-     * Appel su menu pa r le service menuService
-     */
-    this.menuService.getMenu(idMenu)
-    .pipe(takeUntil(this.ngUnsubscribe))
-    .subscribe(data => {
-      this.menu = data;
-      this.getMealPathImg(this.menu.meals)
-    });
+    this.mealService.getMealById(mealId)
+     .pipe(takeUntil(this.ngUnsubscribe))
+     .subscribe(data => {
+        this.meal = data;
+
+        //this.itemsInCart.push(this.meal)
+        this.cartItems.push(this.meal)
+        //this. addItemInCard()
+
+        this.mealQuantity = this.cartItems.length;
+
+       if(this.cartItems.length == 0) {
+          //this.cartItems.push(this.meal)
+          this.cartTotal = 0;
+        } else {
+        this.cartItems.forEach(meal => {
+          //console.log(meal.priceDF)
+          this.cartTotal += meal.priceDF;
+         });
+       }
+
+     });
   }
 
+  addItemInCard(){
+    console.log(this.itemsInCart)
+    return this.cartItems.push(this.itemsInCart)
+  }
+
+  deleteItem(meal: Meal){
+    console.log(meal)
+    console.log(this.cartItems)
+    const index: number = this.cartItems.indexOf(meal);
+    console.log(index)
+    if (index !== -1) {
+        this.cartItems.splice(index, 1);
+        this.cartTotal -= meal.priceDF;
+    }
+  }
+  onNavigateBack(){
+    this.route.navigate(['']);
+  }
    // Récupère le path image des meals
    getMealPathImg(meals): void {
     meals.forEach( meal => {
@@ -82,38 +106,9 @@ export class CardComponent extends BaseComponent implements OnInit {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(data => {
           const apiUrl = HOST.apiUrl;
-          console.log(this.mealPathImg)
-          this.mealPathImg = apiUrl + data.imagePath.split(' ').join('%20');
-          return this.mealPathImg;
+          meal.pathImg = apiUrl + data.imagePath.split(' ').join('%20');
         });
     })
-  }
-
-  getTotalCard(event): number{
-     const isChecked = event.target.checked; // Listener des evenement en cliquant sur le boutton validé la commande
-     const price = parseFloat(event.target.value); // <<parseFloat>> car le prix est decimal
-
-     const mealId: number = event.target.id; // Récupération de l'identifiant du meal selectionée.
-
-     /**
-      * Résupération du MEAL par le mealService
-      */
-     this.mealService.getMealById(mealId)
-     .pipe(takeUntil(this.ngUnsubscribe))
-     .subscribe(data => {
-       this.meal = data;
-       // console.log(this.meal);
-     });
-
-     if (isChecked){
-      this.cartTotal += price;
-      this.mealQuantity ++; // ajouté le nombre de meal selectioné dans le menu
-     } else if (!isChecked) {
-       this.cartTotal -= price;
-       this.mealQuantity --; // retirer le nombre de meal déselectioné dans le menu
-     }
-
-     return this.cartTotal;
   }
 
   putCommandeValidation(event): void {
@@ -163,6 +158,7 @@ export class CardComponent extends BaseComponent implements OnInit {
                     data.menuId = this.menu
                   ];
                   message = 'votre commande est validé';
+                  this.cartService.clearCart();
 
               },
                 // Vérification des constrains. limitation de commande avant 10h30 et pas plus de 500 commande par jour.
@@ -179,6 +175,7 @@ export class CardComponent extends BaseComponent implements OnInit {
 
                   // Retour a la page d'accueil.
                    this.route.navigate(['']);
+                   this.cartService.clearCart();
               });
 
           } else {

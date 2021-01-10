@@ -1,48 +1,80 @@
 <div class="container cart-container">
   <div class="row flex justify-content-center align-items-lg-center cart-wrapper">
-    <table class="flex justify-content-center align-items-lg-center cart-table-container">
-      <tbody class="container menu-container">
-        <tr>
-          <td>{{ menu?.label }}</td>
-        </tr>
-        <tr>
-          <td>{{ menu?.description }}</td>
-        </tr>
-        <tr class="list-group-item ">
-          <td class="menu-price"><strong>Prix : </strong>{{ menu?.priceDF }} €</td>
-        </tr>
-        <tr>
-          <table class="flex justify-content-center align-items-lg-center cart-table-container">
-            <thead>
-              <tr>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col">Intitilé</th>
-                <th scope="col">Prix</th>
-              </tr>
-            </thead>
-            <tbody class="container meal-container">
-              <tr *ngFor="let meal of menu?.meals; let i = index">
-                <td>
-                  <input type="checkbox" ng-model="checked" ng-value="choice_meal" id="{{meal.id}}" (change)="getTotalCard($event)" value="{{ meal.priceDF }}">
-                  <!--<label for="choice_meal">{{ i + 1 }}</label>-->
-                </td>
-                <td><img [src]="mealPathImg"></td>
-                <td class="flex justify-content-center align-items-lg-center"> {{ meal.label }}</td>
-                <td class="flex justify-content-center align-items-lg-center"> {{ meal.priceDF }} €</td>
-              </tr>
-            </tbody>
-          </table>
-        </tr>
-      </tbody>
-    </table>
+    <div *ngIf="!items">
+      <div class="cart-btn-wrapper">
+        <button (click)="onNavigateBack()">
+          <img src="assets/Icons/back-icon.svg">
+          Retour
+        </button>
+      </div>
+      <div><p>Pas de menu selectionné</p></div>
+    </div>
+    <div *ngFor="let item of items">
+      <table class="flex justify-content-center align-items-lg-center cart-table-container">
+        <tbody class="container menu-container">
+          <tr>
+            <td>{{ item.menu?.label }}</td>
+          </tr>
+          <tr>
+            <td>{{ item.menu?.description }}</td>
+          </tr>
+          <tr class="list-group-item ">
+            <td class="menu-price"><strong>Prix : </strong>{{ item.menu?.priceDF }} €</td>
+          </tr>
+          <tr>
+            <table class="flex justify-content-center align-items-lg-center cart-table-container">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                  <th scope="col">Intitilé</th>
+                  <th scope="col">Prix</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody class="container meal-container">
+                <tr *ngFor="let meal of item.menu.meals; let i = index">
+                  <td>
+                    <input type="checkbox" ng-model="checked" ng-value="choice_meal" id="{{meal.id}}" (change)="getTotalCard($event)" value="{{ meal.priceDF }}">
+                    <!--<label for="choice_meal">{{ i + 1 }}</label>-->
+                  </td>
+                  <td><img [src]="meal.pathImg"></td>
+                  <td class="flex justify-content-center align-items-lg-center"> {{ meal.label }}</td>
+                  <td class="flex justify-content-center align-items-lg-center"> {{ meal.priceDF }} €</td>
+                  <td> <button (click)="selectMeal(meal.id)">Add Card</button> </td>
+                </tr>
+              </tbody>
+            </table>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="panier-wrapper">
+    <div class class="shopping_cart" style="background-color: aqua;">
+      <div class="list-group-item"><h3>Cart</h3></div>
+      <div class="cart-item" *ngFor="let meal of cartItems; let i = index">
+        {{ i }}
+        <span> {{ meal.label }}</span>
+        <span>{{ meal.priceDF }} €</span>
+        <span><button class="summary-action-btn" (click)="deleteItem(meal)"
+                  data-toggle="tooltip" data-placement="top" title="Supprimer">
+                <img src="assets/Icons/trash-icon.svg">
+              </button>
+        </span>
+      </div>
+    </div>
     <div class="container total-container">
-      <div class="list-group-item"><strong>TOTAL :  </strong> {{ cartTotal || menu?.priceDF | number : '1.2-2'}} €</div>
+      <div class="list-group-item">
+        <span>Pour un total de {{ mealQuantity }}</span>
+        <span><strong>TOTAL :  </strong> {{ cartTotal || menu?.priceDF | number : '1.2-2'}} € </span>
+      </div>
     </div>
     <div class="container valide-container">
       <div><button class="btn btn-secondary btn-lg btn-block" (click)="putCommandeValidation($event)">validé !</button></div>
     </div>
   </div>
+
 </div>
 <modal #modal [modalConfig]="modalConfig">
   <!--  body of the modal  -->
