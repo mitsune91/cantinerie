@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {takeUntil} from 'rxjs/operators';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
-import {BaseComponent} from '../../shared/core/base.component';
-import {Menu} from '../../models/Menu';
-import {MenuService} from '../../services/menu.service';
-import {MealService} from '../../services/meal.service';
-import {HOST} from '../../../../config/app.config';
+import { BaseComponent } from '../../shared/core/base.component';
+import { Menu } from '../../models/Menu';
+import { MenuService } from '../../services/menu.service';
+import { MealService } from '../../services/meal.service';
+import { HOST } from '../../../../config/app.config';
 
 @Component({
   selector: 'app-home',
@@ -150,12 +150,12 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 }
 
-// TODO CSS plats edit et add page
-// TODO CSS commandes edit et add page
-// TODO CSS utilisateurs edit et add page
+// TODO CSS plats edit et add page OK par Cedric
+// TODO CSS commandes edit et add page Ok par cedric
+// TODO CSS utilisateurs edit et add page OK par cedric
 
 // TODO links navbar cedric OK fait
-// TODO Vérifier que toutes les méthodes fonctionnent Cedric
+// TODO Vérifier que toutes les méthodes fonctionnent Cedric OK fait sauf pour panier et user profile
 // TODO Revoir la home cedric
 // TODO Ajouter password dans le formulaire edit page des utilisateurs cedric OK fait
 
@@ -163,7 +163,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
 //  (canteen-summary date picker, edit-order plats du jour, add-order plats du jour)
 // TODO CSS panier JM
 
-// TODO Ajouter des modal pour chaque actions Thomas
+// TODO Ajouter des modal pour chaque actions Thomas OK par cedric
 // TODO Enlever les console.log Thomas
 // TODO Reset password Thomas
 
