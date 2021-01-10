@@ -35,10 +35,11 @@ export class HomeComponent extends BaseComponent implements OnInit {
     this.weekNumber = this.getWeekNumber(this.date);
     this.getMenusOfTheWeek(this.getWeekNumber(this.date));
     console.log(this.weekNumber);
-    //clear localStorage cart
-    //this.cartService.clearCart();
+    // clear localStorage cart;
+    // this.cartService.clearCart();
   }
-  addToCart(menu) {
+
+  addToCart(menu): void {
     this.cartService.addToCart(menu);
     window.alert('Your product has been added to the cart!');
     this.route.navigate(['/panier']);
@@ -147,24 +148,4 @@ export class HomeComponent extends BaseComponent implements OnInit {
       }
     });
   }
-
 }
-
-// TODO CSS plats edit et add page
-// TODO CSS commandes edit et add page
-// TODO CSS utilisateurs edit et add page
-
-// TODO links navbar cedric
-// TODO Vérifier que toutes les méthodes fonctionnent Cedric
-// TODO Revoir la home cedric
-// TODO Ajouter password dans le formulaire edit page des utilisateurs cedric
-
-// TODO Vérifier qu'il y a tous les filtres pour chaque tableau JM
-//  (canteen-summary date picker, edit-order plats du jour, add-order plats du jour)
-// TODO CSS panier JM
-
-// TODO Ajouter des modal pour chaque actions Thomas
-// TODO Enlever les console.log Thomas
-// TODO Reset password Thomas
-
-// TODO Docs et livrables Jordy

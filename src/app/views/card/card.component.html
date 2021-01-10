@@ -1,6 +1,6 @@
 <div class="container cart-container">
   <div class="row flex justify-content-center align-items-lg-center cart-wrapper">
-    <div *ngIf="!items">
+    <div *ngIf="!item">
       <div class="cart-btn-wrapper">
         <button (click)="onNavigateBack()">
           <img src="assets/Icons/back-icon.svg">
@@ -9,17 +9,17 @@
       </div>
       <div><p>Pas de menu selectionné</p></div>
     </div>
-    <div *ngFor="let item of items">
+    <div>
       <table class="flex justify-content-center align-items-lg-center cart-table-container">
         <tbody class="container menu-container">
           <tr>
-            <td>{{ item.menu?.label }}</td>
+            <td>{{ item.label }}</td>
           </tr>
           <tr>
-            <td>{{ item.menu?.description }}</td>
+            <td>{{ item.description }}</td>
           </tr>
           <tr class="list-group-item ">
-            <td class="menu-price"><strong>Prix : </strong>{{ item.menu?.priceDF }} €</td>
+            <td class="menu-price"><strong>Prix : </strong>{{ item.priceDF }} €</td>
           </tr>
           <tr>
             <table class="flex justify-content-center align-items-lg-center cart-table-container">
@@ -33,9 +33,9 @@
                 </tr>
               </thead>
               <tbody class="container meal-container">
-                <tr *ngFor="let meal of item.menu.meals; let i = index">
+                <tr *ngFor="let meal of item.meals; let i = index">
                   <td>
-                    <input type="checkbox" ng-model="checked" ng-value="choice_meal" id="{{meal.id}}" (change)="getTotalCard($event)" value="{{ meal.priceDF }}">
+                    <input type="checkbox" ng-model="checked" ng-value="choice_meal" id="{{meal.id}}" value="{{ meal.priceDF }}">
                     <!--<label for="choice_meal">{{ i + 1 }}</label>-->
                   </td>
                   <td><img [src]="meal.pathImg"></td>
@@ -76,7 +76,7 @@
   </div>
 
 </div>
-<modal #modal [modalConfig]="modalConfig">
-  <!--  body of the modal  -->
-</modal>
+<!--<modal #modal [modalConfig]="modalConfig">-->
+<!--  &lt;!&ndash;  body of the modal  &ndash;&gt;-->
+<!--</modal>-->
 

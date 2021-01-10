@@ -50,17 +50,17 @@ export class ProfileManagerComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let userIdConnected = JSON.parse(this.authService.getToken()).id;
-    console.log(JSON.parse(this.authService.getToken()).id);
+    const userIdConnected = this.authService.getDecodedToken();
+    console.log(userIdConnected.user);
 
     this.getUserConnect(userIdConnected); // l'dentifiant let userIdConnected
   }
-  getUserConnect(id: number) {
+  getUserConnect(id: number): void {
     this.userService.getUserById(id)
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe(data => {
       this.user = data;
-      this.getUserPathImgById(this.user.id)
+      this.getUserPathImgById(this.user.id);
       console.log(this.user);
     });
   }
@@ -101,7 +101,7 @@ export class ProfileManagerComponent extends BaseComponent implements OnInit {
     });
     return status;
   }
-  onEditUser(id: number) {}
+  // onEditUser(id: number) {}
 
   // Permet d'afficher le formulaire permettant de modifier un plat
   displayForm(): void {

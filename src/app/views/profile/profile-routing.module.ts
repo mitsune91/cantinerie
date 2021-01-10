@@ -8,6 +8,13 @@ const routes: Routes = [
   {
     path: '',
     component: ProfileManagerComponent
+  },
+  {
+    path: 'history',
+    component: ProfileOrderComponent,
+    data: {
+      navigateBackRoute: 'profile'
+    }
   }
 ];
 
