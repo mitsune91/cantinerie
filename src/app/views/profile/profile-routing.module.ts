@@ -1,6 +1,7 @@
 import { ProfileManagerComponent } from './profile-manager/profile-manager.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ProfileOrderComponent } from './profile-order/profile-order.component';
 
 
 const routes: Routes = [

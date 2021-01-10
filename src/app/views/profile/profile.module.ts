@@ -4,10 +4,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileManagerComponent } from './profile-manager/profile-manager.component';
 import { ProfileRoutingModule } from './profile-routing.module';
+import { ProfileOrderComponent } from './profile-order/profile-order.component';
 
 @NgModule({
   declarations: [
-  ProfileManagerComponent],
+  ProfileManagerComponent,
+  ProfileOrderComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,

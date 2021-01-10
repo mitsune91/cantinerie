@@ -1,54 +1,50 @@
-<table>
-  <tbody>
-    <tr>
-      <td>Mon du menu: {{ menu?.label }}</td>
-    </tr>
-    <tr>
-      <td> Description: {{ menu?.description }}</td>
-    </tr>
-    <tr class="list-group-item active">
-      <td><strong>Prix : </strong>{{ menu?.priceDF }} €</td>
-    </tr>
-    <tr>
-      <table>
-        <tbody>
-          <tr *ngFor="let meal of menu?.meals; let i = index">
-            <td>
-              <input type="checkbox" ng-model="checked" ng-value="choice_meal" id="{{meal.id}}" (change)="getTotalCard($event)" value="{{ meal.priceDF }}">
-              <label for="choice_meal">{{ i + 1 }}</label>
-            </td>
-            <td>Meal name: {{ meal.label }}</td>
-            <td>Meal Price: {{ meal.priceDF }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </tr>
-  </tbody>
-</table>
-<div><strong>TOTAL:</strong>{{ cartTotal || menu?.priceDF | number : '1.2-2'}} €</div>
-<div><button class="btn btn-danger" (click)="putCommandeValidation($event)">validé !</button></div>
-
-<!--<modal #modal [modalConfig]="modalConfig">-->
-<!--  &lt;!&ndash;  body of the modal  &ndash;&gt;-->
-<!--</modal>-->
-<div>
-  <ng-template #content let-modal>
-    <div class="modal-header">
-      <div class="row">
-        <h4 class="modal-title col-12" id="modal-basic-title">{{ user.name }} {{ user.firstname }}</h4>
-        <h4 class="modal-title col-12">Solde : {{ user.wallet }}</h4>
-      </div>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
+<div class="container cart-container">
+  <div class="row flex justify-content-center align-items-lg-center cart-wrapper">
+    <table class="flex justify-content-center align-items-lg-center cart-table-container">
+      <tbody class="container menu-container">
+        <tr>
+          <td>{{ menu?.label }}</td>
+        </tr>
+        <tr>
+          <td>{{ menu?.description }}</td>
+        </tr>
+        <tr class="list-group-item ">
+          <td class="menu-price"><strong>Prix : </strong>{{ menu?.priceDF }} €</td>
+        </tr>
+        <tr>
+          <table class="flex justify-content-center align-items-lg-center cart-table-container">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col">Intitilé</th>
+                <th scope="col">Prix</th>
+              </tr>
+            </thead>
+            <tbody class="container meal-container">
+              <tr *ngFor="let meal of menu?.meals; let i = index">
+                <td>
+                  <input type="checkbox" ng-model="checked" ng-value="choice_meal" id="{{meal.id}}" (change)="getTotalCard($event)" value="{{ meal.priceDF }}">
+                  <!--<label for="choice_meal">{{ i + 1 }}</label>-->
+                </td>
+                <td><img [src]="mealPathImg"></td>
+                <td class="flex justify-content-center align-items-lg-center"> {{ meal.label }}</td>
+                <td class="flex justify-content-center align-items-lg-center"> {{ meal.priceDF }} €</td>
+              </tr>
+            </tbody>
+          </table>
+        </tr>
+      </tbody>
+    </table>
+    <div class="container total-container">
+      <div class="list-group-item"><strong>TOTAL :  </strong> {{ cartTotal || menu?.priceDF | number : '1.2-2'}} €</div>
     </div>
-    <div class="modal-body">
-      <div class="form-group">
-        <div for="wallet">Vous n'avez pas assez de crédit ?</div>
-      </div>
+    <div class="container valide-container">
+      <div><button class="btn btn-secondary btn-lg btn-block" (click)="putCommandeValidation($event)">validé !</button></div>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Créditer</button>
-    </div>
-  </ng-template>
+  </div>
 </div>
+<modal #modal [modalConfig]="modalConfig">
+  <!--  body of the modal  -->
+</modal>
+

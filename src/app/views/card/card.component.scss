@@ -1,0 +1,34 @@
+.cart-table-container {
+  width:100%;
+}
+
+.valide-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 8%;
+  margin-top: 2%;
+}
+.total-container {
+  display: flex;
+  justify-content: flex-end;
+
+  background-color: #1a423f;
+}
+.menu-price{
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 8%;
+  color: white;
+}
+.list-group-item {
+  display: flex;
+  justify-content: flex-end;
+  background-color: #1a423f;
+  width: 100%;
+  color:white;
+  margin-right: 7%;
+}
+.btn {
+  background-color: #1a423f;
+  color:#ffc107;
+}

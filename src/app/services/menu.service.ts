@@ -60,7 +60,7 @@ export class MenuService {
   getMenuOfTheWeek(weekNumber: number): Observable<any> {
     return this.http.get(this.url + 'menu/findallavailableforweek/' + weekNumber);
   }
-  getImgMenu(): Observable<any> {
-    return;
+  getImgMenu(id: number): Observable<any> {
+    return this.http.get(this.url + 'menu/findimg/' + id);
   }
 }
