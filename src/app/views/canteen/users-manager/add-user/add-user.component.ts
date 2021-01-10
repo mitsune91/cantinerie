@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -27,21 +27,22 @@ export class AddUserComponent extends BaseComponent implements OnInit {
     super();
 
     this.form = this.fb.group({
-      name: [''],
-      firstname: [''],
+      name: ['', Validators.required],
+      firstname: ['', Validators.required],
       sex: [''],
       address: [''],
       postalCode: [''],
       town: [''],
-      email: [''],
+      email: ['', Validators.required],
       phone: [''],
+      password: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
   }
 
-  // Permet de revenir à la page de gestion des commandes
+  // Permet de revenir à la page de gestion des commandes ou home user
   onNavigateBack(): void {
     const role = localStorage.getItem(ROLE_NAME);
     if (role === 'ROLE_LUNCHLADY') {
@@ -53,18 +54,7 @@ export class AddUserComponent extends BaseComponent implements OnInit {
 
   // Envoie les changements du formulaire
   submitEditedUser(): void {
-    const body = {
-      name: this.form.value.name,
-      firstname: this.form.value.firstname,
-      sex: this.form.value.sex,
-      address: this.form.value.address,
-      postalCode: this.form.value.postalCode,
-      town: this.form.value.town,
-      email: this.form.value.email,
-      phone: this.form.value.phone,
-      status: this.form.value.status,
-      password: 'bonjour' // A voir pour le password...
-    };
+    const body = this.form.value;
     const modal = this.modalService.open(ConfirmationModalComponent);
     modal.componentInstance.modalTitle = 'Enregistrement';
     modal.componentInstance.message = 'Etes-vous sûr(e) de vouloir valider cet enregistrement ?';
@@ -80,12 +70,10 @@ export class AddUserComponent extends BaseComponent implements OnInit {
             notification.componentInstance.twoButton = false;
             notification.result.then(() => {
               this.onNavigateBack();
-            }).catch(() => {
-            });
+            }).catch(() => {});
           });
       }
-    }).catch(() => {
-    });
+    }).catch(() => {});
   }
 
 }

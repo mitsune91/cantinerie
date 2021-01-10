@@ -1,8 +1,6 @@
 @import "src/theme/variables";
 @import "src/theme/mixins";
 
-$bc: #f8f9fa;
-
 .canteen-user-add-container {
   height: calc(100vh - 90px);
   background-color: $bc;
@@ -37,15 +35,15 @@ $bc: #f8f9fa;
   }
 
   .canteen-user-add-btn-wrapper {
-    flex: 0 0 100%;
-    max-width: 100%;
     text-align: right;
+
+    @include custom-col(100%);
   }
 
   .canteen-user-add-btn-back-wrapper {
-    flex: 0 0 100%;
-    max-width: 100%;
     text-align: left;
+
+    @include custom-col(100%);
 
     img {
       width: 30px;
@@ -63,8 +61,7 @@ $bc: #f8f9fa;
 }
 
 .label-title {
-  flex: 0 0 100%;
-  max-width: 100%;
+  @include custom-col(100%);
 }
 
 label {
@@ -78,19 +75,19 @@ label {
 }
 
 .canteen-user-add-form-section-top {
-  display: flex;
-  flex-wrap: wrap;
   justify-content: center;
+
+  @include flex-box();
 }
 
 .canteen-user-add-form-ingredients {
-  flex: 0 0 100%;
-  max-width: 100%;
   margin: 20px 0 30px 0;
+
+  @include custom-col(100%);
 }
 
 .canteen-user-add-form-body {
-  display: flex;
-  flex-wrap: wrap;
   justify-content: center;
+
+  @include flex-box();
 }

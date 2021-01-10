@@ -57,10 +57,12 @@
 
         <div class="form-group col-md-3 px-5">
           <label for="password">Mot de passe</label>
-          <input type="password" class="form-control" id="password">
+          <input type="password" class="form-control" id="password"
+                formControlName="password">
         </div>
         <div class="btn-submit col-12">
           <button type="submit" class="btn btn-primary"
+                  [disabled]="!form.valid"
                   (click)="submitEditedUser()">
             Ajouter
           </button>

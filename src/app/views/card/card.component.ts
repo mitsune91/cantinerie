@@ -220,25 +220,25 @@ export class CardComponent extends BaseComponent implements OnInit {
     /**
      * La fonction récupere le model de modal pour dynamisé les instruction et information a intégré
      */
-  public
-    modalConfig: ModalConfig = {
-      modalTitle: 'Alerte - Commande Annuler', // Titre associé a la modal
-      modalDescription: 'L\'heure authorisée pour passer une commande est dépassée. Passé une commande avant 10h30!', // petite description dans le bode de la modal
-      onDismiss: () => {
-        return true;
-      },
-      dismissButtonLabel: 'Annulé', // text du boutton
-      onClose: () => {
-        return true; // en cliquant ferme la modal
-      },
-      closeButtonLabel: '', // le deuxème boutton
-      disableCloseButton: () => {
-        return true; // deactivation du boutton
-      },
-      hideCloseButton: () => {
-        return true; // display none du boutton
-      }
-    };
-
+  // public
+  //   modalConfig: ModalConfig = {
+  //     modalTitle: 'Alerte - Commande Annuler', // Titre associé a la modal
+  //     modalDescription: 'L\'heure authorisée pour passer une commande est dépassée. Passé une commande avant 10h30!', // petite description dans le bode de la modal
+  //     onDismiss: () => {
+  //       return true;
+  //     },
+  //     dismissButtonLabel: 'Annulé', // text du boutton
+  //     onClose: () => {
+  //       return true; // en cliquant ferme la modal
+  //     },
+  //     closeButtonLabel: '', // le deuxème boutton
+  //     disableCloseButton: () => {
+  //       return true; // deactivation du boutton
+  //     },
+  //     hideCloseButton: () => {
+  //       return true; // display none du boutton
+  //     }
+  //   };
+  //
   }
 }
