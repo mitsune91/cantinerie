@@ -7,6 +7,7 @@ import {Menu} from '../../models/Menu';
 import {MenuService} from '../../services/menu.service';
 import {MealService} from '../../services/meal.service';
 import {HOST} from '../../../../config/app.config';
+import { CardService } from 'src/app/services/card.service';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
   constructor(
     private menuService: MenuService,
     private mealService: MealService,
-    public route: Router
+    public route: Router,
+    private cartService: CardService
   ) {
     super();
   }
@@ -33,6 +35,13 @@ export class HomeComponent extends BaseComponent implements OnInit {
     this.weekNumber = this.getWeekNumber(this.date);
     this.getMenusOfTheWeek(this.getWeekNumber(this.date));
     console.log(this.weekNumber);
+    //clear localStorage cart
+    //this.cartService.clearCart();
+  }
+  addToCart(menu) {
+    this.cartService.addToCart(menu);
+    window.alert('Your product has been added to the cart!');
+    this.route.navigate(['/panier']);
   }
 
   // Méthode pour récupérer le numéro de la semaine en cours
@@ -141,16 +150,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
     });
   }
 
-  // Navigate on basket or 404 error
-  selectMenu(id: number): void {
-    console.log(id);
-    if (id) {
-      this.route.navigate(['/panier/', id]);
-    } else {
-      this.route.navigate(['/404']);
-      alert('panier vide!');
-    }
-  }
 }
 
 // TODO CSS plats edit et add page
