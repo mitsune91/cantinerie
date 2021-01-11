@@ -1,5 +1,4 @@
 import { Meal } from './../../models/Meal';
-import { ModalConfig } from './../../models/modal.config';
 import { ModalComponent } from './../../components/modal/modal.component';
 import { AuthService, TOKEN_NAME } from './../../services/auth.service';
 import { MealService } from './../../services/meal.service';
@@ -15,6 +14,8 @@ import { OrderService } from 'src/app/services/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HOST } from '../../../../config/app.config';
 import { CardService } from '../../services/card.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationModalComponent } from '../../components/modal/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-card',
@@ -22,7 +23,6 @@ import { CardService } from '../../services/card.service';
   styleUrls: ['./card.component.scss']
 })
 export class CardComponent extends BaseComponent implements OnInit {
-  @ViewChild('modal') private modalComponent: ModalComponent;
 
   user: User;
   order: Order;
@@ -45,7 +45,8 @@ export class CardComponent extends BaseComponent implements OnInit {
     private authService: AuthService,
     private route: Router,
     private activatedRoute: ActivatedRoute,
-    private cartService: CardService
+    private cartService: CardService,
+    private modalService: NgbModal
   ) {
     super();
   }
@@ -77,14 +78,8 @@ export class CardComponent extends BaseComponent implements OnInit {
             });
           }
         }
-        // this. addItemInCard()
       });
   }
-
-  // addItemInCard(){
-  //   console.log(this.itemsInCart)
-  //   return this.cartItems.push(this.itemsInCart)
-  // }
 
   deleteItem(meal: Meal): void {
     console.log(meal);
@@ -138,12 +133,7 @@ export class CardComponent extends BaseComponent implements OnInit {
         const userWalet: number = userConnected.wallet; // Récuperer le Solde de l'utilisateur.
         console.log(userWalet);
 
-        /**
-         * Initialization le prix par defaut par le prix du menu
-         */
-        if (this.cartTotal === 0) {
-          this.cartTotal = this.menu.priceDF; // Prix par default
-        }
+
 
         if (userWalet > this.cartTotal) {
           // Faire la derniére verification avant la commande
@@ -160,6 +150,14 @@ export class CardComponent extends BaseComponent implements OnInit {
                   data.menuId = this.menu
                 ];
                 message = 'votre commande est validé';
+                const modal = this.modalService.open(ConfirmationModalComponent);
+                modal.componentInstance.modalTitle = message;
+                modal.componentInstance.message = 'Felicitation votre commande est envoyé a la Cantinière';
+                modal.componentInstance.twoButton = false;
+                modal.result.then(() => {
+                  this.route.navigate(['']);
+                }).catch(() => {
+                });
                 // this.cartService.clearCart();
 
               },
@@ -172,8 +170,14 @@ export class CardComponent extends BaseComponent implements OnInit {
                  * 2./ Récupère les informations dans la fonction ci-dessous [modalConfig]
                  * 3./ La syncronise avec le modal content
                  */
-                await this.modalComponent.open();
-                this.message = 'L\'heure authorisée pour passer une commande est dépassée';
+                const modal = this.modalService.open(ConfirmationModalComponent);
+                modal.componentInstance.modalTitle = 'Une erreur s\'est produit durant de la validation du panier';
+                modal.componentInstance.message = 'L\'heure authorisée pour passer une commande est dépassée';
+                modal.componentInstance.twoButton = false;
+                modal.result.then(() => {
+                  this.route.navigate(['/login']);
+                }).catch(() => {
+                });
 
                 // Retour a la page d'accueil.
                 this.route.navigate(['']);
@@ -183,51 +187,38 @@ export class CardComponent extends BaseComponent implements OnInit {
         } else {
           // message = pas assez de fond
           // tout annulé
-          this.message = 'Pas assez de fond. ' + '\n' + 'Se renseigné au près de la cantiniere!';
-          this.modalComponent.open();
-          this.modalComponent.modalConfig.modalDescription = this.message;
-          this.modalComponent.modalConfig.dismissButtonLabel = 'Ok';
-          this.route.navigate(['']);
+          const modal = this.modalService.open(ConfirmationModalComponent);
+          modal.componentInstance.modalTitle = 'Une erreur s\'est produit durant de la validation du panier';
+          modal.componentInstance.message = 'Pas assez de fond. ' + '\n' + 'Se renseigné au près de la cantiniere!';
+          modal.componentInstance.twoButton = false;
+          modal.result.then(() => {
+            this.route.navigate(['']);
+          }).catch(() => {
+          });
+
         }
       } else {
         // Si Non redirection
-        message = 'Connectez-vous avant de passer une commande!';
-        this.modalComponent.modalConfig.modalDescription = this.message;
-        this.route.navigate(['/login']);
+        const modal = this.modalService.open(ConfirmationModalComponent);
+        modal.componentInstance.modalTitle = 'Une erreur s\'est produit durant de la validation du panier';
+        modal.componentInstance.message = 'Connectez-vous avant de passer une commande!';
+        modal.componentInstance.twoButton = false;
+        modal.result.then(() => {
+          this.route.navigate(['/login']);
+        }).catch(() => {
+        });
       }
     } else {
-      message = 'Connectez-vous avant de passer une commande!';
-      this.modalComponent.modalConfig.modalDescription = this.message;
-      this.route.navigate(['/login']);
+      const modal = this.modalService.open(ConfirmationModalComponent);
+      modal.componentInstance.modalTitle = 'Une erreur s\'est produit durant de la validation du panier';
+      modal.componentInstance.message = 'Connectez-vous avant de passer une commande!';
+      modal.componentInstance.twoButton = false;
+      modal.result.then(() => {
+        this.route.navigate(['/login']);
+      }).catch(() => {
+      });
     }
-    console.log(this.cartTotal);
-    console.log(this.meal);
-    console.log(this.mealQuantity);
-    console.log(this.message);
-
   }
 
-  /**
-   * La fonction récupere le model de modal pour dynamisé les instruction et information a intégré
-   */
-  // public modalConfig: ModalConfig = {
-  //   modalTitle: 'Alerte - Commande Annuler', // Titre associé a la modal
-  //   modalDescription:
-  //     'L\'heure authorisée pour passer une commande est dépassée. Passé une commande avant 10h30!',
-  //   onDismiss: () => {
-  //     return true;
-  //   },
-  //   dismissButtonLabel: 'Annulé', // text du boutton
-  //   onClose: () => {
-  //     return true; // en cliquant ferme la modal
-  //   },
-  //   closeButtonLabel: '', // le deuxème boutton
-  //   disableCloseButton: () => {
-  //     return true; // deactivation du boutton
-  //   },
-  //   hideCloseButton: () => {
-  //     return true; // display none du boutton
-  //   }
-  // }
 
 }

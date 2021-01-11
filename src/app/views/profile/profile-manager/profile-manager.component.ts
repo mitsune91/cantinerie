@@ -1,13 +1,15 @@
 import { User } from './../../../models/User';
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, takeUntil} from 'rxjs/operators';
 import {HOST} from '../../../../../config/app.config';
 
 import {BaseComponent} from '../../../shared/core/base.component';
 import {UserService} from '../../../services/user.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../services/auth.service';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationModalComponent } from '../../../components/modal/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-profile-manager',
@@ -16,17 +18,21 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class ProfileManagerComponent extends BaseComponent implements OnInit {
 
+  profileMenus = ['Profile', 'Lists des commandes','Gestion des plats'];
   user: User;
   userPathImg: string;
   isFormDisplayed = false;
   form: FormGroup;
+  passwordControl = new FormControl('', Validators.required);
+  closeResult = '';
 
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private profileForm: FormBuilder
+    private profileForm: FormBuilder,
+    private modalService: NgbModal
   ) {
     super();
 
@@ -51,11 +57,10 @@ export class ProfileManagerComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
 
     const userIdConnected = this.authService.getDecodedToken();
-    console.log(userIdConnected.user);
-
-    this.getUserConnect(userIdConnected); // l'dentifiant let userIdConnected
+       this.getUserConnect(userIdConnected); // l'dentifiant let userIdConnected
   }
-  getUserConnect(id: number): void {
+  getUserConnect(token: any): void {
+    const id = token.user.id
     this.userService.getUserById(id)
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe(data => {
@@ -111,6 +116,87 @@ export class ProfileManagerComponent extends BaseComponent implements OnInit {
   onNavigateBack(): void {
     this.router.navigate(['']);
   }
+  // Naviguer entre les différents menus
+  onSelectedMenu(section: string): void {
+    switch (section) {
+      case 'Profile':
+        this.router.navigate(['profile']);
+        break;
+      case 'Lists des commandes':
+        this.router.navigate(['profile/history']);
+        break;
+    }
+  }
+  changePwd(user: User, pwd: any): void {
+    console.log('click')
+    const body = {
+      // isLunchLady: true, // Décommenter pour tester la requête
+      id: user.id,
+      name: user.name,
+      firstname: user.firstname,
+      sex: user.sex,
+      address: user.address,
+      postalCode: user.postalCode,
+      town: user.town,
+      email: user.email,
+      phone: user.phone,
+      status: this.getUserStatus(this.user),
+      wallet: user.wallet,
+      password: pwd// A voir pour le password...
+    };
+
+    if (user) {
+      const modal = this.modalService.open(ConfirmationModalComponent);
+      modal.componentInstance.modalTitle = `Modifier un utilisateur ${this.user.name} ${this.user.firstname}`;
+      modal.componentInstance.message = `Nouveau mot de passe de ${pwd} `;
+      modal.componentInstance.twoButton = true;
+      modal.result.then((confirmed) => {
+        console.log(body)
+        if (confirmed) {
+          this.userService.updateUser(body)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(() => {
+          const notification = this.modalService.open(ConfirmationModalComponent);
+            notification.componentInstance.modalTitle = `Modifier un utilisateur ${this.user.name} ${this.user.firstname}`;
+            notification.componentInstance.message = `Le mot de passe a bien été modifié`;
+            notification.componentInstance.twoButton = false;
+            notification.result.then(() => {
+              this.router.navigate(['profile']);
+            }).catch(() => {
+            });
+        });
+        }
+      }).catch(() => {
+      });
+    } else {
+      const notification = this.modalService.open(ConfirmationModalComponent);
+      notification.componentInstance.modalTitle = 'Modifier un utilisateur';
+      notification.componentInstance.message = `Impossible de changer le mot de passe de l'utilisateur ${this.user.name} ${this.user.firstname}`;
+      notification.componentInstance.twoButton = false;
+      notification.result.then().catch(() => {
+      });
+    }
+  }
+  onManageUserPassword(content: any, user: any): void {
+    this.user = user;
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(() => {
+      this.changePwd(user, this.passwordControl.value);
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+    // Permet de fermer la modal en appuyant sur ESC
+  // ou en cliquant en dehors de celle-ci
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
 
   // Envoie les changements du formulaire
     submitEditedUser(): void {

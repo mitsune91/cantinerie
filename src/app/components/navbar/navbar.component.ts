@@ -40,7 +40,12 @@ export class NavbarComponent extends BaseComponent implements OnInit {
 
   // Naviguer vers le panier
   onBasket(): void {
-    this.router.navigate(['profile/:id']);
+    this.router.navigate(['panier']);
+  }
+
+  // Naviguer vers le profile
+  onProfile(): void {
+    this.router.navigate(['profile']);
   }
 
   // Vérifie si un utilisateur est connecté

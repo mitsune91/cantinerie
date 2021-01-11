@@ -21,6 +21,7 @@
           <img src="assets/Icons/user-icon.svg">
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button class="dropdown-item" (click)="onProfile()" *ngIf="isUser()">Mon profile</button>
           <button class="dropdown-item" (click)="onBasket()" *ngIf="isUser()">Mon panier</button>
           <button class="dropdown-item" (click)="onLogout()">Se déconnecter</button>
         </div>

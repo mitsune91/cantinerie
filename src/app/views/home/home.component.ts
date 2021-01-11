@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import {BaseComponent} from '../../shared/core/base.component';
 import {Menu} from '../../models/Menu';
@@ -8,6 +9,7 @@ import {MenuService} from '../../services/menu.service';
 import {MealService} from '../../services/meal.service';
 import {HOST} from '../../../../config/app.config';
 import { CardService } from 'src/app/services/card.service';
+import { ConfirmationModalComponent } from '../../components/modal/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -26,7 +28,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
     private menuService: MenuService,
     private mealService: MealService,
     public route: Router,
-    private cartService: CardService
+    private cartService: CardService,
+    private modalService: NgbModal
   ) {
     super();
   }
@@ -35,14 +38,18 @@ export class HomeComponent extends BaseComponent implements OnInit {
     this.weekNumber = this.getWeekNumber(this.date);
     this.getMenusOfTheWeek(this.getWeekNumber(this.date));
     console.log(this.weekNumber);
-    // clear localStorage cart;
-    // this.cartService.clearCart();
   }
 
   addToCart(menu): void {
     this.cartService.addToCart(menu);
-    window.alert('Your product has been added to the cart!');
-    this.route.navigate(['/panier']);
+    const modal = this.modalService.open(ConfirmationModalComponent);
+    modal.componentInstance.modalTitle = 'Menu choisi';
+    modal.componentInstance.message = 'Votre menu a bien été ajour au panier';
+    modal.componentInstance.twoButton = false;
+    modal.result.then(() => {
+      this.route.navigate(['/panier']);
+    }).catch(() => {
+    });
   }
 
   // Méthode pour récupérer le numéro de la semaine en cours

@@ -9,10 +9,11 @@
       </div>
       <div><p>Pas de menu selectionné</p></div>
     </div>
-    <div>
+    <div *ngIf="item">
       <table class="flex justify-content-center align-items-lg-center cart-table-container">
         <tbody class="container menu-container">
-          <tr>
+          <tr class="list-group-item "></tr>
+          <!--<tr>
             <td>{{ item.label }}</td>
           </tr>
           <tr>
@@ -20,12 +21,11 @@
           </tr>
           <tr class="list-group-item ">
             <td class="menu-price"><strong>Prix : </strong>{{ item.priceDF }} €</td>
-          </tr>
+          </tr>-->
           <tr>
             <table class="flex justify-content-center align-items-lg-center cart-table-container">
               <thead>
                 <tr>
-                  <th scope="col"></th>
                   <th scope="col"></th>
                   <th scope="col">Intitilé</th>
                   <th scope="col">Prix</th>
@@ -34,10 +34,6 @@
               </thead>
               <tbody class="container meal-container">
                 <tr *ngFor="let meal of item.meals; let i = index">
-                  <td>
-                    <input type="checkbox" ng-model="checked" ng-value="choice_meal" id="{{meal.id}}" value="{{ meal.priceDF }}">
-                    <!--<label for="choice_meal">{{ i + 1 }}</label>-->
-                  </td>
                   <td><img [src]="meal.pathImg"></td>
                   <td class="flex justify-content-center align-items-lg-center"> {{ meal.label }}</td>
                   <td class="flex justify-content-center align-items-lg-center"> {{ meal.priceDF }} €</td>
@@ -46,28 +42,34 @@
               </tbody>
             </table>
           </tr>
+          <tr class="list-group-item"></tr>
         </tbody>
       </table>
     </div>
   </div>
   <div class="panier-wrapper">
-    <div class class="shopping_cart" style="background-color: aqua;">
+    <div class class="shopping_cart">
       <div class="list-group-item"><h3>Cart</h3></div>
       <div class="cart-item" *ngFor="let meal of cartItems; let i = index">
-        {{ i }}
-        <span> {{ meal.label }}</span>
-        <span>{{ meal.priceDF }} €</span>
-        <span><button class="summary-action-btn" (click)="deleteItem(meal)"
-                  data-toggle="tooltip" data-placement="top" title="Supprimer">
-                <img src="assets/Icons/trash-icon.svg">
-              </button>
-        </span>
+        <table class="flex justify-content-center align-items-lg-center cart-table-container">
+          <tbody>
+            <tr>
+              <td> <!--{{ i + 1 }}--> 1</td>
+              <td scope="col">{{ meal.label }}</td>
+              <td scope="col">{{ meal.priceDF }} €</td>
+              <td scope="col"><button class="summary-action-btn" (click)="deleteItem(meal)"
+                data-toggle="tooltip" data-placement="top" title="Supprimer">
+              <img src="assets/Icons/trash-icon.svg">
+            </button></td>
+            </tr>
+          </tbody>
+        </table>
+        <!--{{ i }}-->
       </div>
     </div>
     <div class="container total-container">
       <div class="list-group-item">
-        <span>Pour un total de {{ mealQuantity }}</span>
-        <span><strong>TOTAL :  </strong> {{ cartTotal || menu?.priceDF | number : '1.2-2'}} € </span>
+        <span><strong>TOTAL :  </strong> {{ cartTotal | number : '1.2-2'}} € </span>
       </div>
     </div>
     <div class="container valide-container">
@@ -76,7 +78,4 @@
   </div>
 
 </div>
-<!--<modal #modal [modalConfig]="modalConfig">-->
-<!--  &lt;!&ndash;  body of the modal  &ndash;&gt;-->
-<!--</modal>-->
 
