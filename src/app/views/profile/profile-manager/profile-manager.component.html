@@ -65,8 +65,8 @@
               </select>
               </div>
               <div class="form-group col-8 px-5">
-                <label class="label" for="password">Password</label>
-                <div class="user-detail" *ngIf="!isFormDisplayed">{{ user?.password }}</div>
+                <label class="label" for="password"></label>
+                <div class="user-detail" *ngIf="!isFormDisplayed"></div>
                 <button type="submit" class="btn btn-primary"
                   *ngIf="isFormDisplayed"
                   (click)="onManageUserPassword(content, user)" >

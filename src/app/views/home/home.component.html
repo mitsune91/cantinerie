@@ -15,6 +15,7 @@
     <div *ngIf="selectedMenusFromDay?.length">
       <div *ngFor="let menu of selectedMenusFromDay[0]?.menus">
         <div class="row ">
+          <div *ngIf="!menu.meals"> <p>pas de menu disponible !</p></div>
           <div *ngFor="let meal of menu.meals">
             <div class="col-3">
               <div class="card home-card" style="width: 13rem;">

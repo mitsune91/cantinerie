@@ -32,7 +32,7 @@ export class CardService {
   //   return itemsInCart.length;
   // }
 
-  // clearCart(): void {
-  //   localStorage.clear();
-  // }
+  clearCart(): void {
+    localStorage.clear();
+  }
 }

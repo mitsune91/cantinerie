@@ -148,7 +148,7 @@ export class ProfileManagerComponent extends BaseComponent implements OnInit {
     if (user) {
       const modal = this.modalService.open(ConfirmationModalComponent);
       modal.componentInstance.modalTitle = `Modifier un utilisateur ${this.user.name} ${this.user.firstname}`;
-      modal.componentInstance.message = `Nouveau mot de passe de ${pwd} `;
+      modal.componentInstance.message = `Nouveau mot de passe est ${pwd} `;
       modal.componentInstance.twoButton = true;
       modal.result.then((confirmed) => {
         console.log(body)

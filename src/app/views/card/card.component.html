@@ -10,6 +10,20 @@
       <div><p>Pas de menu selectionné</p></div>
     </div>
     <div *ngIf="item">
+      <div class="header-cart-menu">
+        <div class="cart-btn-wrapper">
+          <button (click)="onNavigateBack()">
+            <img src="assets/Icons/back-icon.svg">
+            Retour
+          </button>
+        </div>
+        <div class="cart-supp-wrapper">
+          <button class="menue-action-btn" (click)="deleteMenu(item)"
+              data-toggle="tooltip" data-placement="top" title="Supprimer">
+            <img src="assets/Icons/trash-icon.svg">
+          </button>
+        </div>
+      </div>
       <table class="flex justify-content-center align-items-lg-center cart-table-container">
         <tbody class="container menu-container">
           <tr class="list-group-item "></tr>
@@ -54,7 +68,7 @@
         <table class="flex justify-content-center align-items-lg-center cart-table-container">
           <tbody>
             <tr>
-              <td> <!--{{ i + 1 }}--> 1</td>
+              <td> <!--{{ i + 1 }}--> 1 x </td>
               <td scope="col">{{ meal.label }}</td>
               <td scope="col">{{ meal.priceDF }} €</td>
               <td scope="col"><button class="summary-action-btn" (click)="deleteItem(meal)"

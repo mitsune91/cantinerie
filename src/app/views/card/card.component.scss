@@ -1,3 +1,5 @@
+@import "src/theme/variables";
+@import "src/theme/mixins";
 .cart-table-container {
   width:100%;
 }
@@ -44,6 +46,12 @@
 }
 .shopping_cart{
   min-height: 300px;
+  background-color: $bc;
+  padding-top: 30px;
+
+.panier-wrapper{
+  padding-top: 80px;
+}
 }
 .summary-action-btn{
   width: 30px;
@@ -52,4 +60,39 @@
 }
 .cart-item{
   font-size: 1.5em;
+}
+
+.cart-supp-wrapper{
+  min-width: 300px;
+  display: flex;
+  justify-content: flex-end;
+}
+.menue-action-btn {
+  text-align: left;
+  justify-content: flex-end;
+
+  @include custom-col(100%);
+
+  img {
+    width: 30px;
+    filter: invert(70%) sepia(53%) saturate(886%) hue-rotate(337deg) brightness(100%) contrast(102%);
+  }
+}
+.header-cart-menu {
+  justify-content: center;
+  border-bottom: 1px solid $primary;
+  padding: 10px 0;
+  margin-bottom: 20px;
+
+  @include flex-box();
+
+  button {
+    border: none;
+    background-color: transparent;
+    color: $secondary;
+
+    &:focus {
+      outline: none;
+    }
+  }
 }

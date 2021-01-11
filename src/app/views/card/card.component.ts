@@ -91,6 +91,21 @@ export class CardComponent extends BaseComponent implements OnInit {
       this.cartTotal -= meal.priceDF;
     }
   }
+  deleteMenu(item: Menu) {
+
+    const modal = this.modalService.open(ConfirmationModalComponent);
+    modal.componentInstance.modalTitle = `Supprimé le menu`;
+    modal.componentInstance.message = 'Voulez-vous suppromé le menu ';
+    modal.componentInstance.twoButton = true;
+    modal.result.then((confirmed) => {
+      if (confirmed) {
+        this.cartService.clearCart();
+        this.route.navigate(['']);
+      }
+    }).catch(() => {
+    });
+
+  }
 
   onNavigateBack(): void {
     this.route.navigate(['']);
